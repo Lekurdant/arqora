@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html data-wf-page="article-page-id" data-wf-site="6662fa25b80fa05e56502ce2" lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Article - Nocodebaby</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="Webflow" name="generator">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/portfolioazaza.webflow.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon">
+  <style>
+    /* Styles pour l'article */
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .article-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .article-category {
+      color: #4d65ff;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    
+    .article-title {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    
+    .article-excerpt {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+    }
+    
+    .article-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-bottom: 4rem;
+    }
+    .article-image[src$='placeholder-article.jpg'] {
+      background: linear-gradient(135deg, rgba(77,101,255,0.15), rgba(0,255,136,0.12));
+    }
+    /* Wrapper/overlays pour images (principal et similaires) */
+    .image-wrapper { position: relative; }
+    .image-loading {
+      position: absolute; inset: 0;
+      display: none; align-items: center; justify-content: center;
+      background: linear-gradient(90deg,
+        rgba(255,255,255,0.05) 20%,
+        rgba(255,255,255,0.14) 32%,
+        rgba(255,255,255,0.05) 44%);
+      background-size: 400% 100%;
+      animation: shimmer 2.2s ease-in-out infinite;
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .image-fallback {
+      position: absolute; inset: 0;
+      display: none; align-items: center; justify-content: center; gap: 10px;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      pointer-events: none;
+    }
+    
+    .article-content {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .article-content h2 {
+      font-size: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+    
+    .article-content h3 {
+      font-size: 1.5rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1.25rem;
+      color: #fff;
+    }
+    
+    .article-content p {
+      margin-bottom: 1.5rem;
+    }
+    
+    .article-content ul, .article-content ol {
+      margin-bottom: 1.5rem;
+      padding-left: 2rem;
+    }
+    
+    .article-content li {
+      margin-bottom: 0.75rem;
+    }
+    
+    .article-content pre {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 1.5rem;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+    }
+    
+    .article-content code {
+      background: rgba(77, 101, 255, 0.1);
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    
+    .article-content pre code {
+      background: none;
+      padding: 0;
+    }
+    
+    .article-content blockquote {
+      border-left: 4px solid #4d65ff;
+      padding-left: 2rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .related-articles {
+      margin-top: 6rem;
+    }
+    
+    .related-title {
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    /* Meta plus stylée pour recommandations */
+    .related-grid .blog-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.65);
+    }
+    .related-grid .blog-meta .blog-category-pill {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.06);
+      color: #4d65ff;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .related-grid .blog-meta .meta-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      display: inline-block;
+    }
+    
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .share-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .share-button:hover {
+      background: rgba(77, 101, 255, 0.1);
+      border-color: #4d65ff;
+    }
+
+    /* Typewriter brand (aligné avec la page Blog) */
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      border-right: 2px solid #00ff88;
+      white-space: nowrap;
+      margin: 0;
+      animation:
+        typewriter-loop 6s steps(13, end) infinite,
+        blink-caret 1s step-end infinite;
+    }
+    @keyframes typewriter-loop {
+      0% { width: 0 }
+      30% { width: 13ch }
+      70% { width: 13ch }
+      100% { width: 0 }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #00ff88 }
+    }
+
+    /* Liquid Glass back button */
+    .glass-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 28px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.95);
+      text-decoration: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.18),
+        0 10px 30px rgba(0,0,0,0.28);
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+    .glass-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      background:
+        radial-gradient(40% 35% at 30% 30%, rgba(77,101,255,0.24), transparent 60%),
+        radial-gradient(38% 34% at 70% 60%, rgba(0,255,136,0.20), transparent 60%),
+        radial-gradient(30% 28% at 60% 20%, rgba(255,77,136,0.16), transparent 60%);
+      filter: blur(14px) url(#liquidGlass);
+      -webkit-filter: blur(14px) url(#liquidGlass);
+      opacity: .85;
+      border-radius: inherit;
+      transform: translate3d(0,0,0) rotate(0.001deg);
+      animation: liquidFlow 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes liquidFlow {
+      0% { transform: translate(-6%, -4%) rotate(0.001deg); }
+      50% { transform: translate(6%, 4%) rotate(0.001deg); }
+      100% { transform: translate(-6%, -4%) rotate(0.001deg); }
+    }
+    .glass-button:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.22),
+        0 16px 36px rgba(0,0,0,0.35);
+      border-color: rgba(255,255,255,0.25);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .glass-button::before { animation: none; filter: none; -webkit-filter: none; }
+      .glass-button { transition: none; }
+    }
+
+    /* Audio visualizer inside TTS button */
+    .audio-visualizer {
+      display: none;
+      align-items: flex-end;
+      gap: 4px;
+      margin-left: 10px;
+      height: 16px;
+    }
+    .audio-bar {
+      width: 3px;
+      height: 8px;
+      background: linear-gradient(180deg, #00ff88, #4d65ff);
+      border-radius: 2px;
+      transform-origin: bottom;
+      animation: equalize 1.05s ease-in-out infinite;
+      will-change: transform;
+      opacity: 0.95;
+    }
+    .audio-visualizer.speaking .audio-bar { animation: none; transition: transform 120ms ease; }
+    .audio-bar:nth-child(2) { animation-duration: 0.9s; animation-delay: 0.05s; }
+    .audio-bar:nth-child(3) { animation-duration: 0.8s; animation-delay: 0.1s; }
+    .audio-bar:nth-child(4) { animation-duration: 1.1s; animation-delay: 0.15s; }
+    .audio-bar:nth-child(5) { animation-duration: 0.95s; animation-delay: 0.2s; }
+    @keyframes equalize {
+      0%, 100% { transform: scaleY(0.3); }
+      50% { transform: scaleY(1); }
+    }
+    /* Pleine largeur du visualizer pendant la lecture */
+    #tts-toggle.tts-speaking { gap: 0 !important; }
+    #tts-toggle.tts-speaking .button_text-small { display: none !important; }
+    #tts-toggle.tts-speaking #tts-visualizer { display: flex !important; margin-left: 0; height: 18px; flex: 1 1 auto; width: 100%; }
+
+    /* Skeleton loading */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skeleton-shine {
+      background: linear-gradient(90deg,
+        rgba(255,255,255,0.05) 20%,
+        rgba(255,255,255,0.14) 32%,
+        rgba(255,255,255,0.05) 44%);
+      background-size: 400% 100%;
+      animation: shimmer 2.2s ease-in-out infinite;
+    }
+    .skeleton-article { padding: 0 0 2rem 0; }
+    .skeleton-title { height: 36px; border-radius: 12px; margin: 0 auto 16px; width: 70%; }
+    .skeleton-meta { display: flex; gap: 16px; justify-content: center; margin-bottom: 24px; }
+    .skeleton-meta-line { height: 12px; border-radius: 10px; width: 120px; }
+    .skeleton-image { width: 100%; height: 360px; border-radius: 20px; margin: 0 auto 32px; }
+    .skeleton-paragraph { height: 14px; border-radius: 10px; margin: 0 auto 14px; width: 92%; }
+    .skeleton-h2 { height: 28px; border-radius: 12px; width: 50%; margin: 3rem 0 1.25rem; }
+    .skeleton-h3 { height: 20px; border-radius: 10px; width: 35%; margin: 2.5rem 0 1rem; }
+    .skeleton-section { margin-bottom: 1.5rem; }
+    .skeleton-list { margin: 0.5rem 0 1.5rem 2rem; }
+    .skeleton-li { height: 12px; border-radius: 10px; margin: 10px 0; width: 75%; }
+    
+    /* Styles pour les bannières publicitaires */
+    .ads-container {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: block;
+    }
+    
+
+    
+
+    
+    .ads-container.left {
+      left: 20px;
+    }
+    
+    .ads-container.right {
+      right: 20px;
+    }
+    
+    .ad-banner {
+      width: 180px;
+      background: transparent;
+      border-radius: 24px;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    
+    .ad-banner:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+    
+    .ad-banner-inner {
+      background: linear-gradient(135deg, rgba(13, 13, 13, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
+      border-radius: 23px;
+      padding: 35px 25px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ad-icon-wrapper {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 25px;
+      background: linear-gradient(135deg, #22c55e 0%, #ff4d88 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    }
+    
+    .ad-icon {
+      width: 30px;
+      height: 30px;
+      fill: #fff;
+    }
+    
+    .ad-logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 25px;
+      display: block;
+      filter: brightness(1.2);
+    }
+    
+    .ad-title {
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    
+    .ad-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.813rem;
+      text-align: center;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    
+    .ad-cta {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      color: rgba(255, 255, 255, 0.95);
+      padding: 12px 24px;
+      border-radius: 25px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        0 0 0 1px rgba(34, 197, 94, 0.2),
+        0 0 0 2px rgba(255, 77, 136, 0.1),
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.5px;
+    }
+    
+    .ad-cta:hover {
+      transform: translateY(-2px) scale(1.05);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 
+        0 0 0 1px rgba(34, 197, 94, 0.4),
+        0 0 0 2px rgba(255, 77, 136, 0.2),
+        0 12px 30px rgba(34, 197, 94, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+    }
+    
+    .ad-badge {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: transparent;
+      color: #22c55e;
+      padding: 0;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-shadow: 
+        0 0 10px rgba(34, 197, 94, 0.8),
+        0 0 20px rgba(34, 197, 94, 0.4),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+      z-index: 10;
+      animation: badgeBounce 2s ease-in-out infinite;
+      transform-origin: center;
+    }
+    
+    /* Indicateur de progression moderne */
+    .ad-progress {
+      position: absolute;
+      bottom: 12px;
+      left: 25px;
+      right: 25px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    
+    .ad-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e 0%, #ff4d88 50%, #22c55e 100%);
+      background-size: 200% 100%;
+      width: 0;
+      animation: progressFill 7.5s linear infinite;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+      border-radius: 2px;
+    }
+    
+    @keyframes progressFill {
+      0% {
+        width: 0;
+        background-position: 0% 50%;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+      }
+      50% {
+        background-position: 100% 50%;
+        box-shadow: 0 0 15px rgba(255, 77, 136, 0.6);
+      }
+      100% {
+        width: 100%;
+        background-position: 200% 50%;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+      }
+    }
+    
+
+    
+
+    
+    /* Conteneur pour les transitions fluides */
+    .ad-content-wrapper {
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    /* Animation d'entrée moderne */
+    .ad-content-wrapper.ad-entering {
+      animation: slideInFade 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    
+    @keyframes slideInFade {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+        filter: blur(10px);
+      }
+      50% {
+        filter: blur(5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+    
+    /* Animation de sortie moderne */
+    .ad-content-wrapper.ad-exiting {
+      animation: slideOutFade 0.5s cubic-bezier(0.4, 0, 1, 1) forwards;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    
+    @keyframes slideOutFade {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+        filter: blur(10px);
+      }
+    }
+    
+    /* Animation des éléments individuels avec délai */
+    .ad-entering .ad-icon-wrapper {
+      animation: iconPulse 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+    }
+    
+    .ad-entering .ad-title {
+      animation: slideInText 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+    }
+    
+    .ad-entering .ad-subtitle {
+      animation: slideInText 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+    }
+    
+    .ad-entering .ad-cta {
+      animation: slideInText 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+    }
+    
+    .ad-entering .ad-badge {
+      animation: badgeBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
+    }
+    
+    @keyframes iconPulse {
+      0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.1) rotate(0deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideInText {
+      0% {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes badgeBounce {
+      0%, 100% {
+        transform: scale(1) translateY(0px);
+      }
+      50% {
+        transform: scale(1.05) translateY(-2px);
+      }
+    }
+    
+    .ad-banner-inner {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Responsive - tablettes */
+    @media (max-width: 1200px) {
+      .ads-container {
+        display: none;
+      }
+      
+      /* Bannière mobile en bas de page */
+      .mobile-ad-banner {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #4d65ff 0%, #ff4d88 100%);
+        padding: 2px;
+        z-index: 1000;
+        animation: slideUp 0.5s ease-out;
+      }
+      
+      .mobile-ad-banner-inner {
+        background: rgba(13, 13, 13, 0.98);
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+      }
+      
+      .mobile-ad-content {
+        flex: 1;
+      }
+      
+      .mobile-ad-title {
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+      
+      .mobile-ad-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.75rem;
+      }
+      
+      .mobile-ad-cta {
+        background: #4d65ff;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      
+      .mobile-ad-close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+        cursor: pointer;
+        background: none;
+        border: none;
+      }
+    }
+    
+    @media (min-width: 1201px) {
+      .mobile-ad-banner {
+        display: none;
+      }
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+    
+    /* Style pour écrans moyens */
+    @media (max-width: 1400px) {
+      .ad-banner {
+        width: 150px;
+      }
+      
+      .ad-banner-inner {
+        padding: 25px 20px;
+      }
+      
+      .ad-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 20px;
+      }
+      
+      .ad-icon {
+        width: 24px;
+        height: 24px;
+      }
+      
+      .ad-title {
+        font-size: 1.125rem;
+      }
+      
+      .ad-subtitle {
+        font-size: 0.75rem;
+        margin-bottom: 20px;
+      }
+      
+      .ad-cta {
+        padding: 10px 18px;
+        font-size: 0.7rem;
+        border-radius: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- SVG liquid filter for glass button -->
+  <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true" focusable="false">
+    <filter id="liquidGlass" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.02 0.015" numOctaves="2" seed="7" result="noise">
+        <animate attributeName="baseFrequency" dur="12s" values="0.02 0.015;0.015 0.02;0.02 0.015" repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G">
+        <animate attributeName="scale" values="4;7;4" dur="12s" repeatCount="indefinite" />
+      </feDisplacementMap>
+    </filter>
+  </svg>
+  <!-- Bannières publicitaires latérales -->
+  <div class="ads-container left">
+    <a href="form.html" class="ad-banner">
+      <div class="ad-banner-inner">
+        <div class="ad-content-wrapper">
+          <div class="ad-badge">NEW</div>
+          <div class="ad-icon-wrapper">
+            <svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7V12C2 16.5 4.23 20.68 8 22C12 20.68 14 16.5 14 12V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 12V17C14 18.5 15 20.18 16.5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18 8V12C18 14.5 19 16.18 20.5 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="ad-title">Site Web Pro</h3>
+          <p class="ad-subtitle">Design unique & moderne pour votre entreprise</p>
+          <span class="ad-cta">
+            Créer maintenant
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+        <div class="ad-progress">
+          <div class="ad-progress-bar"></div>
+        </div>
+      </div>
+    </a>
+  </div>
+  
+  <div class="ads-container right">
+    <a href="form.html" class="ad-banner">
+      <div class="ad-banner-inner">
+        <div class="ad-content-wrapper">
+          <div class="ad-badge">NEW</div>
+          <div class="ad-icon-wrapper">
+            <svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3 class="ad-title">Livraison 48h</h3>
+          <p class="ad-subtitle">Site complet prêt à lancer en 2 jours</p>
+          <span class="ad-cta">
+            Devis gratuit
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+        <div class="ad-progress">
+          <div class="ad-progress-bar"></div>
+        </div>
+      </div>
+    </a>
+  </div>
+  
+  <!-- Bannière mobile -->
+  <div class="mobile-ad-banner" id="mobile-ad">
+    <div class="mobile-ad-banner-inner">
+      <button class="mobile-ad-close" onclick="document.getElementById('mobile-ad').style.display='none'">×</button>
+      <div class="mobile-ad-content">
+        <div class="mobile-ad-title">🚀 Créez votre site avec NoCodeBaby</div>
+        <div class="mobile-ad-subtitle">Design moderne, livraison rapide - 50% de réduction</div>
+      </div>
+      <a href="form.html" class="mobile-ad-cta">Commencer</a>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+    <!-- Global Styles -->
+    <div bind="4f34a39c-fda6-7dca-a9ad-8e431021bb2b" class="global-styles w-embed">
+      <style>
+        body {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
+        }
+        *[tabindex]:focus-visible,
+        input[type="file"]:focus-visible {
+          outline: 0.125rem solid #4d65ff;
+          outline-offset: 0.125rem;
+        }
+        ::-webkit-scrollbar {
+          width:10px;
+        }
+        ::-webkit-scrollbar-track {
+          background:rgb(13, 13, 13);
+          border-color:rgb(13, 13, 13);
+        }
+        ::-webkit-scrollbar-thumb {
+          background:rgb(98, 98, 98);
+          border-radius:20rem;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background:rgba(126, 126, 126, 1);
+        }
+        ::-webkit-scrollbar-thumb:active {
+          background:rgba(111, 111, 111, 1);
+        }
+        a{
+          color: inherit;
+        }
+        .image-overlay-layer{
+          background-image: radial-gradient(50% 50%, rgba(13, 13, 13, 0), #0d0d0d);
+        }
+        
+        /* Rééquilibrer la navigation (aligné sur blog.html) */
+        .navbar_container {
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+        }
+        .navbar_logo-link {
+          flex: 1 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+          gap: 8px !important;
+          transform: translateY(-15px) !important;
+        }
+        .navbar_logo-link > div {
+          display: flex !important;
+          align-items: center !important;
+        }
+        .navbar_button-wrapper {
+          flex: 1 !important;
+          display: flex !important;
+          justify-content: flex-end !important;
+          align-items: center !important;
+        }
+        .navbar_logo.chouc {
+          width: 35px !important;
+          height: auto !important;
+          vertical-align: middle !important;
+        }
+        .navbar_logo-image-wrapper {
+          display: flex !important;
+          align-items: center !important;
+          margin-right: 0 !important;
+        }
+        .navbar_text-wrapper-2 {
+          margin-left: -20px !important;
+        }
+        .text-block-898 {
+          display: flex !important;
+          align-items: center !important;
+          height: 35px !important;
+          transform: translateY(-5px) !important;
+        }
+      </style>
+    </div>
+
+    <!-- Navigation -->
+    <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" role="banner" data-no-scroll="1" data-duration="400">
+      <div class="navbar_container">
+        <a href="index.html" class="navbar_logo-link w-nav-brand">
+          <div class="navbar_logo-image-wrapper"><img src="images/jpgtopngconverter-com-11.png" loading="eager" alt="" class="navbar_logo chouc"></div>
+          <div>
+            <div class="navbar_text-wrapper-2">
+              <div class="text-block-898">
+                <span class="typewriter">nocodebaby.com</span>
+              </div>
+            </div>
+          </div>
+        </a>
+        <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu" style="flex:1; display:flex; justify-content:center;">
+          <button id="tts-toggle" class="button is-navbar-button w-inline-block" style="display:flex; align-items:center; gap:8px;">
+            <div class="button_text-small">Écouter l'article</div>
+            <div id="tts-visualizer" class="audio-visualizer" style="display:none; align-items:center; width:100%;">
+              <canvas id="tts-wave" width="140" height="18" style="display:block; width:100%; height:18px;"></canvas>
+            </div>
+          </button>
+        </nav>
+        <div class="navbar_button-wrapper">
+          <a href="form.html" class="button is-navbar-button hide-tablet w-inline-block">
+            <div class="button_circle"></div>
+            <div class="button_text-small">Prenez un rendez-vous</div>
+          </a>
+          <div class="navbar_menu-button w-nav-button">
+            <div class="menu-icon">
+              <div class="menu-icon_line-top"></div>
+              <div class="menu-icon_line-middle">
+                <div class="menu-icon_line-middle-inner"></div>
+              </div>
+              <div class="menu-icon_line-bottom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <section class="section_article">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="article-container">
+                <!-- Breadcrumb -->
+                <div style="text-align: center; margin: 3rem 0; position: relative;">
+                  <!-- Background blur element -->
+                  <div style="
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 220px;
+                    height: 60px;
+                    background: linear-gradient(45deg, rgba(34, 197, 94, 0.1), rgba(255, 77, 136, 0.1));
+                    border-radius: 50px;
+                    filter: blur(20px);
+                    animation: pulse 3s ease-in-out infinite;
+                  "></div>
+                  
+                  <a href="blog.html" class="glass-button">
+                    <span style="
+                      font-size: 14px; 
+                      width: 22px;
+                      height: 22px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: rgba(255, 255, 255, 0.08);
+                      backdrop-filter: blur(15px);
+                      -webkit-backdrop-filter: blur(15px);
+                      border-radius: 50%;
+                      border: 1px solid rgba(255, 255, 255, 0.2);
+                      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                      background-image: linear-gradient(135deg, #22c55e, #ff4d88);
+                      -webkit-background-clip: text;
+                      -webkit-text-fill-color: transparent;
+                      background-clip: text;
+                    ">←</span>
+                    <span style="letter-spacing: 0.5px;">Retour au blog</span>
+                  </a>
+                </div>
+                
+                <style>
+                  @keyframes pulse {
+                    0%, 100% {
+                      opacity: 0.3;
+                      transform: translate(-50%, -50%) scale(1);
+                    }
+                    50% {
+                      opacity: 0.5;
+                      transform: translate(-50%, -50%) scale(1.1);
+                    }
+                  }
+                </style>
+
+                <!-- Article Header -->
+                <div class="article-header" id="article-header">
+                  <!-- Skeleton header (remplacé après chargement) -->
+                  <div id="skeleton-header" class="skeleton-article">
+                    <div class="skeleton-meta">
+                      <div class="skeleton-meta-line skeleton-shine"></div>
+                      <div class="skeleton-meta-line skeleton-shine"></div>
+                      <div class="skeleton-meta-line skeleton-shine"></div>
+                    </div>
+                    <div class="skeleton-title skeleton-shine"></div>
+                  </div>
+                </div>
+
+                <!-- Article Image -->
+                <div id="skeleton-image" class="skeleton-image skeleton-shine"></div>
+                <div class="image-wrapper" style="position:relative;">
+                  <img id="article-image" class="article-image" alt="" style="display: none;">
+                  <div id="image-loading" class="image-loading" style="display:none; position:absolute; inset:0; background: linear-gradient(90deg, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0.14) 32%, rgba(255,255,255,0.05) 44%); background-size:400% 100%; animation: shimmer 2.2s ease-in-out infinite;"></div>
+                  <div id="image-fallback" class="image-fallback" style="position:absolute; inset:0; display:none; align-items:center; justify-content:center; gap:10px; color: rgba(255,255,255,0.9); text-shadow: 0 1px 2px rgba(0,0,0,0.6);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="28" height="28"><path d="M21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 19L8.5 13.5C9.32843 12.6716 10.6716 12.6716 11.5 13.5L17 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 16L16 14C16.8284 13.1716 18.1716 13.1716 19 14L21 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span id="image-filename" style="font-size:0.95rem; max-width:80%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
+                  </div>
+                </div>
+
+                <!-- Article Content -->
+                <div class="article-content" id="article-content">
+                  <!-- Skeleton paragraphs (remplacés après chargement) -->
+                  <div class="skeleton-section">
+                    <div class="skeleton-h2 skeleton-shine"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 92%"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 96%"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 88%"></div>
+                  </div>
+                  <div class="skeleton-section">
+                    <div class="skeleton-h3 skeleton-shine"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 95%"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 86%"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 92%"></div>
+                    <div class="skeleton-list">
+                      <div class="skeleton-li skeleton-shine" style="width: 72%"></div>
+                      <div class="skeleton-li skeleton-shine" style="width: 78%"></div>
+                      <div class="skeleton-li skeleton-shine" style="width: 68%"></div>
+                    </div>
+                  </div>
+                  <div class="skeleton-section">
+                    <div class="skeleton-h2 skeleton-shine" style="width: 40%"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 90%"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 93%"></div>
+                    <div class="skeleton-paragraph skeleton-shine" style="width: 75%"></div>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <!-- Related Articles -->
+              <div class="related-articles">
+                <h2 class="related-title">Articles similaires</h2>
+                <div class="related-grid" id="related-articles">
+                  <!-- Articles chargés dynamiquement -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="section_cta">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="cta_wrapper">
+                <div class="cta_image-wrapper">
+                  <img src="images/62d0e2afe8be95338740ec90_62736cc4162e55511e79f7cf_Figma_Logo.svg" loading="lazy" alt="" class="cta_image">
+                  <img src="images/webk-sydney-logo-circle-Light-500_1webk-sydney-logo-circle-Light-500.webp" loading="lazy" alt="Client logo" class="cta_image">
+                  <img src="images/62d0e2aeb4e06c8b6b8249a4_62736cc4162e55368179f7d1_f2w__pfeil.svg" loading="lazy" alt="" class="cta_image-arrow">
+                </div>
+                <h4 class="text-align-center">Besoin d'aide pour votre projet ?</h4>
+                <div class="button-group">
+                  <a href="form.html" class="button is-icon w-inline-block">
+                    <div class="button_text-regular">Contactez-nous</div>
+                    <div class="icon-1x1-small w-embed">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 17 17" fill="none">
+                        <g clip-path="url(#clip0_614_964)">
+                          <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                      </svg>
+                    </div>
+                  </a>
+                </div>
+                <div class="cta_background-image-wrapper">
+                  <div class="image-overlay-layer-linear"></div>
+                  <img class="cta_background-noise" src="images/noise_1noise.webp" alt="" loading="lazy">
+                  <img src="images/background.svg" loading="lazy" alt="" class="cta_background-image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer_component">
+      <div class="padding-global">
+        <div class="container-large">
+          <div class="padding-top padding-section-large">
+            <div class="padding-vertical padding-medium">
+              <div class="footer_bottom-wrapper">
+                <p class="footer_credit-text">Lucas Choucroun.<br>Ehua Kassi.</p>
+                <div class="w-layout-grid footer_social-list">
+                  <a href="https://www.linkedin.com/in/lucas-choucroun-8541b0217/" target="_blank" class="footer_social-link w-inline-block">
+                    <img src="images/linkedin-3-1.svg" loading="lazy" alt="Linkedin" class="footer_social-image">
+                  </a>
+                  <a href="https://www.linkedin.com/in/ehua-kassi-b7b91382/" target="_blank" class="footer_social-link w-inline-block">
+                    <img src="images/linkedin-3-1.svg" loading="lazy" alt="Linkedin" class="footer_social-image">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6662fa25b80fa05e56502ce2" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="js/webflow.js" type="text/javascript"></script>
+  
+  <!-- Script pour charger l'article -->
+  <script>
+    // Fonction pour formater la date
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('fr-FR', options);
+    }
+    // Fonction pour formater le temps de lecture
+    function formatReadTime(rt) {
+      if (!rt) return '5 min de lecture';
+      const raw = String(rt).trim();
+      const s = raw.toLowerCase();
+      const m = s.match(/^(\d+)(?:\s*(?:min|mins|minute|minutes)?)?$/);
+      if (m) return `${m[1]} min de lecture`;
+      if (s.includes('lecture')) return raw;
+      if (s.includes('min')) return `${raw} de lecture`;
+      return `${raw} min de lecture`;
+    }
+    
+    // Fonction pour créer une carte d'article similaire
+    function createRelatedCard(article) {
+      const articleUrl = `article.html?slug=${article.slug}`;
+      return `
+        <a href="${articleUrl}" class="blog-card" style="display:block;">
+          <div class="image-wrapper" style="border-radius:20px; overflow:hidden;">
+            <img src="${article.coverUrl || ''}" alt="" class="blog-card-image" style="height:200px; object-fit:cover; width:100%;" loading="lazy" decoding="async">
+            <div class="image-loading"></div>
+            <div class="image-fallback"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M21 19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M3 19L8.5 13.5C9.32843 12.6716 10.6716 12.6716 11.5 13.5L17 19\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M14 16L16 14C16.8284 13.1716 18.1716 13.1716 19 14L21 16\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>
+              <span class="filename" style="font-size:0.9rem; max-width:80%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
+            </div>
+          </div>
+          <div class="blog-card-content" style="padding:1.25rem 1.5rem;">
+            <div class="blog-meta">
+              <span class="blog-category-pill">${(article.category || '').toUpperCase()}</span>
+              <span class="meta-dot"></span>
+              <span class="blog-date">${formatDate(article.publishedAt || article.createdAt)}</span>
+            </div>
+            <h3 class="blog-title" style="font-size:1.25rem; margin-bottom:0.5rem;">${article.title}</h3>
+            <p class="blog-excerpt" style="margin-bottom:0.25rem;">${article.excerpt || ''}</p>
+          </div>
+        </a>
+      `;
+    }
+    
+    // Fonction pour charger l'article
+    async function loadArticle() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const articleSlug = urlParams.get('slug');
+      
+      if (!articleSlug) {
+        window.location.href = 'blog.html';
+        return;
+      }
+      
+      try {
+        const info = await fetch(`/api/articles/${articleSlug}`).then(r => r.json());
+        const article = await fetch(info.url).then(r => r.json());
+        const when = article.publishedAt || article.createdAt || info.uploadedAt || new Date().toISOString();
+        
+        // Mettre à jour le titre de la page
+        document.title = `${article.title} - Nocodebaby`;
+        
+        // Mettre à jour le header de l'article
+        const headerEl = document.getElementById('article-header');
+        if (headerEl) headerEl.innerHTML = `
+          <div class="article-meta">
+            <span class="article-category">${article.category.toUpperCase()}</span>
+            <span>${formatDate(when)}</span>
+            <span>${formatReadTime(article.readTime)}</span>
+          </div>
+          <h1 class="article-title">${article.title}</h1>
+          <p class="article-excerpt">${article.excerpt}</p>
+        `;
+        
+        // Afficher l'image si elle existe (et retirer le skeleton)
+        const skImg = document.getElementById('skeleton-image');
+        const loader = document.getElementById('image-loading');
+        const articleImage = document.getElementById('article-image');
+        if (articleImage) {
+          const fallbackSvg = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4d65ff" offset="0"/><stop stop-color="#00ff88" offset="1"/></linearGradient></defs><rect fill="url(%23g)" width="1200" height="630"/></svg>';
+          const finalSrc = article.coverUrl || fallbackSvg;
+          articleImage.alt = article.title;
+          articleImage.loading = 'eager';
+          articleImage.decoding = 'async';
+          articleImage.onerror = function(){
+            this.onerror = null;
+            this.src = fallbackSvg;
+            const fb = document.getElementById('image-fallback');
+            if (fb) {
+              const name = (finalSrc || '').split('/').pop()?.split('?')[0] || 'image';
+              document.getElementById('image-filename').textContent = name;
+              fb.style.display = 'flex';
+            }
+            if (skImg) skImg.style.display = 'none';
+            if (loader) loader.style.display = 'none';
+          };
+          articleImage.onload = function(){
+            const fb = document.getElementById('image-fallback');
+            if (fb) fb.style.display = 'none';
+            if (skImg) skImg.style.display = 'none';
+            if (loader) loader.style.display = 'none';
+          };
+          if (loader) loader.style.display = 'block';
+          articleImage.src = finalSrc;
+          articleImage.style.display = 'block';
+        }
+        
+        // Afficher le contenu (et retirer tout éventuel skeleton paragraphe si on l'ajoute plus tard)
+        const contentEl = document.getElementById('article-content');
+        if (contentEl) contentEl.innerHTML = article.content;
+        
+        
+        // Charger les articles similaires
+        try {
+          const relatedContainer = document.getElementById('related-articles');
+          // Afficher les skeletons immédiatement
+          const sk = () => `
+            <div class="skeleton-card" style="border-radius:20px; overflow:hidden;">
+              <div class="skeleton-image skeleton-shine" style="height:200px;"></div>
+              <div class="skeleton-content" style="padding:1.25rem 1.5rem;">
+                <div class="skeleton-title skeleton-shine" style="width:70%"></div>
+                <div class="skeleton-line skeleton-shine" style="width:90%"></div>
+                <div class="skeleton-line skeleton-shine" style="width:60%"></div>
+              </div>
+            </div>`;
+          relatedContainer.innerHTML = sk() + sk() + sk();
+
+          const list = await fetch('/api/articles').then(r => r.json());
+          const items = (list.items || []).slice(0, 12); // limiter pour accélérer
+          // Fetch des JSON en parallèle
+          const results = await Promise.allSettled(items.map(it => fetch(it.url).then(r => r.json())));
+          const matches = [];
+          for (const r of results) {
+            if (r.status !== 'fulfilled') continue;
+            const j = r.value;
+            if (!j || j.slug === article.slug) continue;
+            if (j.category !== article.category) continue;
+            matches.push(j);
+            if (matches.length >= 3) break;
+          }
+
+          if (matches.length === 0) {
+            // Laisser les skeletons (boucle) pour indiquer attente/déficit de données
+            return;
+          }
+
+          const frag = document.createDocumentFragment();
+          for (const j of matches) {
+            const html = createRelatedCard(j);
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = html;
+            const card = wrapper.firstElementChild;
+            const img = card.querySelector('.blog-card-image');
+            const loader = card.querySelector('.image-loading');
+            const fallback = card.querySelector('.image-fallback');
+            const filename = fallback.querySelector('.filename');
+            const src = img.getAttribute('src');
+            if (!src) {
+              if (filename) filename.textContent = 'image';
+              fallback.style.display = 'flex';
+              loader.style.display = 'none';
+              img.src = 'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 630\"><defs><linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop stop-color=\"#4d65ff\" offset=\"0\"/><stop stop-color=\"#00ff88\" offset=\"1\"/></linearGradient></defs><rect fill=\"url(%23g)\" width=\"1200\" height=\"630\"/></svg>';
+            } else {
+              loader.style.display = 'block';
+              img.alt = j.title || '';
+              img.addEventListener('load', () => { loader.style.display = 'none'; fallback.style.display = 'none'; });
+              img.addEventListener('error', () => {
+                loader.style.display = 'none';
+                fallback.style.display = 'flex';
+                const name = (src || '').split('/').pop()?.split('?')[0] || 'image';
+                if (filename) filename.textContent = name;
+                img.src = 'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1200 630\"><defs><linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop stop-color=\"#4d65ff\" offset=\"0\"/><stop stop-color=\"#00ff88\" offset=\"1\"/></linearGradient></defs><rect fill=\"url(%23g)\" width=\"1200\" height=\"630\"/></svg>';
+              }, { once: true });
+            }
+            frag.appendChild(card);
+          }
+          relatedContainer.innerHTML = '';
+          relatedContainer.appendChild(frag);
+        } catch {}
+        
+      } catch (error) {
+        console.error('Erreur lors du chargement de l\'article:', error);
+        window.location.href = 'blog.html';
+      }
+    }
+    
+    // Charger l'article au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadArticle();
+      
+      // Gestion des bannières publicitaires
+      initializeAds();
+
+      // Lecture audio de l'article (Web Speech API)
+      const ttsBtn = document.getElementById('tts-toggle');
+      let utterance = null;
+      let speaking = false;
+      // Rotation de slogans pour le bouton
+      const slogans = [
+        "Écouter l’article",
+        "Allez, lance la lecture",
+        "J’ai une belle voix 🎧",
+        "Teste-moi !",
+        "Clique pour écouter",
+        "Prêt ? On lit ensemble"
+      ];
+      let sloganIndex = 0;
+      let sloganTimer = null;
+      function setButtonLabel(text) {
+        if (!ttsBtn) return;
+        const label = ttsBtn.querySelector('.button_text-small');
+        if (!label) return;
+        if (speaking) { label.style.opacity = '0'; return; }
+        if (label.textContent === text) return;
+        // Effet smooth: fondu + blur + légère translation
+        label.style.transition = 'opacity 220ms ease, filter 300ms ease, transform 300ms ease';
+        label.style.willChange = 'opacity, filter, transform';
+        label.style.opacity = '0';
+        label.style.filter = 'blur(4px)';
+        label.style.transform = 'translateY(3px)';
+        setTimeout(() => {
+          label.textContent = text;
+          label.style.opacity = '1';
+          label.style.filter = 'blur(0)';
+          label.style.transform = 'translateY(0)';
+        }, 180);
+      }
+      function startSloganRotation() {
+        if (!ttsBtn) return;
+        if (sloganTimer) clearInterval(sloganTimer);
+        setButtonLabel(slogans[sloganIndex % slogans.length]);
+        sloganTimer = setInterval(() => {
+          if (speaking) return;
+          sloganIndex = (sloganIndex + 1) % slogans.length;
+          setButtonLabel(slogans[sloganIndex]);
+        }, 3500);
+      }
+      function getPlainTextFromHtml(html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || '';
+      }
+      function startTTS() {
+        try {
+          const contentEl = document.getElementById('article-content');
+          const headerEl = document.getElementById('article-header');
+          const title = headerEl ? headerEl.querySelector('.article-title')?.textContent || '' : '';
+          const excerpt = headerEl ? headerEl.querySelector('.article-excerpt')?.textContent || '' : '';
+          const bodyText = contentEl ? getPlainTextFromHtml(contentEl.innerHTML) : '';
+          const text = [title, excerpt, bodyText].filter(Boolean).join('\n\n');
+          if (!window.speechSynthesis || !text) return;
+          utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'fr-FR';
+          utterance.rate = 1;
+          utterance.pitch = 1;
+          utterance.onend = () => { speaking = false; ttsBtn.querySelector('.button_text-small').textContent = "Écouter l'article"; };
+          speaking = true;
+          if (sloganTimer) clearInterval(sloganTimer);
+          window.speechSynthesis.speak(utterance);
+          const lbl0 = ttsBtn.querySelector('.button_text-small');
+          if (lbl0) lbl0.style.opacity = '0';
+          // Activer visualizer (canvas waves IA-like)
+          const viz = document.getElementById('tts-visualizer');
+          if (viz) { viz.style.display = 'flex'; viz.classList.add('speaking'); }
+          // Passer le bouton en mode plein visualizer
+          ttsBtn.classList.add('tts-speaking');
+          const wave = document.getElementById('tts-wave');
+          let rafId = 0;
+          if (wave && wave.getContext) {
+            const c = wave.getContext('2d');
+            const DPR = window.devicePixelRatio || 1;
+            const cssW = 140; // largeur fixe pour centre compact
+            const cssH = 18;
+            wave.width = Math.round(cssW * DPR);
+            wave.height = Math.round(cssH * DPR);
+            c.scale(DPR, DPR);
+            let phase = 0, amp = 0.25, targetAmp = 0.9;
+            const color = '#ffffff';
+            const tokens = text.split(/([\.!?;,]+)/);
+            let tokenIndex = 0;
+            function draw() {
+              if (!speaking) return;
+              const tkn = tokens[tokenIndex] || '';
+              const isPause = /[\.!?;,]/.test(tkn);
+              if (Math.random() < 0.06) tokenIndex = Math.min(tokenIndex + 1, tokens.length - 1);
+              targetAmp = isPause ? 0.25 : 0.95;
+              amp += (targetAmp - amp) * 0.08;
+              phase += 0.2;
+              c.clearRect(0, 0, cssW, cssH);
+              c.save();
+              c.lineWidth = 1.6;
+              c.strokeStyle = color;
+              c.shadowColor = 'rgba(255,255,255,0.35)';
+              c.shadowBlur = 6;
+              const mid = cssH / 2;
+              const scale = mid * amp;
+              // Bar visualizer: serré aux bords, pics au centre
+              const bars = 32;
+              const pad = 6;
+              const innerW = cssW - pad * 2;
+              const barW = innerW / bars;
+              const center = bars / 2;
+              for (let i = 0; i < bars; i++) {
+                const x = pad + i * barW + barW * 0.25;
+                const dist = Math.abs(i - center) / center; // 0 au centre, 1 aux bords
+                const shape = 1 - Math.pow(dist, 1.8); // pics au centre
+                const jitter = (Math.sin(phase * 1.3 + i * 0.7) + Math.sin(phase * 0.6 + i * 1.1)) * 0.5;
+                const h = Math.max(0, shape * amp * mid + jitter * mid * 0.25);
+                c.beginPath();
+                c.moveTo(x, mid - h);
+                c.lineTo(x, mid + h);
+                c.stroke();
+              }
+              c.globalAlpha = 1;
+              c.restore();
+              rafId = requestAnimationFrame(draw);
+            }
+            rafId = requestAnimationFrame(draw);
+            const prevEnd = utterance.onend;
+            utterance.onend = () => {
+              try { cancelAnimationFrame(rafId); } catch {}
+              const v = document.getElementById('tts-visualizer');
+              if (v) { v.style.display = 'none'; v.classList.remove('speaking'); }
+              speaking = false;
+              startSloganRotation();
+              const lbl = ttsBtn?.querySelector('.button_text-small');
+              if (lbl) lbl.style.opacity = '1';
+              ttsBtn.classList.remove('tts-speaking');
+              if (prevEnd) try { prevEnd(); } catch {}
+            };
+          }
+        } catch {}
+      }
+      function stopTTS() {
+        try {
+          if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+          }
+        } catch {}
+        speaking = false;
+        startSloganRotation();
+        const viz = document.getElementById('tts-visualizer');
+        if (viz) { viz.style.display = 'none'; viz.classList.remove('speaking'); }
+        const lbl1 = ttsBtn?.querySelector('.button_text-small');
+        if (lbl1) lbl1.style.opacity = '1';
+        ttsBtn.classList.remove('tts-speaking');
+      }
+      // Assainir tout speech résiduel en cas d'actualisation et réinitialiser l'UI
+      try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch {}
+      (function resetTtsUi(){
+        const viz0 = document.getElementById('tts-visualizer');
+        if (viz0) { viz0.style.display = 'none'; viz0.classList.remove('speaking'); }
+        if (ttsBtn) ttsBtn.classList.remove('tts-speaking');
+        const lbl0 = ttsBtn?.querySelector('.button_text-small');
+        if (lbl0) lbl0.style.opacity = '1';
+      })();
+
+      if (ttsBtn) {
+        ttsBtn.addEventListener('click', function(e){
+          e.preventDefault();
+          if (speaking) stopTTS(); else startTTS();
+        });
+        // Démarrer la rotation des slogans au chargement
+        startSloganRotation();
+      }
+
+      // Stopper la lecture sur navigation/actualisation/changement d'onglet
+      window.addEventListener('beforeunload', () => { try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch {} });
+      window.addEventListener('pagehide', () => { try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch {} });
+      document.addEventListener('visibilitychange', () => { if (document.hidden && speaking) stopTTS(); });
+    });
+    
+    // Fonction pour initialiser les publicités
+    function initializeAds() {
+      // Rotation des contenus publicitaires
+      const adContents = [
+        {
+          title: "Site Web Pro",
+          subtitle: "Design unique & moderne pour votre entreprise",
+          cta: "Créer maintenant",
+          badge: "NEW",
+          icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7V12C2 16.5 4.23 20.68 8 22C12 20.68 14 16.5 14 12V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 12V17C14 18.5 15 20.18 16.5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 8V12C18 14.5 19 16.18 20.5 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>`
+        },
+        {
+          title: "E-commerce",
+          subtitle: "Boutique en ligne clé en main",
+          cta: "Démarrer",
+          badge: "NEW",
+          icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 22C9.55228 22 10 21.5523 10 21C10 20.4477 9.55228 20 9 20C8.44772 20 8 20.4477 8 21C8 21.5523 8.44772 22 9 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 22C20.5523 22 21 21.5523 21 21C21 20.4477 20.5523 20 20 20C19.4477 20 19 20.4477 19 21C19 21.5523 19.4477 22 20 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M1 1H5L7.68 14.39C7.77144 14.8504 8.02191 15.264 8.38755 15.5583C8.75318 15.8526 9.2107 16.009 9.68 16H19.4C19.8693 16.009 20.3268 15.8526 20.6925 15.5583C21.0581 15.264 21.3086 14.8504 21.4 14.39L23 6H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>`
+        },
+        {
+          title: "Portfolio",
+          subtitle: "Présentez vos créations avec style",
+          cta: "Voir exemples",
+          badge: "NEW",
+          icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 16V8C20.9996 7.64927 20.9071 7.30481 20.7315 7.00116C20.556 6.69751 20.3037 6.44536 20 6.27L13 2.27C12.696 2.09446 12.3511 2.00205 12 2.00205C11.6489 2.00205 11.304 2.09446 11 2.27L4 6.27C3.69626 6.44536 3.44398 6.69751 3.26846 7.00116C3.09294 7.30481 3.00036 7.64927 3 8V16C3.00036 16.3507 3.09294 16.6952 3.26846 16.9988C3.44398 17.3025 3.69626 17.5546 4 17.73L11 21.73C11.304 21.9055 11.6489 21.9979 12 21.9979C12.3511 21.9979 12.696 21.9055 13 21.73L20 17.73C20.3037 17.5546 20.556 17.3025 20.7315 16.9988C20.9071 16.6952 20.9996 16.3507 21 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.27 6.96L12 12.01L20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 22.08V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>`
+        },
+        {
+          title: "Blog Pro",
+          subtitle: "Partagez votre expertise facilement",
+          cta: "Commencer",
+          badge: "NEW",
+          icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 13H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M16 17H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 9H9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>`
+        }
+      ];
+      
+      // Changer le contenu des bannières toutes les 10 secondes
+      let currentIndex = 0;
+      const leftBanner = document.querySelector('.ads-container.left .ad-banner-inner');
+      const rightBanner = document.querySelector('.ads-container.right .ad-banner-inner');
+      
+      function createAdElement(content) {
+        return `
+          <div class="ad-content-wrapper">
+            <div class="ad-badge">${content.badge}</div>
+            <div class="ad-icon-wrapper">
+              ${content.icon}
+            </div>
+            <h3 class="ad-title">${content.title}</h3>
+            <p class="ad-subtitle">${content.subtitle}</p>
+            <span class="ad-cta">
+              ${content.cta}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+          <div class="ad-progress">
+            <div class="ad-progress-bar"></div>
+          </div>
+        `;
+      }
+      
+      function rotateAds() {
+        currentIndex = (currentIndex + 1) % adContents.length;
+        const nextIndex = (currentIndex + 1) % adContents.length;
+        
+        // Animation moderne pour la bannière gauche
+        if (leftBanner) {
+          const leftContent = adContents[currentIndex];
+          const newLeftContent = createAdElement(leftContent);
+          
+          // Créer un conteneur temporaire pour la nouvelle publicité
+          const tempLeft = document.createElement('div');
+          tempLeft.innerHTML = newLeftContent;
+          tempLeft.querySelector('.ad-content-wrapper').classList.add('ad-entering');
+          
+          // Ajouter la classe de sortie à l'ancien contenu
+          const oldLeftContent = leftBanner.querySelector('.ad-content-wrapper');
+          if (oldLeftContent) {
+            oldLeftContent.classList.add('ad-exiting');
+            
+            setTimeout(() => {
+              leftBanner.innerHTML = newLeftContent;
+              setTimeout(() => {
+                const wrapper = leftBanner.querySelector('.ad-content-wrapper');
+                if (wrapper) {
+                  wrapper.classList.remove('ad-entering');
+                }
+              }, 50);
+            }, 500);
+          } else {
+            leftBanner.innerHTML = newLeftContent;
+          }
+        }
+        
+        // Animation moderne pour la bannière droite
+        if (rightBanner) {
+          const rightContent = adContents[nextIndex];
+          const newRightContent = createAdElement(rightContent);
+          
+          // Créer un conteneur temporaire pour la nouvelle publicité
+          const tempRight = document.createElement('div');
+          tempRight.innerHTML = newRightContent;
+          tempRight.querySelector('.ad-content-wrapper').classList.add('ad-entering');
+          
+          // Ajouter la classe de sortie à l'ancien contenu
+          const oldRightContent = rightBanner.querySelector('.ad-content-wrapper');
+          if (oldRightContent) {
+            oldRightContent.classList.add('ad-exiting');
+            
+            setTimeout(() => {
+              rightBanner.innerHTML = newRightContent;
+              setTimeout(() => {
+                const wrapper = rightBanner.querySelector('.ad-content-wrapper');
+                if (wrapper) {
+                  wrapper.classList.remove('ad-entering');
+                }
+              }, 50);
+            }, 500);
+          } else {
+            rightBanner.innerHTML = newRightContent;
+          }
+        }
+      }
+      
+      // Initialiser le contenu initial avec animation
+      setTimeout(() => {
+        rotateAds();
+      }, 1000);
+      
+      // Rotation automatique
+      setInterval(rotateAds, 8000);
+      
+      // Gestion du scroll pour les bannières
+      let lastScrollTop = 0;
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const leftAd = document.querySelector('.ads-container.left');
+        const rightAd = document.querySelector('.ads-container.right');
+        
+        if (leftAd && rightAd) {
+          if (scrollTop > lastScrollTop) {
+            // Scroll vers le bas - cacher les pubs
+            leftAd.style.transform = 'translateX(-200px) translateY(-50%)';
+            rightAd.style.transform = 'translateX(200px) translateY(-50%)';
+          } else {
+            // Scroll vers le haut - montrer les pubs
+            leftAd.style.transform = 'translateX(0) translateY(-50%)';
+            rightAd.style.transform = 'translateX(0) translateY(-50%)';
+          }
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      });
+      
+      // Ajouter les transitions pour le scroll
+      const style = document.createElement('style');
+      style.textContent = `
+        .ads-container {
+          transition: transform 0.3s ease-out;
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Gestion de la bannière mobile
+      const mobileBanner = document.getElementById('mobile-ad');
+      if (mobileBanner) {
+        // Afficher la bannière mobile après 5 secondes
+        setTimeout(() => {
+          if (window.innerWidth <= 1200) {
+            mobileBanner.style.display = 'block';
+          }
+        }, 5000);
+        
+        // Sauvegarder le choix de fermeture dans le localStorage
+        const closeBtn = mobileBanner.querySelector('.mobile-ad-close');
+        closeBtn.addEventListener('click', function() {
+          localStorage.setItem('nocodebaby_ad_closed', 'true');
+          localStorage.setItem('nocodebaby_ad_closed_time', Date.now());
+        });
+        
+        // Vérifier si l'utilisateur a déjà fermé la pub récemment
+        const adClosed = localStorage.getItem('nocodebaby_ad_closed');
+        const closedTime = localStorage.getItem('nocodebaby_ad_closed_time');
+        if (adClosed && closedTime) {
+          const hoursSinceClosed = (Date.now() - parseInt(closedTime)) / (1000 * 60 * 60);
+          if (hoursSinceClosed < 24) {
+            mobileBanner.style.display = 'none';
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html> 

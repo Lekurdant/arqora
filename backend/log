@@ -1,0 +1,78 @@
+yarn run v1.22.19
+$ node ./index.js
+Server running on port 2999
+Requested
+[]
+[Object: null prototype] {
+  type: '["Portefolio"]',
+  lastname: '"dzdzdz"',
+  firstname: '"dzdz"',
+  phone: '"dzdz"',
+  cdc: '["CDC"]',
+  design: '["YesDesign"]',
+  budget: '["1000+"]',
+  email: '"Anne.esse@protonmail.com"'
+}
+Requested
+[]
+[Object: null prototype] {
+  type: [ '["Portefolio"]', '["Portefolio"]' ],
+  lastname: [ '"dzdzdz"', '"dzdzdz"' ],
+  firstname: [ '"dzdz"', '"dzdz"' ],
+  phone: [ '"dzdz"', '"dzdz"' ],
+  cdc: [ '["CDC"]', '["CDC"]' ],
+  design: [ '["YesDesign"]', '["YesDesign"]' ],
+  budget: [ '["1000+"]', '["1000+"]' ],
+  email: [ '"Anne.esse@protonmail.com"', '"Anne.esse@protonmail.com"' ]
+}
+Requested
+[]
+[Object: null prototype] {
+  type: [ '["Portefolio"]', '["Portefolio"]', '["Portefolio"]' ],
+  lastname: [ '"dzdzdz"', '"dzdzdz"', '"dzdzdz"' ],
+  firstname: [ '"dzdz"', '"dzdz"', '"dzdz"' ],
+  phone: [ '"dzdz"', '"dzdz"', '"dzdz"' ],
+  cdc: [ '["CDC"]', '["CDC"]', '["CDC"]' ],
+  design: [ '["YesDesign"]', '["YesDesign"]', '["YesDesign"]' ],
+  budget: [ '["1000+"]', '["1000+"]', '["1000+"]' ],
+  email: [
+    '"Anne.esse@protonmail.com"',
+    '"Anne.esse@protonmail.com"',
+    '"Anne.esse@protonmail.com"'
+  ]
+}
+Email sent: 250 2.0.0 OK <0ad6a175-e99c-48a9-14fc-9ba52951abb8@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]
+Email sent: 250 2.0.0 OK <58456c61-85ff-399a-3648-cc9d40526888@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]
+Email sent: 250 2.0.0 OK <63d8d767-bc72-0ac0-9563-36163003e5b5@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]
+Email sent: 250 2.0.0 OK <5d89cae9-7390-4e1f-e068-f171ef964621@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]
+Email sent: 250 2.0.0 OK <d82a0bca-99fe-db9d-f3d4-049ad678d666@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]
+Email sent: 250 2.0.0 OK <1b61965f-d92f-3bb2-5ca8-653ca06bbd98@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]
+Requested
+[]
+[Object: null prototype] {
+  type: [
+    '["Portefolio"]',
+    '["Portefolio"]',
+    '["Portefolio"]',
+    '["Portefolio"]'
+  ],
+  lastname: [ '"dzdzdz"', '"dzdzdz"', '"dzdzdz"', '"dzdzdz"' ],
+  firstname: [ '"dzdz"', '"dzdz"', '"dzdz"', '"dzdz"' ],
+  phone: [ '"dzdz"', '"dzdz"', '"dzdz"', '"dzdz"' ],
+  cdc: [ '["CDC"]', '["CDC"]', '["CDC"]', '["CDC"]' ],
+  design: [
+    '["YesDesign"]',
+    '["YesDesign"]',
+    '["YesDesign"]',
+    '["YesDesign"]'
+  ],
+  budget: [ '["1000+"]', '["1000+"]', '["1000+"]', '["1000+"]' ],
+  email: [
+    '"Anne.esse@protonmail.com"',
+    '"Anne.esse@protonmail.com"',
+    '"Anne.esse@protonmail.com"',
+    '"Anne.esse@protonmail.com"'
+  ]
+}
+Email sent: 250 2.0.0 OK <0809302b-c9b8-ca98-0f4b-ae5d7509f7cc@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]
+Email sent: 250 2.0.0 OK <017e6d41-14ac-5bb5-007d-2dd90022db20@nocodebaby.com> [Hostname=MRXP264MB0536.FRAP264.PROD.OUTLOOK.COM]

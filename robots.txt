@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin-blog.html
+Disallow: /backend/
+Disallow: /uploads/pdfs/
+
+Sitemap: https://nocodebaby.com/sitemap.xml 

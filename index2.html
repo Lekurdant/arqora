@@ -1,0 +1,977 @@
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Thu Jul 10 2025 21:15:46 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="6662fa25b80fa05e56502cda" data-wf-site="6662fa25b80fa05e56502ce2" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Nocodebaby - La nouvelle façon de mieux coder</title>
+  <meta content="NocodeBaby, créé par deux développeurs spécialisés en no-code, est un site web destiné à présenter leurs travaux et projets réalisés. Il s&#x27;adresse aux clients potentiels souhaitant développer leurs sites internet sans se plonger dans le codage complexe. Le site expose diverses réalisations, allant de sites web simples à des solutions plus élaborées, démontrant l&#x27;étendue et l&#x27;efficacité des compétences no-code des développeurs. C&#x27;est une vitrine parfaite pour montrer comment des idées peuvent être transformées en projets web concrets et attrayants, sans nécessiter de compétences approfondies en programmation." name="description">
+  <meta content="Nocodebaby - La nouvelle façon de mieux coder" property="og:title">
+  <meta content="NocodeBaby, créé par deux développeurs spécialisés en no-code, est un site web destiné à présenter leurs travaux et projets réalisés. Il s&#x27;adresse aux clients potentiels souhaitant développer leurs sites internet sans se plonger dans le codage complexe. Le site expose diverses réalisations, allant de sites web simples à des solutions plus élaborées, démontrant l&#x27;étendue et l&#x27;efficacité des compétences no-code des développeurs. C&#x27;est une vitrine parfaite pour montrer comment des idées peuvent être transformées en projets web concrets et attrayants, sans nécessiter de compétences approfondies en programmation." property="og:description">
+  <meta content="https://i.ibb.co/j5hCM2R/scrnli-01-09-2024-15-55-13.png&quot; alt=&quot;scrnli-01-09-2024-15-55-13&quot; border=&quot;0&quot;" property="og:image">
+  <meta content="Nocodebaby - La nouvelle façon de mieux coder" property="twitter:title">
+  <meta content="NocodeBaby, créé par deux développeurs spécialisés en no-code, est un site web destiné à présenter leurs travaux et projets réalisés. Il s&#x27;adresse aux clients potentiels souhaitant développer leurs sites internet sans se plonger dans le codage complexe. Le site expose diverses réalisations, allant de sites web simples à des solutions plus élaborées, démontrant l&#x27;étendue et l&#x27;efficacité des compétences no-code des développeurs. C&#x27;est une vitrine parfaite pour montrer comment des idées peuvent être transformées en projets web concrets et attrayants, sans nécessiter de compétences approfondies en programmation." property="twitter:description">
+  <meta content="https://i.ibb.co/j5hCM2R/scrnli-01-09-2024-15-55-13.png&quot; alt=&quot;scrnli-01-09-2024-15-55-13&quot; border=&quot;0&quot;" property="twitter:image">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="Webflow" name="generator">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/nocodebaby.webflow.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon"><!--  Google tag (gtag.js)  -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8TPMB8JSBP"></script>
+  <script>
+  /*
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8TPMB8JSBP');
+  */
+</script><!--  [Attributes by Finsweet] Modal  -->
+  <script src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-modal@1/modal.js" async="" defer=""></script>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div bind="4f34a39c-fda6-7dca-a9ad-8e431021bb2b" class="global-styles w-embed">
+      <style>
+/* Make text look crisper and more legible in all browsers */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+/* Focus state style for keyboard navigation for the focusable elements */
+*[tabindex]:focus-visible,
+  input[type="file"]:focus-visible {
+   outline: 0.125rem solid #4d65ff;
+   outline-offset: 0.125rem;
+}
+/* Get rid of top margin on first element in any rich text element */
+.w-richtext > :not(div):first-child, .w-richtext > div:first-child > :first-child {
+  margin-top: 0 !important;
+}
+/* Get rid of bottom margin on last element in any rich text element */
+.w-richtext>:last-child, .w-richtext ol li:last-child, .w-richtext ul li:last-child {
+	margin-bottom: 0 !important;
+}
+/* Prevent all click and hover interaction with an element */
+.pointer-events-off {
+	pointer-events: none;
+}
+/* Enables all click and hover interaction with an element */
+.pointer-events-on {
+  pointer-events: auto;
+}
+/* Create a class of .div-square which maintains a 1:1 dimension of a div */
+.div-square::after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+/* Make sure containers never lose their center alignment */
+.container-medium,.container-small, .container-large {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+/* 
+Make the following elements inherit typography styles from the parent and not have hardcoded values. 
+Important: You will not be able to style for example "All Links" in Designer with this CSS applied.
+Uncomment this CSS to use it in the project. Leave this message for future hand-off.
+*/
+/*
+a,
+.w-input,
+.w-select,
+.w-tab-link,
+.w-nav-link,
+.w-dropdown-btn,
+.w-dropdown-toggle,
+.w-dropdown-link {
+  color: inherit;
+  text-decoration: inherit;
+  font-size: inherit;
+}
+*/
+/* Apply "..." after 3 lines of text */
+.text-style-3lines {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	line-clamp: 3;
+}
+/* Apply "..." after 2 lines of text */
+.text-style-2lines {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	line-clamp: 2;
+}
+/* Adds inline flex display */
+.display-inlineflex {
+  display: inline-flex;
+}
+/* These classes are never overwritten */
+.hide {
+  display: none !important;
+}
+@media screen and (max-width: 991px) {
+    .hide, .hide-tablet {
+        display: none !important;
+    }
+}
+  @media screen and (max-width: 767px) {
+    .hide-mobile-landscape{
+      display: none !important;
+    }
+}
+  @media screen and (max-width: 479px) {
+    .hide-mobile{
+      display: none !important;
+    }
+}
+.margin-0 {
+  margin: 0rem !important;
+}
+.padding-0 {
+  padding: 0rem !important;
+}
+.spacing-clean {
+padding: 0rem !important;
+margin: 0rem !important;
+}
+.margin-top {
+  margin-right: 0rem !important;
+  margin-bottom: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-top {
+  padding-right: 0rem !important;
+  padding-bottom: 0rem !important;
+  padding-left: 0rem !important;
+}
+.margin-right {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-right {
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+  padding-left: 0rem !important;
+}
+.margin-bottom {
+  margin-top: 0rem !important;
+  margin-right: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-bottom {
+  padding-top: 0rem !important;
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
+}
+.margin-left {
+  margin-top: 0rem !important;
+  margin-right: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+.padding-left {
+  padding-top: 0rem !important;
+  padding-right: 0rem !important;
+  padding-bottom: 0rem !important;
+}
+.margin-horizontal {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+.padding-horizontal {
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+}
+.margin-vertical {
+  margin-right: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-vertical {
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
+}
+/*width*/
+::-webkit-scrollbar {
+width:10px;
+}
+/*track*/
+::-webkit-scrollbar-track {
+background:rgb(13, 13, 13);
+border-color:rgb(13, 13, 13);
+}
+/*thumb*/
+::-webkit-scrollbar-thumb {
+background:rgb(98, 98, 98);
+border-radius:20rem;
+}
+/*thumb hover*/
+::-webkit-scrollbar-thumb:hover {
+background:rgba(126, 126, 126, 1);
+}
+/*thumb pressed*/
+::-webkit-scrollbar-thumb:active {
+background:rgba(111, 111, 111, 1);
+}
+a{
+	color: inherit;
+}
+.navbar2_logo{
+	background-blend-mode: screen;
+}
+.section_logo{
+	overflow-x: hidden;
+}
+.image-overlay-layer{
+	background-image: radial-gradient(50% 50%, rgba(13, 13, 13, 0), #0d0d0d);
+}
+</style>
+    </div>
+    <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" data-w-id="2503f5d2-c0e0-792d-68fc-322d2b056fec" role="banner" data-no-scroll="1" data-duration="400" bind="2503f5d2-c0e0-792d-68fc-322d2b056fec">
+      <div class="navbar_container">
+        <a href="#" id="w-node-_2503f5d2-c0e0-792d-68fc-322d2b056fee-56502cda" data-w-id="2503f5d2-c0e0-792d-68fc-322d2b056fee" target="_blank" class="navbar_logo-link w-nav-brand">
+          <div class="navbar_logo-image-wrapper"><img src="images/jpgtopngconverter-com-11.png" loading="eager" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;42vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;64px&quot;}]" alt="" class="navbar_logo chouc"></div>
+          <div>
+            <div class="navbar_text-wrapper-2">
+              <div class="text-block-898">Lucas Choucroun<br>Ehua Kassi</div>
+              <div class="text-block-899">Lead UX/UI designer <br>Senior Backend Engineer</div>
+            </div>
+          </div>
+        </a>
+        <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu">
+          <a href="#work" class="navbar_link w-nav-link">Travail</a>
+          <a href="#capability" class="navbar_link w-nav-link">Compétences</a>
+          <a href="#process" class="navbar_link w-nav-link">Etapes</a>
+        </nav>
+        <div id="w-node-_2503f5d2-c0e0-792d-68fc-322d2b057003-56502cda" class="navbar_button-wrapper">
+          <a href="form.html" class="button is-navbar-button hide-tablet w-inline-block">
+            <div class="button_circle"></div>
+            <div class="button_text-small">Prenez un rendez-vous</div>
+          </a>
+          <div class="navbar_menu-button w-nav-button">
+            <div class="menu-icon">
+              <div class="menu-icon_line-top"></div>
+              <div class="menu-icon_line-middle">
+                <div class="menu-icon_line-middle-inner"></div>
+              </div>
+              <div class="menu-icon_line-bottom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-wrapper">
+      <header class="section_header">
+        <div class="padding-global">
+          <div class="container-small">
+            <div class="header-100svh">
+              <div class="padding-section-large is-header">
+                <div class="text-align-center">
+                  <div class="margin-bottom margin-small">
+                    <div class="header_title-wrapper">
+                      <h1 class="header_title">Accélérez votre succès numérique</h1>
+                    </div>
+                  </div>
+                  <p class="text-size-medium">En choisissant nocodebaby, vous optez pour l&#x27;ingéniosité et la modernité, alliant innovation et évolutivité dès le lancement de votre projet. Menez votre vision à de nouvelles hauteurs et avancez avec assurance, sans jamais être entravé par des choix technologiques figés, en mélangeant code et solution nocode.<a href="https://nocodebaby.com/form.html"></a>
+                  </p>
+                  <div class="margin-top margin-medium">
+                    <div class="button-group is-center">
+                      <a href="form.html" class="button is-icon w-inline-block">
+                        <div class="button_text-regular">Travailler avec moi</div>
+                        <div bind="0970dca1-6827-27ab-5b49-462135c8b06c" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 17 17" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_964)">
+                              <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_964">
+                                <rect width="16" height="16" fill="currentColor" transform="translate(0.5 16.5) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </a>
+                      <a href="#work" class="button is-icon is-alternate w-inline-block">
+                        <div class="button_text-regular">Travail récent</div>
+                        <div bind="beae6d6d-8bec-b376-41e0-7dada942a929" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 17 17" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_972)">
+                              <path d="M8.5 3L8.5 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M4 9.5L8.5 14L13 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_972">
+                                <rect width="16" height="16" fill="currentColor" transform="translate(0.5 0.5)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="header_background-image-wrapper">
+          <div class="image-overlay-layer"></div><img src="images/background.svg" loading="eager" alt="" class="header_background-image">
+        </div>
+      </header>
+      <section class="section_logo">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-medium">
+              <div class="margin-bottom margin-large">
+                <div class="text-align-center">
+                  <div class="max-width-large align-center">
+                    <div class="text-size-medium text-style-allcaps"><span>10 années </span>d&#x27;experience dans le web</div>
+                  </div>
+                </div>
+              </div>
+              <div class="logo_list">
+                <a href="https://dassetix.webflow.io" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a309-56502cda" class="logo_wrapper"><img src="images/dassetix-logo-version-clair.png" loading="lazy" alt="" class="logo_logo"></div>
+                </a>
+                <a href="https://beta-macite.webflow.io" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a30b-56502cda" class="logo_wrapper"><img class="logo_logo _2" src="images/macité-blanc.png" alt="" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;76.34375px&quot;}]" sizes="(max-width: 479px) 65vw, 133.5px" loading="lazy" srcset="images/macité-blanc-p-500.png 500w, images/macité-blanc-p-800.png 800w, images/macité-blanc-p-1080.png 1080w, images/macité-blanc.png 1502w"></div>
+                </a>
+                <a href="https://monochromes.webflow.io" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a307-56502cda" class="logo_wrapper"><img src="images/monochromes-carte-de-visite-v1-recto.png" loading="lazy" sizes="(max-width: 479px) 78vw, 229.83750915527344px" srcset="images/monochromes-carte-de-visite-v1-recto-p-500.png 500w, images/monochromes-carte-de-visite-v1-recto-p-800.png 800w, images/monochromes-carte-de-visite-v1-recto-p-1080.png 1080w, images/monochromes-carte-de-visite-v1-recto-p-1600.png 1600w, images/monochromes-carte-de-visite-v1-recto-p-2000.png 2000w, images/monochromes-carte-de-visite-v1-recto.png 3146w" alt="" class="logo_logo _3"></div>
+                </a>
+                <a href="https://dreamyoursong.com" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a305-56502cda" class="logo_wrapper"><img src="images/Dream-Your-Song-9lll-blanc-contour.png" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;134.89584350585938px&quot;}]" alt="" class="logo_logo dreamyoursong"></div>
+                </a>
+                <a href="https://immo-sure.webflow.io" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a301-56502cda" class="logo_wrapper"><img src="images/immosure.png" loading="lazy" alt="" class="logo_logo"></div>
+                </a>
+              </div>
+              <div class="logo_list2">
+                <a href="https://stratos.xyz" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-b83d5a69-1d8e-a6bd-f900-3a39122e077a-56502cda" class="logo_wrapper"><img src="images/stra-crytpo-img.png" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;76.34375px&quot;}]" alt="" class="logo_logo _2"></div>
+                </a>
+                <a href="https://octavia.one/" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-_80183b40-f5e9-4b53-0620-461dcf6ad403-56502cda" class="logo_wrapper"><img class="logo_logo _2" src="images/octavia-crypto-img.png" alt="" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;76.34375px&quot;}]" sizes="(max-width: 479px) 70vw, 143.9375px" loading="lazy" srcset="images/octavia-crypto-img-p-500.png 500w, images/octavia-crypto-img-p-800.png 800w, images/octavia-crypto-img-p-1080.png 1080w, images/octavia-crypto-img.png 1545w"></div>
+                </a>
+                <a href="https://neptun.finance" target="_blank" class="logo_list-link w-inline-block">
+                  <div id="w-node-b83d5a69-1d8e-a6bd-f900-3a39122e0783-56502cda" class="logo_wrapper"><img src="images/neptun-img.png" loading="lazy" alt="" class="logo_logo"></div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="work" data-w-id="f0ed4de9-f03f-c224-4d94-de8f5fd55219" class="section_portfolio">
+        <div style="width:95%" class="padding-global-portfolio">
+          <div class="padding-section-large">
+            <div class="portfolio_wrapper">
+              <div class="padding-top padding-section-large">
+                <div class="margin-bottom margin-xlarge">
+                  <div class="text-align-center">
+                    <div class="max-width-large align-center">
+                      <div class="margin-bottom margin-small">
+                        <h2 class="heading-2">Nos références<a href="http://monochromes.webflow.io/" target="_blank"><br> 2023-2024</a>
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-w-id="f0ed4de9-f03f-c224-4d94-de8f5fd55228" class="portfolio_component">
+                <div class="portfolio_list-wrapper">
+                  <div class="w-layout-grid portfolio_list">
+                    <a id="w-node-_1feedf27-dc0c-ca09-28f2-f1119a6dcb8d-56502cda" href="https://trading-krypto.webflow.io/" target="_blank" class="portfolio_item hide-tablet w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/nocode-developpement-img-trader.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 767px) 100vw, (max-width: 991px) 317.1750183105469px, 32vw" loading="lazy" srcset="images/nocode-developpement-img-trader-p-500.jpg 500w, images/nocode-developpement-img-trader-p-800.jpg 800w, images/nocode-developpement-img-trader-p-1080.jpg 1080w, images/nocode-developpement-img-trader.jpg 2076w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="1feedf27-dc0c-ca09-28f2-f1119a6dcb93" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-_7dfff69a-c10a-7cc9-3c43-d937af2775b6-56502cda" href="https://www.spiritsong.fr/" target="_blank" class="portfolio_item w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/Capture-d’écran_28-5-2024_20555_www.spiritsong.fr.jpeg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/Capture-d’écran_28-5-2024_20555_www.spiritsong.fr-p-500.jpeg 500w, images/Capture-d’écran_28-5-2024_20555_www.spiritsong.fr-p-800.jpeg 800w, images/Capture-d’écran_28-5-2024_20555_www.spiritsong.fr-p-1080.jpeg 1080w, images/Capture-d’écran_28-5-2024_20555_www.spiritsong.fr-p-1600.jpeg 1600w, images/Capture-d’écran_28-5-2024_20555_www.spiritsong.fr.jpeg 1685w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="7dfff69a-c10a-7cc9-3c43-d937af2775bc" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-_1476c423-7e6e-d686-3ed8-4526287533be-56502cda" href="https://beta-macite.webflow.io/" target="_blank" class="portfolio_item hide-tablet w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/nocode-developpement-img-blog-macité.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 767px) 100vw, (max-width: 991px) 317.1750183105469px, 32vw" loading="lazy" srcset="images/nocode-developpement-img-blog-macité-p-500.jpg 500w, images/nocode-developpement-img-blog-macité-p-800.jpg 800w, images/nocode-developpement-img-blog-macité.jpg 823w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533c4" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-_1476c423-7e6e-d686-3ed8-4526287533c5-56502cda" href="https://earth-explication.webflow.io" target="_blank" class="portfolio_item w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/nocode-developpement-img-planete-terre-3d.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/terre-image-site-p-500.jpg 500w, images/terre-image-site-p-800.jpg 800w, images/nocode-developpement-img-planete-terre-3d.jpg 823w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533cb" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="portfolio_list-wrapper is-bottom">
+                  <div class="w-layout-grid portfolio_list">
+                    <a id="w-node-_1476c423-7e6e-d686-3ed8-4526287533b0-56502cda" href="https://monochromes.webflow.io/the-painting" target="_blank" class="portfolio_item hide-tablet w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/Capture-web_7-11-2023_153227_monochromes123.webflow.io.jpeg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 767px) 100vw, (max-width: 991px) 317.1750183105469px, 32vw" loading="lazy" srcset="images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-500.jpeg 500w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-800.jpeg 800w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-1080.jpeg 1080w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-1600.jpeg 1600w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io.jpeg 1733w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533b6" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-bcf5c29a-c01e-1d88-729a-87b562523d63-56502cda" href="https://xenon-market.webflow.io/" target="_blank" class="portfolio_item w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/nocode-developpement-img-market-shoes.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/nocode-developpement-img-market-shoes-p-500.jpg 500w, images/nocode-developpement-img-market-shoes-p-800.jpg 800w, images/nocode-developpement-img-market-shoes-p-1080.jpg 1080w, images/nocode-developpement-img-market-shoes.jpg 2076w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="bcf5c29a-c01e-1d88-729a-87b562523d69" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-_1476c423-7e6e-d686-3ed8-4526287533b7-56502cda" href="https://neptun.finance/" target="_blank" class="portfolio_item hide-tablet w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/Capture-d’écran_28-5-2024_20310_neptun.finance.jpeg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 767px) 100vw, (max-width: 991px) 317.1750183105469px, 32vw" loading="lazy" srcset="images/Capture-d’écran_28-5-2024_20310_neptun.finance-p-500.jpeg 500w, images/Capture-d’écran_28-5-2024_20310_neptun.finance-p-800.jpeg 800w, images/Capture-d’écran_28-5-2024_20310_neptun.finance-p-1080.jpeg 1080w, images/Capture-d’écran_28-5-2024_20310_neptun.finance-p-1600.jpeg 1600w, images/Capture-d’écran_28-5-2024_20310_neptun.finance.jpeg 1685w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533bd" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-_649b915e-847f-a773-2500-d8ff90123108-56502cda" data-w-id="649b915e-847f-a773-2500-d8ff90123108" href="https://nocodebaby-3d.webflow.io/" target="_blank" class="portfolio_item w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/developpeur-code-img-3D-facile-pour-votre-site.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/3dsite-image-p-500.jpg 500w, images/3dsite-image-p-800.jpg 800w, images/developpeur-code-img-3D-facile-pour-votre-site.jpg 823w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="aabad387-e3d1-a65e-35d7-f9df9af29393" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div class="portfolio_list-wrapper">
+                  <div class="w-layout-grid portfolio_list">
+                    <a id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400cd-56502cda" href="https://glamouruss.webflow.io/" target="_blank" class="portfolio_item hide-tablet w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/nocode-developpement-img-blackfriday.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 767px) 100vw, (max-width: 991px) 317.1750183105469px, 32vw" loading="lazy" srcset="images/nocode-developpement-img-blackfriday-p-500.jpg 500w, images/nocode-developpement-img-blackfriday-p-800.jpg 800w, images/nocode-developpement-img-blackfriday-p-1080.jpg 1080w, images/nocode-developpement-img-blackfriday.jpg 2102w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400d3" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400d4-56502cda" href="https://immo-sure.webflow.io/" target="_blank" class="portfolio_item w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/nocode-developpement-img-real-estate-agency.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/nocode-developpement-img-real-estate-agency-p-500.jpg 500w, images/nocode-developpement-img-real-estate-agency-p-800.jpg 800w, images/nocode-developpement-img-real-estate-agency-p-1080.jpg 1080w, images/nocode-developpement-img-real-estate-agency.jpg 2076w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400da" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400db-56502cda" href="https://dassetix.webflow.io/app-chart" target="_blank" class="portfolio_item w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/developpeur-code-francais-img-marketplace-nft-crypto-pool.jpeg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-500.jpeg 500w, images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-800.jpeg 800w, images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-1080.jpeg 1080w, images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-1600.jpeg 1600w, images/developpeur-code-francais-img-marketplace-nft-crypto-pool.jpeg 1733w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400e1" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                    <a id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400e2-56502cda" href="https://www.juliechevassus.com/about.html" target="_blank" class="portfolio_item hide-tablet w-inline-block">
+                      <div class="portfolio_image-overlay-layer"></div><img class="portfolio_image" src="images/nocode-developper-img-peintre-art-julie-chevassus.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 767px) 100vw, (max-width: 991px) 317.1750183105469px, 32vw" loading="lazy" srcset="images/nocode-developper-img-peintre-art-julie-chevassus-p-500.jpg 500w, images/nocode-developper-img-peintre-art-julie-chevassus-p-800.jpg 800w, images/nocode-developper-img-peintre-art-julie-chevassus.jpg 823w">
+                      <div class="button is-portfolio is-right">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400e8" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 15 15" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="capability" class="section_capability">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="capability_component">
+                <div class="margin-bottom margin-xxlarge">
+                  <div class="text-align-center">
+                    <div class="max-width-medium">
+                      <h2>L&#x27;union de 2 mondes, pour forger une app agile et excellente<br></h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-layout-grid capability_list">
+                  <div class="capability_item">
+                    <div class="margin-bottom margin-custom1"><img src="images/figma-5-2.svg" loading="lazy" alt="Figma" class="capability_icon-image"></div>
+                    <div class="margin-bottom margin-xsmall">
+                      <h3>UX - UI Designer</h3>
+                    </div>
+                    <p>Des créations sur-mesure qui incarnent l&#x27;essence de votre entreprise. Nous nous engageons à saisir ce qui rend votre marque exceptionnelle, afin de forger un design unique, mémorable et parfaitement adapté à votre identité.<br></p>
+                  </div>
+                  <div class="capability_item">
+                    <div class="margin-bottom margin-custom1"><img src="images/full-stack-program-icon-400x391.png" loading="lazy" alt="" class="capability_icon-image"></div>
+                    <div class="margin-bottom margin-xsmall">
+                      <h3>Integration et deploiement</h3>
+                    </div>
+                    <p>L&#x27;interface, intégrée à un framework JavaScript avancé, assure une expérience fluide et une évolutivité alignée sur les standards professionnels, nos méthodes de déploiement côté serveur assurent une performance continue.<br></p>
+                  </div>
+                  <div class="capability_item">
+                    <div class="margin-bottom margin-custom1"><img src="images/Sans-titre-122.png" loading="lazy" sizes="48px" srcset="images/Sans-titre-122-p-500.png 500w, images/Sans-titre-122-p-800.png 800w, images/Sans-titre-122-p-1080.png 1080w, images/Sans-titre-122.png 1320w" alt="" class="capability_icon-image"></div>
+                    <div class="margin-bottom margin-xsmall">
+                      <h3>Accompagnement Stratégique</h3>
+                    </div>
+                    <p>À chaque étape clé du projet, levée de fonds, l&#x27;optimisation SEO jusqu&#x27;au marketing digital, nous sommes à vos côtés. Nous nous assurons que chaque aspect de votre projet est abouti pour un impact maximal et une croissance soutenue.<br></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="capability_background-image-wrapper">
+          <div class="image-overlay-layer"></div><img src="images/background.svg" loading="eager" alt="" class="capability_background-image">
+        </div>
+      </section>
+      <section id="process" class="section_process">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="margin-bottom margin-xlarge">
+                <div class="text-align-center">
+                  <div class="max-width-large align-center">
+                    <div class="max-width-medium align-center">
+                      <div class="margin-bottom">
+                        <h2 class="heading">Les 5 étapes de la création de votre nouveau site internet...</h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-layout-grid process_component">
+                <div id="w-node-_4155532e-e0ea-9c10-0123-d89ad7b98fc6-56502cda" class="w-layout-grid process_row">
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/048579A7-9748-4357-A675-BF76610495E7_1048579A7-9748-4357-A675-BF76610495E7.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;102.95833587646484px&quot;}]" alt="Mail" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">01</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>Un rendez-vous</h5>
+                        </div>
+                        <p class="text-size-small">Prenez rendez vous ou demander un devis gratuit</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/EFB6AC06-B22C-42F1-B402-CF24DEF2A34D_1EFB6AC06-B22C-42F1-B402-CF24DEF2A34D.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;102.45833587646484px&quot;}]" alt="Check List" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">02</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>Un devis</h5>
+                        </div>
+                        <p class="text-size-small">Devis détaillé de l&#x27;ensemble du site du design, au fonctionnement</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/D579D1FF-97FE-42E0-803A-33634CB722AD_1D579D1FF-97FE-42E0-803A-33634CB722AD.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;126.44792175292969px&quot;}]" alt="Calendar" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">03</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>L&#x27;accord</h5>
+                        </div>
+                        <p class="text-size-small">L&#x27;acceptation du projet et date de délivrance</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/02073CC0-207B-4079-9DA5-BBFDA837CE50_102073CC0-207B-4079-9DA5-BBFDA837CE50.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;117.45833587646484px&quot;}]" alt="Design &amp; Dev" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">04</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>Design &amp; Developement</h5>
+                        </div>
+                        <p class="text-size-small">Création du Design du fonctionnement et du SEO</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/0C17496A-94A8-4C96-BA7A-447EE7E40FD4_10C17496A-94A8-4C96-BA7A-447EE7E40FD4.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;157.4375px&quot;}]" alt="Dollar coins" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">05</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>La livraison</h5>
+                        </div>
+                        <p class="text-size-small">50% d&#x27;acompte et 50% pour la livraison finale</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section_experience">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="w-layout-grid experience_component">
+                <div class="experience_content-left">
+                  <div class="margin-bottom margin-xlarge">
+                    <h2>Nos compétences</h2>
+                  </div>
+                  <div class="margin-bottom margin-small"><img src="images/image-for-site.jpg" loading="lazy" alt="" class="image chouc"><img src="images/516uue7a6nrierf3359njq9ldfr3.jpeg" loading="lazy" alt="" class="image"></div>
+                  <div class="margin-bottom margin-xsmall">
+                    <h2 class="experience_profile-name">Lucas<br> Choucroun<br><span class="text-span-3">Lead UX/UI Designer<br>Nocode Expert</span><br></h2>
+                    <h2 class="experience_profile-name">Ehua <br>Kassi<br><span class="text-span-4">Senior Backend Engineer<br>Blockchain Expert</span>‍<br></h2>
+                  </div>
+                  <div class="button-group">
+                    <div class="experience_available-button">
+                      <div class="button_circle is-fill">
+                        <div class="button_glow"></div>
+                      </div>
+                      <div class="button_text-small">Disponible </div>
+                    </div>
+                    <div class="experience_available-button">
+                      <div class="button_circle is-fill">
+                        <div class="button_glow"></div>
+                      </div>
+                      <div class="button_text-small">Disponible </div>
+                    </div>
+                  </div>
+                  <div class="margin-top margin-medium">
+                    <div class="button-group">
+                      <a href="form.html" class="button is-icon is-alternate w-inline-block">
+                        <div class="button_text-regular">Estimation gratuite</div>
+                        <div bind="6f3403cd-a416-0ce0-94d2-a8e89eb80d9e" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 17 17" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_964)">
+                              <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_964">
+                                <rect width="16" height="16" fill="currentColor" transform="translate(0.5 16.5) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="experience_content-right">
+                  <div data-w-id="ca8b4cb6-7504-30c1-3887-1334fc4d2a6f" class="experience_timeline-wrapper">
+                    <div class="experience_progress-bar-wrapper">
+                      <div class="experience_progress-bar"></div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/Frame-116.svg" loading="lazy" alt="Finsweet Client First" class="experience_image"></div>
+                      </div>
+                      <div id="w-node-ca8b4cb6-7504-30c1-3887-1334fc4d2a76-56502cda" data-w-id="ca8b4cb6-7504-30c1-3887-1334fc4d2a76" class="experience_timeline-right">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4 class="heading-25">UX/UI Designer - Product Owner</h4>
+                          </div>
+                          <p class="text-size-small">Avec plus de 10 ans d’expérience, Lucas, Lead UX/UI Designer et Product Owner spécialisé en e-commerce et image de marque, excelle en conception d’interfaces utilisateur, design visuel, prototypage, ergonomie et solution nocode.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/fullstack-blanc.png" loading="lazy" sizes="64px" srcset="images/fullstack-blanc-p-500.png 500w, images/fullstack-blanc-p-800.png 800w, images/fullstack-blanc.png 902w" alt="" class="experience_image"></div>
+                      </div>
+                      <div id="w-node-_51af8ea0-12c9-54b6-cff9-8b0eb8871da9-56502cda" data-w-id="51af8ea0-12c9-54b6-cff9-8b0eb8871da9" class="experience_timeline-right">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>Full-stack - Expert Blockchain</h4>
+                          </div>
+                          <p class="text-size-small">Ehua est spécialisé dans le développement d&#x27;API et de WebSocket en Node.js, l&#x27;intégration d&#x27;interfaces en Vue.js, Svelte React et Angular, et maîtrise en profondeur les pipelines CI/CD ainsi que les environnements GCE. Il possède également une expertise poussée en blockchain, avec une spécialité sur les plateformes Ethereum, Polkadot et Solana.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/pouce-blanc.png" loading="lazy" sizes="64px" srcset="images/pouce-blanc-p-500.png 500w, images/pouce-blanc-p-800.png 800w, images/pouce-blanc.png 814w" alt="" class="experience_image"></div>
+                      </div>
+                      <div data-w-id="b540fd51-9f63-9ddd-7832-86fcc71a4018" class="experience_timeline-right">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>Chef de Projet</h4>
+                          </div>
+                          <p class="text-size-small">Fort de près de 7 ans de freelance, nous avons conduis avec succès plus de quarante cinq projets de bout en bout. Un de nos clients a réussi une levée de fond significative, atteignant près de 25 millions d&#x27;euros en seed et pre-seed funding, témoignant de la qualité et de la fiabilité de notre travail.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/phone-silhouette-black-white2.png" loading="lazy" width="44" alt="" class="experience_image shopi"></div>
+                      </div>
+                      <div data-w-id="23dc615e-f5b2-3eac-356c-67bc84250f34" class="experience_timeline-right">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>App Mobile </h4>
+                          </div>
+                          <p class="text-size-small">Nous créons des applications mobiles de haute qualité.  Lucas optimise le design et l&#x27;engagement, tandis qu&#x27;Ehua assure un développement technique robuste avec des technologies de pointe.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/shopi-blanc.png" loading="lazy" sizes="64px" srcset="images/shopi-blanc-p-500.png 500w, images/shopi-blanc-p-800.png 800w, images/shopi-blanc.png 963w" alt="" class="experience_image macit"></div>
+                      </div>
+                      <div data-w-id="a902134e-67eb-b180-42a4-67829279679e" class="experience_timeline-right">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>E-commerce - Ads - SEO</h4>
+                          </div>
+                          <p class="text-size-small">Lucas, ancien e-commerçant avec plusieurs boutiques, spécialiste en e-commerce et autoformé en marketing digital, dynamise les ventes et gère les stocks efficacement grâce à une gestion à flux tendu. Il maîtrise le SEO et la gestion de campagnes publicitaires sur Google, Facebook, Instagram, TikTok et YouTube.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section_cta">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="cta_wrapper">
+                <div id="w-node-_6a4bf255-96da-1a0d-d04f-c8d2b80e9d90-56502cda" class="cta_image-wrapper"><img src="images/62d0e2afe8be95338740ec90_62736cc4162e55511e79f7cf_Figma_Logo.svg" loading="lazy" alt="" class="cta_image"><img src="images/webk-sydney-logo-circle-Light-500_1webk-sydney-logo-circle-Light-500.webp" loading="lazy" data-sizes="[{&quot;max&quot;:10000,&quot;size&quot;:&quot;56px&quot;}]" alt="Client logo" class="cta_image"><img src="images/62d0e2aeb4e06c8b6b8249a4_62736cc4162e55368179f7d1_f2w__pfeil.svg" loading="lazy" alt="" class="cta_image-arrow"></div>
+                <h4 class="text-align-center">Prêt à travailler ensemble ?</h4>
+                <div id="w-node-f770db37-2bae-dea1-eb97-bb553ad981f9-56502cda" class="button-group">
+                  <a href="form.html" class="button is-icon w-inline-block">
+                    <div class="button_text-regular">Contactez nous</div>
+                    <div bind="278dfd81-468a-85f5-180d-82556cd44d01" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 17 17" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                        <g clip-path="url(#clip0_614_964)">
+                          <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                        <defs>
+                          <clippath id="clip0_614_964">
+                            <rect width="16" height="16" fill="currentColor" transform="translate(0.5 16.5) rotate(-90)"></rect>
+                          </clippath>
+                        </defs>
+                      </svg></div>
+                  </a>
+                </div>
+                <div class="cta_background-image-wrapper">
+                  <div class="image-overlay-layer-linear"></div><img class="cta_background-noise" src="images/noise_1noise.webp" alt="" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;92vw&quot;}]" sizes="(max-width: 479px) 100vw, (max-width: 767px) 91vw, (max-width: 991px) 92vw, 94vw" loading="lazy" srcset="images/noise_1-p-500.png 500w, images/noise_1-p-800.png 800w, images/noise_1noise.webp 838w"><img src="images/background.svg" loading="lazy" alt="" class="cta_background-image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer_component">
+      <div class="padding-global">
+        <div class="container-large">
+          <div class="padding-top padding-section-large">
+            <div class="padding-vertical padding-medium">
+              <div class="footer_bottom-wrapper">
+                <p class="footer_credit-text">Lucas Choucroun.<br>Ehua Kassi.</p>
+                <div class="w-layout-grid footer_social-list">
+                  <a href="https://www.linkedin.com/in/lucas-choucroun-8541b0217/" target="_blank" class="footer_social-link w-inline-block"><img src="images/linkedin-3-1.svg" loading="lazy" alt="Linkedin" class="footer_social-image"></a>
+                  <a href="https://www.linkedin.com/in/ehua-kassi-b7b91382/" target="_blank" class="footer_social-link w-inline-block"><img src="images/linkedin-3-1.svg" loading="lazy" alt="Linkedin" class="footer_social-image"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6662fa25b80fa05e56502ce2" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="js/webflow.js" type="text/javascript"></script>
+  <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+  <script>
+$( document ).ready(function() {
+  var lastScrollTop = 0;
+  var width = $("body").width();
+  if (width > 991) {
+  $(window).on('scroll', function() {
+      st = $(this).scrollTop();
+      if(st < lastScrollTop) {
+        if(window.pageYOffset>500){
+          $(".navbar_menu").css({"width": "39rem",
+            "overflow": "visible"
+            });
+          $(".menu_button").css({"opacity": "1"
+            });
+        }
+        else{
+          $(".navbar_menu").css({"width": "30rem",
+            "overflow": "hidden"
+            });
+          $(".menu_button").css({"opacity": "0"
+            });
+        }
+      }
+      else {
+        if(window.pageYOffset>100){
+          $(".navbar_menu").css({"width": "39rem",
+            "overflow": "visible"
+            });
+          $(".menu_button").css({"opacity": "1"
+            });
+        }
+        else{
+          $(".navbar_menu").css({"width": "30rem",
+            "overflow": "hidden"
+            });
+          $(".menu_button").css({"opacity": "0"
+            });
+        }
+      }
+      lastScrollTop = st;
+  });
+  }
+  function calcTime(offset){
+      var b=new Date()
+      var utc=b.getTime()+(b.getTimezoneOffset()*60000);
+      var nd=new Date(utc+(3600000*offset));
+      return nd.toLocaleString([], {hour: '2-digit', minute:'2-digit'});
+  }
+  function runauto(){
+  	console.log("updated time");
+      //get specific country time
+    $(".local-time").text(calcTime('+5'));
+  }
+    runauto();
+    setInterval(runauto, 60 * 1000); // refresh every 60 seconds
+});
+</script>
+</body>
+</html>
