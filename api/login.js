@@ -13,6 +13,12 @@ export default async function handler(req, res) {
 
   try {
     const { code } = req.body || {};
+    
+    // Logs temporaires pour debug
+    console.log('ADMIN_CODE from env:', adminCode);
+    console.log('Code received:', code);
+    console.log('Codes match:', code === adminCode);
+    
     if (!code || code !== adminCode) {
       return res.status(401).json({ error: 'Invalid code' });
     }

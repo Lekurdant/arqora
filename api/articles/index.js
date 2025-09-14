@@ -109,11 +109,10 @@ export default async function handler(req, res) {
       await putFile(jsonPath, JSON.stringify(article, null, 2), `chore: upsert article ${normalizedSlug}`, existingSha);
       return res.status(201).json({ ok: true, slug: normalizedSlug, url: getRawUrl(jsonPath) });
     } catch (e) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.error('[articles:POST] error:', e);
-        return res.status(500).json({ error: 'Failed to publish article', details: String(e && e.message || e) });
-      }
-      return res.status(500).json({ error: 'Failed to publish article' });
+      console.error('[articles:POST] error:', e);
+      console.error('[articles:POST] error message:', e.message);
+      console.error('[articles:POST] error code:', e.code);
+      return res.status(500).json({ error: 'Failed to publish article', details: String(e && e.message || e) });
     }
   }
 
