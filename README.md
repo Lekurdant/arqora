@@ -1,5 +1,13 @@
 # nocodebaby
 
+## Points importants (prod)
+
+- Webflow/JS animations: s'assurer que la home charge bien le script depuis l'emplacement buildé.
+  - Dans `index.html`, utiliser:
+    - `<script src="dist/js/webflow.js" type="text/javascript"></script>`
+  - Raison: Vite/Vercel sert `webflow.js` sous `dist/js/`. Si le fichier n'est pas chargé, les interactions (scroll/hover, timeline, portfolio) ne s'initialisent pas.
+  - jQuery: garder le CDN Webflow d'origine avant `webflow.js`.
+
 ## Déploiement Vercel (Front + API serverless)
 
 1. Variables d'environnement à définir dans Vercel:
@@ -20,10 +28,9 @@
    - `GET /api/cron` -> purge des anciens articles (utilisé par cron Vercel)
 
 3. Front:
-   - `src/Services/Http.ts` pointe vers la même origine (BaseUrl vide)
-   - Utiliser `fetch('/api/...')` depuis l'admin
+   - `index.html`: script `dist/js/webflow.js`
    - `admin-blog.html` consomme `/api/login`, `/api/articles`, `/api/upload-image`
-   - `blog.html` et `article.html` lisent les articles via `/api/articles` (Blob)
+   - `blog.html` et `article.html` lisent les articles via `/api/articles`
  
 4. Étapes Vercel:
    1) Créer un projet Vercel depuis ce repo

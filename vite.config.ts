@@ -10,9 +10,14 @@ export default defineConfig({
       input: {
         main: './index.html',
         form: './form.html',
+        blog: './blog.html',
+        admin: './admin-blog.html',
+        article: './article.html'
       }
-    }
+    },
+    copyPublicDir: true
   },
+  publicDir: 'public',
   plugins: [svelte()],
   resolve: {
     alias: [

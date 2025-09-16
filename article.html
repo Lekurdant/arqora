@@ -912,10 +912,39 @@
           justify-content: flex-end !important;
           align-items: center !important;
         }
-        .navbar_logo.chouc {
-          width: 35px !important;
+        .navbar_logo.chouc,
+        img.navbar_logo.chouc,
+        .navbar_logo-image-wrapper img,
+        .navbar_logo-link img {
+          width: 120px !important;
           height: auto !important;
           vertical-align: middle !important;
+          max-width: 120px !important;
+        }
+        
+        /* Éviter que le logo soit coupé - même que blog.html */
+        .navbar_container {
+          padding: 0 40px !important;
+          width: 100% !important;
+          max-width: none !important;
+        }
+        
+        .navbar_logo-link {
+          flex: 0 0 auto !important;
+          padding: 10px 20px !important;
+          min-width: 200px !important;
+        }
+        
+        .navbar_logo-link > div {
+          padding: 0 !important;
+          width: 100% !important;
+          overflow: visible !important;
+        }
+        
+        .navbar_logo.chouc {
+          max-width: none !important;
+          width: 120px !important;
+          overflow: visible !important;
         }
         .navbar_logo-image-wrapper {
           display: flex !important;
@@ -931,21 +960,71 @@
           height: 35px !important;
           transform: translateY(-5px) !important;
         }
+
+        /* Corriger le bouton TTS sur mobile */
+        @media screen and (max-width: 991px) {
+          .navbar_menu {
+            flex: none !important;
+            display: none !important;
+          }
+          
+          .navbar_menu-button {
+            display: none !important;
+          }
+          
+          /* Corrections mobile pour le logo - même que blog.html */
+          .navbar_container {
+            padding: 0 15px !important;
+            height: 66px !important;
+          }
+          
+          .navbar_logo-link {
+            flex: 0 0 auto !important;
+            padding: 10px !important;
+            margin: 10px 0 !important;
+            min-width: auto !important;
+            transform: none !important;
+            height: 66px !important;
+          }
+          
+          .navbar_logo-link > div {
+            padding: 0 !important;
+            width: 100% !important;
+            overflow: visible !important;
+          }
+          
+          .navbar_logo.chouc,
+          img.navbar_logo.chouc,
+          .navbar_logo-image-wrapper img,
+          .navbar_logo-link img {
+            width: 80px !important;
+            max-width: 80px !important;
+          }
+          
+          .navbar_component {
+            height: 66px !important;
+            min-height: 66px !important;
+          }
+          
+          .button_circle {
+            display: none !important;
+          }
+        }
+        
+        /* Pour les écrans 480px et plus sur mobile */
+        @media screen and (min-width: 480px) and (max-width: 991px) {
+          .navbar_logo-link {
+            margin-bottom: 25px !important;
+          }
+        }
       </style>
     </div>
 
     <!-- Navigation -->
     <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" role="banner" data-no-scroll="1" data-duration="400">
       <div class="navbar_container">
-        <a href="index.html" class="navbar_logo-link w-nav-brand">
-          <div class="navbar_logo-image-wrapper"><img src="images/jpgtopngconverter-com-11.png" loading="eager" alt="" class="navbar_logo chouc"></div>
-          <div>
-            <div class="navbar_text-wrapper-2">
-              <div class="text-block-898">
-                <span class="typewriter">nocodebaby.com</span>
-              </div>
-            </div>
-          </div>
+        <a href="/" class="navbar_logo-link w-nav-brand">
+          <div class="navbar_logo-image-wrapper"><img src="images/arqova-lg-dark1.png" loading="eager" alt="" class="navbar_logo chouc" style="width: 120px !important; height: auto !important;"></div>
         </a>
         <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu" style="flex:1; display:flex; justify-content:center;">
           <button id="tts-toggle" class="button is-navbar-button w-inline-block" style="display:flex; align-items:center; gap:8px;">
@@ -956,7 +1035,7 @@
           </button>
         </nav>
         <div class="navbar_button-wrapper">
-          <a href="form.html" class="button is-navbar-button hide-tablet w-inline-block">
+          <a href="/form" class="button is-navbar-button hide-tablet w-inline-block">
             <div class="button_circle"></div>
             <div class="button_text-small">Prenez un rendez-vous</div>
           </a>
@@ -1352,6 +1431,29 @@
     // Charger l'article au chargement de la page
     document.addEventListener('DOMContentLoaded', function() {
       loadArticle();
+      
+      // FORCER la taille du logo Arqova - même que blog.html
+      function resizeLogo() {
+        const logo = document.querySelector('img[src="images/arqova-lg-dark1.png"]');
+        if (logo) {
+          if (window.innerWidth <= 991) {
+            // Mobile
+            logo.style.width = '80px';
+            logo.style.height = 'auto';
+            logo.style.maxWidth = '80px';
+            console.log('Logo Arqova redimensionné à 80px (mobile)');
+          } else {
+            // Desktop
+            logo.style.width = '120px';
+            logo.style.height = 'auto';
+            logo.style.maxWidth = '120px';
+            console.log('Logo Arqova redimensionné à 120px (desktop)');
+          }
+        }
+      }
+      
+      resizeLogo();
+      window.addEventListener('resize', resizeLogo);
       
       // Gestion des bannières publicitaires
       initializeAds();

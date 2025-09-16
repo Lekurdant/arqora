@@ -2,7 +2,35 @@
   "crons": [
     {
       "path": "/api/cron",
-      "schedule": "0 3 * * *" 
+      "schedule": "0 3 * * *"
+    }
+  ],
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/home.html"
+    },
+    {
+      "source": "/projet",
+      "destination": "/projet.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/form",
+      "destination": "/form.html"
+    },
+    {
+      "source": "/article",
+      "destination": "/article.html"
+    },
+    {
+      "source": "/admin-blog",
+      "destination": "/admin-blog.html"
     }
   ]
 }

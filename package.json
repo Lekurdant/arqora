@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -34,8 +37,9 @@
     "vite": "^4.2.0"
   },
   "dependencies": {
-    "@vercel/blob": "^0.23.2",
+    "@octokit/rest": "^20.0.2",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^7.0.6",
     "stripe": "^14.1.0",
     "svelte-stripe": "^0.0.24"
   }

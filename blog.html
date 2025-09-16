@@ -2,10 +2,10 @@
 <html data-wf-page="blog-page-id" data-wf-site="6662fa25b80fa05e56502ce2" lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Blog - Nocodebaby | Articles sur le développement web et no-code</title>
-  <meta content="Découvrez nos articles sur le développement web, le no-code, l'UX/UI design, et les dernières tendances technologiques. Conseils pratiques et retours d'expérience." name="description">
-  <meta content="Blog - Nocodebaby | Articles sur le développement web et no-code" property="og:title">
-  <meta content="Découvrez nos articles sur le développement web, le no-code, l'UX/UI design, et les dernières tendances technologiques." property="og:description">
+  <title>Blog - Arqova | Articles sur Next.js, TypeScript & Tailwind</title>
+  <meta content="Découvrez nos articles sur le développement web moderne avec Next.js, TypeScript, Tailwind CSS, React Native et Expo. Conseils pratiques et retours d'expérience." name="description">
+  <meta content="Blog - Arqova | Articles sur Next.js, TypeScript & Tailwind" property="og:title">
+  <meta content="Découvrez nos articles sur le développement web moderne avec Next.js, TypeScript, Tailwind CSS, React Native et Expo." property="og:description">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
@@ -27,17 +27,18 @@
     .blog-card {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
       position: relative;
     }
     
     .blog-card:hover {
-      transform: translateY(-5px);
-      border-color: #4d65ff;
-      box-shadow: 0 20px 40px rgba(77, 101, 255, 0.1);
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
     }
     
     .blog-card-image {
@@ -91,8 +92,82 @@
     }
     
     .blog-category {
-      color: #4d65ff;
-      font-weight: 500;
+      display: inline-block;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      color: #00ff88;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 136, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      transform: rotate(-1deg);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .blog-category::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+    
+    .blog-card:hover .blog-category {
+      transform: rotate(-1deg) scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 255, 136, 0.4);
+    }
+    
+    /* Styles modernes pour les boutons de filtres */
+    .button.is-alternate {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .button.is-alternate::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .button.is-alternate:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .button.is-alternate:hover::before {
+      left: 100%;
+    }
+    
+    .button.is-alternate.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+    
+    .button.is-alternate .button_text-regular {
+      position: relative;
+      z-index: 1;
+      transition: color 0.3s ease;
     }
     
     .blog-title {
@@ -111,31 +186,138 @@
     .read-more {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      color: #4d65ff;
-      font-weight: 500;
-      transition: gap 0.3s ease;
+      gap: 0.6rem;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+      border: 2px solid transparent;
+      border-radius: 6px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
     }
     
-    .blog-card:hover .read-more {
-      gap: 1rem;
+    .read-more::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
     }
     
-    /* Étiquette nouveauté */
+    
+    
+    .read-more:hover {
+      color: #ffffff;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 4px 15px rgba(0, 255, 136, 0.1), 0 1px 4px rgba(0, 0, 0, 0.05);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .read-more:hover::before {
+      opacity: 1;
+    }
+    
+    
+    
+    /* Cacher le titre BLOG sur desktop */
+    @media screen and (min-width: 992px) {
+      .heading-1 {
+        display: none !important;
+      }
+    }
+
+    /* Marge minimum pour les cartes sur petits écrans mobiles */
+    @media screen and (max-width: 479px) {
+      .blog-card {
+        margin: 0 15px !important;
+      }
+    }
+
+    /* Style moderne pour le bouton "Charger plus" */
+    .button.is-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px 32px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .button.is-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .button.is-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .button.is-icon:hover::before {
+      left: 100%;
+    }
+    
+    .button.is-icon .button_text-regular {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Étiquette nouveauté moderne */
     .new-badge {
       position: absolute;
       top: 1rem;
       right: 1rem;
-      background: #00ff88;
-      color: #1a1a1a;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      color: #ffffff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px rgba(0, 255, 136, 0.3);
+      letter-spacing: 0.8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transform: rotate(-2deg);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 2;
+    }
+    
+    .new-badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    
+    .blog-card:hover .new-badge {
+      transform: rotate(-2deg) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.5);
     }
 
     /* Liquid Glass buttons (category filters) */
@@ -187,17 +369,52 @@
       border-color: rgba(255, 255, 255, 0.25) !important;
     }
     .button-group.is-center .category-filter.active {
-      border-color: rgba(77, 101, 255, 0.6) !important;
+      border-color: rgba(255, 255, 255, 0.5) !important;
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.24),
-        0 16px 36px rgba(77, 101, 255, 0.18),
+        0 16px 36px rgba(255, 255, 255, 0.1),
         0 10px 28px rgba(0, 0, 0, 0.28);
     }
     @media (prefers-reduced-motion: reduce) {
       .button-group.is-center .category-filter::before { animation: none; filter: none; -webkit-filter: none; }
       .button-group.is-center .category-filter { transition: none; }
     }
-    /* Skeleton loading */
+        /* Texte de bienvenue du blog */
+        .blog-welcome-text {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          width: 100%;
+          min-height: 40px;
+        }
+        
+        .welcome-message {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.9rem;
+          font-weight: 500;
+          text-align: center;
+          opacity: 1;
+          filter: blur(0);
+          transform: translateY(0);
+          transition: opacity 220ms ease, filter 300ms ease, transform 300ms ease;
+          white-space: nowrap;
+          will-change: opacity, filter, transform;
+        }
+        
+        .welcome-message.fade-out {
+          opacity: 0;
+          filter: blur(4px);
+          transform: translateY(3px);
+        }
+        
+        .welcome-message.fade-in {
+          opacity: 1;
+          filter: blur(0);
+          transform: translateY(0);
+        }
+        
+        /* Skeleton loading */
     @keyframes shimmer {
       0% { background-position: -200% 0; }
       100% { background-position: 200% 0; }
@@ -277,20 +494,28 @@
           display: flex !important;
           justify-content: space-between !important;
           align-items: center !important;
+          padding: 0 40px !important;
+          width: 100% !important;
+          max-width: none !important;
         }
         
         .navbar_logo-link {
-          flex: 1 !important;
+          flex: 0 0 auto !important;
           display: flex !important;
           align-items: center !important;
           justify-content: flex-start !important;
           gap: 8px !important;
           transform: translateY(-15px) !important;
+          padding: 10px 20px !important;
+          min-width: 200px !important;
         }
         
         .navbar_logo-link > div {
           display: flex !important;
           align-items: center !important;
+          padding: 0 !important;
+          width: 100% !important;
+          overflow: visible !important;
         }
         
         .navbar_button-wrapper {
@@ -300,62 +525,80 @@
           align-items: center !important;
         }
         
-        /* Réduire la taille du logo */
+        /* S'assurer que l'image du logo n'est pas contrainte */
         .navbar_logo.chouc {
-          width: 35px !important;
+          max-width: none !important;
+          width: 120px !important;
           height: auto !important;
-          vertical-align: middle !important;
+          overflow: visible !important;
         }
         
-        /* Centrer le wrapper de l'image */
-        .navbar_logo-image-wrapper {
-          display: flex !important;
-          align-items: center !important;
-          margin-right: 0 !important;
+        
+
+        /* Cacher le menu hamburger sur mobile pour le blog */
+        @media screen and (max-width: 991px) {
+          .navbar_menu-button {
+            display: none !important;
+          }
+          
+          /* Cacher le button_circle sur mobile */
+          .button_circle {
+            display: none !important;
+          }
+          
+          /* Marge en haut pour le titre BLOG sur mobile */
+          .heading-1 {
+            margin-top: 30px !important;
+          }
+          
+          /* Fixer la hauteur du header à 66px sur tous les mobiles */
+          .navbar_component {
+            height: 66px !important;
+            min-height: 66px !important;
+          }
+          
+          /* Ajuster le logo sur mobile */
+          .navbar_container {
+            padding: 0 15px !important;
+            height: 66px !important;
+          }
+          
+          .navbar_logo-link {
+            flex: 0 0 auto !important;
+            padding: 10px !important;
+            margin: 10px 0 !important;
+            min-width: auto !important;
+            transform: none !important;
+            height: 66px !important;
+          }
+          
+          .navbar_logo.chouc {
+            width: 80px !important;
+          }
         }
         
-        /* Rapprocher le texte du logo */
-        .navbar_text-wrapper-2 {
-          margin-left: -20px !important;
+
+        /* Marge de 25px en bas pour les écrans de 480px et plus */
+        @media screen and (min-width: 480px) and (max-width: 991px) {
+          .navbar_logo-link {
+            margin-bottom: 25px !important;
+          }
         }
-        
-        /* Centrer le texte avec l'image */
-        .text-block-898 {
-          display: flex !important;
-          align-items: center !important;
-          height: 35px !important;
-          transform: translateY(-5px) !important;
-        }
-        
-        /* Animation typewriter pour le logo */
-        .typewriter {
-          display: inline-block;
-          overflow: hidden;
-          border-right: 2px solid #00ff88;
-          white-space: nowrap;
-          margin: 0 auto;
-          animation: 
-            typewriter-loop 6s steps(13, end) infinite,
-            blink-caret 1s step-end infinite;
-        }
-        
-        @keyframes typewriter-loop {
-          0% { width: 0 }
-          30% { width: 13ch }
-          70% { width: 13ch }
-          100% { width: 0 }
-        }
-        
-        @keyframes blink-caret {
-          from, to { border-color: transparent }
-          50% { border-color: #00ff88 }
-        }
-        
-        /* Animation plus rapide au hover */
-        .navbar_logo-link:hover .typewriter {
-          animation: 
-            typewriter-loop 3s steps(13, end) infinite,
-            blink-caret 1s step-end infinite;
+
+        /* Cacher le bouton "Prenez un rendez-vous" dans le menu sur desktop */
+        @media screen and (min-width: 992px) {
+          .navbar_menu a[href="form.html"],
+          .navbar_menu .navbar_link[href="form.html"],
+          .navbar_menu a[style*="background: #61d180b3"],
+          .navbar_menu a[style*="background-color: #61d180b3"],
+          .navbar_menu a:last-child {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            width: 0 !important;
+            overflow: hidden !important;
+          }
         }
       </style>
     </div>
@@ -363,19 +606,16 @@
     <!-- Navigation (même que index.html) -->
     <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" role="banner" data-no-scroll="1" data-duration="400">
       <div class="navbar_container">
-        <a href="index.html" class="navbar_logo-link w-nav-brand">
-          <div class="navbar_logo-image-wrapper"><img src="images/jpgtopngconverter-com-11.png" loading="eager" alt="" class="navbar_logo chouc"></div>
-          <div>
-            <div class="navbar_text-wrapper-2">
-              <div class="text-block-898">
-                <span class="typewriter">nocodebaby.com</span>
-              </div>
-            </div>
-          </div>
+        <a href="/" class="navbar_logo-link w-nav-brand">
+          <div class="navbar_logo-image-wrapper"><img src="images/arqova-lg-dark1.png" loading="eager" alt="" class="navbar_logo chouc" style="width: 120px !important; height: auto !important;"></div>
         </a>
-        <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu"></nav>
+        <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu">
+          <div class="blog-welcome-text" id="blog-welcome-text">
+            <span class="welcome-message">Bonjour, bienvenue dans le blog Arqova</span>
+          </div>
+        </nav>
         <div class="navbar_button-wrapper">
-          <a href="form.html" class="button is-navbar-button hide-tablet w-inline-block">
+          <a href="/form" class="button is-navbar-button hide-tablet w-inline-block">
             <div class="button_circle"></div>
             <div class="button_text-small">Prenez un rendez-vous</div>
           </a>
@@ -682,6 +922,88 @@
     // Charger les articles au chargement de la page
     document.addEventListener('DOMContentLoaded', function() {
       loadArticles();
+      
+      // FORCER la taille du logo Arqova
+      const logo = document.querySelector('img[src="images/arqova-lg-dark1.png"]');
+      if (logo) {
+        logo.style.width = '120px';
+        logo.style.height = 'auto';
+        logo.style.maxWidth = '120px';
+        console.log('Logo Arqova redimensionné à 120px');
+      }
+      
+      // Animation du texte de bienvenue
+      const welcomeMessages = [
+        "Bonjour, bienvenue dans le blog Arqova",
+        "Découvrez nos derniers articles",
+        "Développement web moderne",
+        "Next.js, TypeScript, Tailwind CSS",
+        "React Native & Expo",
+        "Solutions évolutives pour votre projet avec...",
+        '<img src="images/arqova-lg-dark1.png" alt="Arqova" style="height: 20px; width: auto; vertical-align: middle;">'
+      ];
+      
+      let currentMessageIndex = 0;
+      const welcomeElement = document.querySelector('.welcome-message');
+      
+      if (welcomeElement) {
+        function changeMessage() {
+          // Vérifier si c'est le logo (dernier message)
+          const isLogo = (currentMessageIndex + 1) % welcomeMessages.length === welcomeMessages.length - 1;
+          
+          if (isLogo) {
+            // Effet spécial pour le logo: plus prononcé
+            welcomeElement.style.transition = 'opacity 400ms ease, filter 600ms ease, transform 500ms ease';
+            welcomeElement.style.willChange = 'opacity, filter, transform';
+            welcomeElement.style.opacity = '0';
+            welcomeElement.style.filter = 'blur(12px)';
+            welcomeElement.style.transform = 'translateY(8px) scale(0.9)';
+            
+            setTimeout(() => {
+              // Changer le contenu (logo)
+              currentMessageIndex = (currentMessageIndex + 1) % welcomeMessages.length;
+              welcomeElement.innerHTML = welcomeMessages[currentMessageIndex];
+              
+              // Fade in spécial pour le logo
+              welcomeElement.style.opacity = '1';
+              welcomeElement.style.filter = 'blur(0)';
+              welcomeElement.style.transform = 'translateY(0) scale(1)';
+            }, 300);
+          } else {
+            // Effet normal pour le texte
+            welcomeElement.style.transition = 'opacity 220ms ease, filter 300ms ease, transform 300ms ease';
+            welcomeElement.style.willChange = 'opacity, filter, transform';
+            welcomeElement.style.opacity = '0';
+            welcomeElement.style.filter = 'blur(4px)';
+            welcomeElement.style.transform = 'translateY(3px)';
+            
+            setTimeout(() => {
+              // Changer le contenu (texte)
+              currentMessageIndex = (currentMessageIndex + 1) % welcomeMessages.length;
+              welcomeElement.innerHTML = welcomeMessages[currentMessageIndex];
+              
+              // Fade in normal
+              welcomeElement.style.opacity = '1';
+              welcomeElement.style.filter = 'blur(0)';
+              welcomeElement.style.transform = 'translateY(0)';
+            }, 180);
+          }
+        }
+        
+        // Fonction pour programmer le prochain message avec timing adaptatif
+        function scheduleNextMessage() {
+          const isLogo = currentMessageIndex === welcomeMessages.length - 1; // Dernier message = logo
+          const delay = isLogo ? 5000 : 3000; // 5 secondes pour le logo, 3 secondes pour le texte
+          
+          setTimeout(() => {
+            changeMessage();
+            scheduleNextMessage(); // Programmer le prochain message
+          }, delay);
+        }
+        
+        // Démarrer la rotation
+        scheduleNextMessage();
+      }
     });
   </script>
 </body>
