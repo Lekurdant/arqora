@@ -62,12 +62,12 @@ app.post('/upload-pdfs', upload, async (req, res) => {
 
   // Set up nodemailer transporter
   const transporter = nodemailer.createTransport({
-    host: "smtpout.secureserver.net",  // Serveur SMTP de GoDaddy
-    port: 465,                        // Port SSL de GoDaddy
-    secure: true,                     // GoDaddy requiert une connexion sécurisée (SSL)
+    host: "smtp.mail.ovh.net",  // Serveur SMTP d'OVH
+    port: 465,                  // Port SSL d'OVH
+    secure: true,               // OVH requiert une connexion sécurisée (SSL)
     auth: {
-      user: 'team@nocodebaby.com',
-      pass: process.env.EMAIL_PASSWORD // Utilisation de la variable d'environnement
+      user: 'team@arqova.fr',
+      pass: process.env.OVH_SMTP_PASS // Utilisation de la variable d'environnement OVH
     },
     tls: {
       rejectUnauthorized: false

@@ -13,12 +13,12 @@ async function readJsonBody(req) {
 }
 
 function buildTransporter() {
-  const host = process.env.SMTP_HOST || 'smtpout.secureserver.net';
+  const host = process.env.SMTP_HOST || 'smtp.mail.ovh.net';
   const port = parseInt(process.env.SMTP_PORT || '465', 10);
   const secure = (process.env.SMTP_SECURE || 'true') === 'true';
-  const user = process.env.SMTP_USER || process.env.EMAIL_USER || 'team@nocodebaby.com';
-  const pass = process.env.EMAIL_PASSWORD;
-  if (!pass) throw new Error('Missing EMAIL_PASSWORD');
+  const user = process.env.SMTP_USER || 'team@arqova.fr';
+  const pass = process.env.OVH_SMTP_PASS;
+  if (!pass) throw new Error('Missing OVH_SMTP_PASS');
   return nodemailer.createTransport({ host, port, secure, auth: { user, pass }, tls: { rejectUnauthorized: false } });
 }
 
@@ -37,8 +37,8 @@ export default async function handler(req, res) {
     const a = answers || {};
 
     const transporter = buildTransporter();
-    const toEmail = process.env.CONTACT_TO || 'team@nocodebaby.com';
-    const fromEmail = process.env.CONTACT_FROM || 'team@nocodebaby.com';
+    const toEmail = process.env.CONTACT_TO || 'team@arqova.fr';
+    const fromEmail = process.env.CONTACT_FROM || 'team@arqova.fr';
 
     const html = `
       <p>Nouvelle demande via le formulaire:</p>
@@ -66,6 +66,7 @@ export default async function handler(req, res) {
     const mailOptions = {
       from: fromEmail,
       to: toEmail,
+      replyTo: a.email || fromEmail,
       subject: 'Nouvelle demande client',
       html,
       attachments
@@ -77,8 +78,22 @@ export default async function handler(req, res) {
       await transporter.sendMail({
         from: fromEmail,
         to: a.email,
-        subject: 'Merci pour votre demande',
-        html: `<p>Merci ${a.firstname || ''} ${a.lastname || ''} !</p><p>Nous revenons vers vous sous 24h.</p>`
+        replyTo: fromEmail,
+        subject: 'Confirmation de votre demande - Arqova',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #36b37e;">Merci pour votre confiance !</h2>
+            <p>Bonjour ${a.firstname || ''} ${a.lastname || ''},</p>
+            <p>Nous avons bien reçu votre demande de projet et nous vous remercions de votre intérêt pour nos services.</p>
+            <p><strong>Notre équipe vous contactera dans les plus brefs délais (sous 24h).</strong></p>
+            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+            <p style="color: #666; font-size: 14px;">
+              Cordialement,<br>
+              L'équipe Arqova<br>
+              <a href="mailto:team@arqova.fr">team@arqova.fr</a>
+            </p>
+          </div>
+        `
       });
     }
 
