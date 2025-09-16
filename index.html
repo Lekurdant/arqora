@@ -1,0 +1,1914 @@
+<!DOCTYPE html><!--  This site was created in Webflow. https://webflow.com  --><!--  Last Published: Sat Aug 17 2024 09:47:13 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="6662fa25b80fa05e56502cda" data-wf-site="6662fa25b80fa05e56502ce2" lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Arqova - Développement Next.js, Tailwind & TypeScript</title>
+  <meta content="Arqova, créé par deux développeurs spécialisés en Next.js, Tailwind CSS et TypeScript, est un site web destiné à présenter leurs travaux et projets réalisés. Nous développons des applications web modernes, performantes et évolutives en utilisant les dernières technologies. Notre expertise couvre le développement full-stack, l'optimisation des performances et la création d'interfaces utilisateur exceptionnelles." name="description">
+  <meta content="Arqova - Développement Next.js, Tailwind & TypeScript" property="og:title">
+  <meta content="Arqova, créé par deux développeurs spécialisés en Next.js, Tailwind CSS et TypeScript, est un site web destiné à présenter leurs travaux et projets réalisés. Nous développons des applications web modernes, performantes et évolutives en utilisant les dernières technologies. Notre expertise couvre le développement full-stack, l'optimisation des performances et la création d'interfaces utilisateur exceptionnelles." property="og:description">
+  <meta content="Arqova - Développement Next.js, Tailwind & TypeScript" property="twitter:title">
+  <meta content="Arqova, créé par deux développeurs spécialisés en Next.js, Tailwind CSS et TypeScript, est un site web destiné à présenter leurs travaux et projets réalisés. Nous développons des applications web modernes, performantes et évolutives en utilisant les dernières technologies. Notre expertise couvre le développement full-stack, l'optimisation des performances et la création d'interfaces utilisateur exceptionnelles." property="twitter:description">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="Webflow" name="generator">
+  <link href="css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="css/webflow.css" rel="stylesheet" type="text/css">
+  <link href="css/portfolioazaza.webflow.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="images/webclip.png" rel="apple-touch-icon"><!--  Google tag (gtag.js)  -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8TPMB8JSBP"></script>
+  <script>
+  /*
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8TPMB8JSBP');
+  */
+</script><!--  [Attributes by Finsweet] Modal  -->
+  <script src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-modal@1/modal.js" async="" defer=""></script>
+</head>
+<body>
+  <!-- Page de loading -->
+  <div class="loading-screen" id="loadingScreen">
+    <img src="images/arqova-lg-dark1.png" alt="Arqova" class="loading-logo">
+  </div>
+
+  <div class="page-wrapper">
+    <div bind="4f34a39c-fda6-7dca-a9ad-8e431021bb2b" class="global-styles w-embed">
+      <style>
+    /* Page de loading */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0D0D0D;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+
+    .loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loading-logo {
+      width: 200px;
+      height: auto;
+      filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+      animation: smokeEffect 3s ease-in-out infinite;
+    }
+
+    @keyframes smokeEffect {
+      0% {
+        opacity: 0.4;
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+      }
+      25% {
+        opacity: 0.8;
+        transform: translateY(-8px) scale(1.03);
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.6));
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-15px) scale(1.05);
+        filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.8));
+      }
+      75% {
+        opacity: 0.8;
+        transform: translateY(-8px) scale(1.03);
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.6));
+      }
+      100% {
+        opacity: 0.4;
+        transform: translateY(0px) scale(1);
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+      }
+    }
+
+    /* Animation d'apparition des éléments de la homepage - DÉSACTIVÉE POUR LA NAVBAR */
+    .page-wrapper {
+      opacity: 1;
+      transform: none;
+    }
+
+    .page-wrapper.fade-in {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Animation des sections principales */
+    .header_component,
+    .section_logo,
+    .section_work,
+    .section_capability,
+    .section_process,
+    .section_experience,
+    .section_cta {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+
+    .page-wrapper.fade-in .header_component {
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .page-wrapper.fade-in .section_logo {
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    .page-wrapper.fade-in .section_work {
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+    }
+
+    .page-wrapper.fade-in .section_capability {
+      animation: fadeInUp 0.8s ease-out 0.8s both;
+    }
+
+    .page-wrapper.fade-in .section_process {
+      animation: fadeInUp 0.8s ease-out 1s both;
+    }
+
+    .page-wrapper.fade-in .section_experience {
+      animation: fadeInUp 0.8s ease-out 1.2s both;
+    }
+
+    .page-wrapper.fade-in .section_cta {
+      animation: fadeInUp 0.8s ease-out 1.4s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+
+/* Scroll fluide pour tous les liens d'ancrage */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Make text look crisper and more legible in all browsers */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.co-founder-text {
+  color: #9e9e9e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+/* Focus state style for keyboard navigation for the focusable elements */
+*[tabindex]:focus-visible,
+  input[type="file"]:focus-visible {
+   outline: 0.125rem solid #4d65ff;
+   outline-offset: 0.125rem;
+}
+/* Get rid of top margin on first element in any rich text element */
+.w-richtext > :not(div):first-child, .w-richtext > div:first-child > :first-child {
+  margin-top: 0 !important;
+}
+/* Get rid of bottom margin on last element in any rich text element */
+.w-richtext>:last-child, .w-richtext ol li:last-child, .w-richtext ul li:last-child {
+	margin-bottom: 0 !important;
+}
+/* Prevent all click and hover interaction with an element */
+.pointer-events-off {
+	pointer-events: none;
+}
+
+/* Style moderne pour les boutons is-icon (sauf is-alternate) */
+.button.is-icon:not(.is-alternate) {
+  background: #062014;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 12px;
+  padding: 16px 32px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  width: auto !important;
+  max-width: 250px;
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.button.is-icon:not(.is-alternate)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.button.is-icon:not(.is-alternate):hover {
+  background: #0a2a1c;
+  border-color: rgba(0, 255, 136, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.button.is-icon:not(.is-alternate):hover::before {
+  left: 100%;
+}
+
+.button.is-icon:not(.is-alternate) .button_text-regular {
+  position: relative;
+  z-index: 1;
+}
+
+/* Réduire l'espacement entre les boutons de la première section */
+.button-group.is-center {
+  gap: 1rem !important;
+}
+
+.button-group.is-center .button {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem !important;
+}
+
+/* Cacher seulement les boutons "Voir le projet" dans la section références */
+.portfolio_item .button.is-portfolio {
+  display: none !important;
+}
+
+/* Aligner le bouton "Estimation gratuite" à gauche */
+.experience_content-left .margin-top.margin-medium .button-group {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
+.experience_content-left .margin-top.margin-medium .button-group .button {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+/* Enables all click and hover interaction with an element */
+.pointer-events-on {
+  pointer-events: auto;
+}
+/* Create a class of .div-square which maintains a 1:1 dimension of a div */
+.div-square::after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}
+/* Make sure containers never lose their center alignment */
+.container-medium,.container-small, .container-large {
+	margin-right: auto !important;
+  margin-left: auto !important;
+}
+/* 
+Make the following elements inherit typography styles from the parent and not have hardcoded values. 
+Important: You will not be able to style for example "All Links" in Designer with this CSS applied.
+Uncomment this CSS to use it in the project. Leave this message for future hand-off.
+*/
+/*
+a,
+.w-input,
+.w-select,
+.w-tab-link,
+.w-nav-link,
+.w-dropdown-btn,
+.w-dropdown-toggle,
+.w-dropdown-link {
+  color: inherit;
+  text-decoration: inherit;
+  font-size: inherit;
+}
+*/
+/* Apply "..." after 3 lines of text */
+.text-style-3lines {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+/* Apply "..." after 2 lines of text */
+.text-style-2lines {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+/* Adds inline flex display */
+.display-inlineflex {
+  display: inline-flex;
+}
+/* These classes are never overwritten */
+.hide {
+  display: none !important;
+}
+@media screen and (max-width: 991px) {
+    .hide, .hide-tablet {
+        display: none !important;
+    }
+}
+  @media screen and (max-width: 767px) {
+    .hide-mobile-landscape{
+      display: none !important;
+    }
+}
+  @media screen and (max-width: 479px) {
+    .hide-mobile{
+      display: none !important;
+    }
+}
+.margin-0 {
+  margin: 0rem !important;
+}
+.padding-0 {
+  padding: 0rem !important;
+}
+.spacing-clean {
+padding: 0rem !important;
+margin: 0rem !important;
+}
+.margin-top {
+  margin-right: 0rem !important;
+  margin-bottom: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-top {
+  padding-right: 0rem !important;
+  padding-bottom: 0rem !important;
+  padding-left: 0rem !important;
+}
+.margin-right {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-right {
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+  padding-left: 0rem !important;
+}
+.margin-bottom {
+  margin-top: 0rem !important;
+  margin-right: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-bottom {
+  padding-top: 0rem !important;
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
+}
+.margin-left {
+  margin-top: 0rem !important;
+  margin-right: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+.padding-left {
+  padding-top: 0rem !important;
+  padding-right: 0rem !important;
+  padding-bottom: 0rem !important;
+}
+.margin-horizontal {
+  margin-top: 0rem !important;
+  margin-bottom: 0rem !important;
+}
+.padding-horizontal {
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+}
+.margin-vertical {
+  margin-right: 0rem !important;
+  margin-left: 0rem !important;
+}
+.padding-vertical {
+  padding-right: 0rem !important;
+  padding-left: 0rem !important;
+}
+/*width*/
+::-webkit-scrollbar {
+width:10px;
+}
+/*track*/
+::-webkit-scrollbar-track {
+background:rgb(13, 13, 13);
+border-color:rgb(13, 13, 13);
+}
+/*thumb*/
+::-webkit-scrollbar-thumb {
+background:rgb(98, 98, 98);
+border-radius:20rem;
+}
+/*thumb hover*/
+::-webkit-scrollbar-thumb:hover {
+background:rgba(126, 126, 126, 1);
+}
+/*thumb pressed*/
+::-webkit-scrollbar-thumb:active {
+background:rgba(111, 111, 111, 1);
+}
+a{
+	color: inherit;
+}
+.navbar2_logo{
+	background-blend-mode: screen;
+}
+.section_logo{
+	overflow-x: hidden;
+}
+.image-overlay-layer{
+	background-image: radial-gradient(50% 50%, rgba(13, 13, 13, 0), #0d0d0d);
+}
+
+/* Rééquilibrer la navigation */
+.navbar_container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.navbar_logo-link {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  transform: translateY(0px) !important;
+  height: 100% !important;
+  overflow: visible !important;
+  min-width: 100px !important;
+}
+
+.navbar_logo-link > div {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.navbar_button-wrapper {
+  flex: 1 !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+/* Taille du logo */
+.navbar_logo.chouc,
+img.navbar_logo.chouc,
+.navbar_logo-image-wrapper img,
+.navbar_logo-link img {
+  width: 100px !important;
+  max-width: 100px !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* Centrer le wrapper de l'image */
+.navbar_logo-image-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  margin-right: 0 !important;
+  height: 100% !important;
+  overflow: visible !important;
+  width: auto !important;
+  min-width: 100px !important;
+}
+
+/* Rapprocher le texte du logo */
+.navbar_text-wrapper-2 {
+  margin-left: -20px !important;
+}
+
+/* Centrer le texte avec l'image */
+.text-block-898 {
+  display: flex !important;
+  align-items: center !important;
+  height: 35px !important;
+  transform: translateY(-5px) !important;
+}
+
+/* Animation typewriter pour le logo */
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  border-right: 2px solid #00ff88;
+  white-space: nowrap;
+  margin: 0;
+  animation: 
+    typewriter-loop 6s steps(13, end) infinite,
+    blink-caret 1s step-end infinite;
+}
+
+@keyframes typewriter-loop {
+  0% { width: 0 }
+  30% { width: 13ch }
+  70% { width: 13ch }
+  100% { width: 0 }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #00ff88 }
+}
+
+/* Animation plus rapide au hover */
+.navbar_logo-link:hover .typewriter {
+  animation: 
+    typewriter-loop 3s steps(13, end) infinite,
+    blink-caret 1s step-end infinite;
+}
+
+/* Plus d'espace entre le paragraphe et les boutons sur mobile */
+@media screen and (max-width: 991px) {
+  .header-100svh .margin-top.margin-medium {
+    margin-top: 3rem !important;
+  }
+}
+
+/* Ajuster l'illumination des boutons de navigation */
+.navbar_link {
+  padding: 12px 20px !important;
+  margin: 0 8px !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+/* S'assurer que l'illumination n'est pas coupée */
+.navbar_menu {
+  padding: 0 20px !important;
+  overflow: visible !important;
+}
+
+/* Menu mobile personnalisé */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1e1e1e 100%);
+  padding: 40px 30px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.mobile-menu-overlay.active .mobile-menu {
+  transform: translateX(0);
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.mobile-menu-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-menu-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.mobile-menu-link:hover {
+  color: #36b37e;
+  padding-left: 20px;
+}
+
+.mobile-menu-cta {
+  background: linear-gradient(135deg, #36b37e 0%, #00d4aa 100%);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 15px 25px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(54, 179, 126, 0.3);
+}
+
+.mobile-menu-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(54, 179, 126, 0.4);
+}
+
+/* Animation du bouton hamburger */
+.navbar_menu-button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar_menu-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.navbar_menu-button.active .menu-icon_line-top {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.navbar_menu-button.active .menu-icon_line-middle {
+  opacity: 0;
+}
+
+.navbar_menu-button.active .menu-icon_line-bottom {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+.menu-icon_line-top,
+.menu-icon_line-middle,
+.menu-icon_line-bottom {
+  width: 20px;
+  height: 2px;
+  background: #ffffff;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+  border-radius: 1px;
+}
+
+.menu-icon {
+  margin-top: 8px;
+}
+
+.menu-icon_line-middle-inner {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 1px;
+}
+
+/* Responsive */
+@media (min-width: 992px) {
+  .mobile-menu-overlay {
+    display: none;
+  }
+  
+  .navbar_menu-button {
+    display: none;
+  }
+}
+
+/* Alignement du logo sur mobile */
+@media (max-width: 991px) {
+  .navbar_component {
+    height: 83px !important;
+    min-height: 83px !important;
+  }
+  
+  .navbar_logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-left: 15px;
+  }
+  
+  .navbar_logo-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navbar_button-wrapper {
+    margin-right: 15px;
+  }
+  
+  /* Centrer le bouton "Estimation gratuite" sur mobile - FORCE */
+  .experience_content-left {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  .experience_content-left .button-group:last-child {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  
+  /* Centrer le h4 "Senior Backend Developer - Expert Blockchain" UNIQUEMENT sur mobile */
+  .experience_timeline-right h4 {
+    text-align: center !important;
+  }
+  
+  /* Marge en haut pour le logo sur très petits écrans (jusqu'à 479px) */
+  .navbar_logo-link {
+    margin-top: 12px !important;
+  }
+}
+
+/* À partir de 480px, remettre le logo à sa position normale */
+@media (min-width: 480px) {
+  .navbar_logo-link {
+    margin-top: 0 !important;
+  }
+}
+</style>
+    </div>
+    <div data-animation="default" class="navbar_component w-nav" data-easing2="ease" fs-scrolldisable-element="smart-nav" data-easing="ease" data-collapse="medium" data-w-id="2503f5d2-c0e0-792d-68fc-322d2b056fec" role="banner" data-no-scroll="1" data-duration="400" bind="2503f5d2-c0e0-792d-68fc-322d2b056fec">
+      <div class="navbar_container">
+        <a href="/" class="navbar_logo-link w-nav-brand">
+          <div class="navbar_logo-image-wrapper"><img src="images/arqova-lg-dark1.png" loading="eager" alt="" class="navbar_logo chouc" style="width: 100px !important; height: auto !important;"></div>
+        </a>
+        <nav role="navigation" class="navbar_menu is-page-height-tablet w-nav-menu">
+          <a href="#work" class="navbar_link w-nav-link">Travail</a>
+          <a href="#capability" class="navbar_link w-nav-link">Compétences</a>
+          <a href="#steps" class="navbar_link w-nav-link">Etapes</a>
+        </nav>
+        <div class="navbar_button-wrapper">
+          <a href="/projet" class="button is-navbar-button hide-tablet w-inline-block">
+            <div class="button_circle"></div>
+            <div class="button_text-small">Prenez un rendez-vous</div>
+          </a>
+          <div class="navbar_menu-button w-nav-button" id="mobile-menu-toggle">
+            <div class="menu-icon">
+              <div class="menu-icon_line-top"></div>
+              <div class="menu-icon_line-middle">
+                <div class="menu-icon_line-middle-inner"></div>
+              </div>
+              <div class="menu-icon_line-bottom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Menu mobile personnalisé -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+      <div class="mobile-menu">
+        <div class="mobile-menu-header">
+          <div class="mobile-menu-logo">
+            <img src="images/arqova-lg-dark1.png" alt="Arqova" style="width: 80px; height: auto;">
+          </div>
+          <button class="mobile-menu-close" id="mobile-menu-close">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <nav class="mobile-menu-nav">
+          <a href="#work" class="mobile-menu-link">Travail</a>
+          <a href="#capability" class="mobile-menu-link">Compétences</a>
+          <a href="#steps" class="mobile-menu-link">Etapes</a>
+          <a href="/projet" class="mobile-menu-cta">Prenez un rendez-vous</a>
+        </nav>
+      </div>
+    </div>
+    
+    <div class="main-wrapper">
+      <header class="section_header">
+        <div class="padding-global">
+          <div class="container-small">
+            <div class="header-100svh">
+              <div class="padding-section-large is-header">
+                <div class="text-align-center">
+                  <div class="margin-bottom margin-small">
+                    <div class="header_title-wrapper">
+                      <h1 class="header_title">Accélérez votre succès numérique</h1>
+                    </div>
+                  </div>
+                  <p class="text-size-medium">Chez Arqova, nous transformons vos idées en applications web et mobiles modernes et performantes. Nous utilisons Next.js, TypeScript, Tailwind CSS, React Native et Expo pour vous offrir des solutions qui évoluent avec votre croissance, à un coût optimisé.<a href="/projet"></a>
+                  </p>
+                  <div class="margin-top margin-medium">
+                    <div class="button-group is-center">
+                      <a href="/projet" class="button is-icon w-inline-block">
+                        <div class="button_text-regular">Travailler avec nous</div>
+                        <div bind="0970dca1-6827-27ab-5b49-462135c8b06c" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 17 17" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_964)">
+                              <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_964">
+                                <rect width="16" height="16" fill="currentColor" transform="translate(0.5 16.5) rotate(-90)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </a>
+                      <a href="#work" class="button is-icon is-alternate w-inline-block">
+                        <div class="button_text-regular">Travail récent</div>
+                        <div bind="beae6d6d-8bec-b376-41e0-7dada942a929" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewbox="0 0 17 17" fill="none" preserveaspectratio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_972)">
+                              <path d="M8.5 3L8.5 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M4 9.5L8.5 14L13 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clippath id="clip0_614_972">
+                                <rect width="16" height="16" fill="currentColor" transform="translate(0.5 0.5)"></rect>
+                              </clippath>
+                            </defs>
+                          </svg></div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="header_background-image-wrapper">
+          <div class="image-overlay-layer"></div><img src="images/background.svg" loading="eager" alt="" class="header_background-image">
+        </div>
+      </header>
+      <section class="section_logo">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-medium">
+              <div class="margin-bottom margin-large">
+                <div class="text-align-center">
+                  <div class="max-width-large align-center">
+                    <div class="text-size-medium text-style-allcaps"><span>10 années </span>d'expérience en développement moderne</div>
+                  </div>
+                </div>
+              </div>
+              <div class="logo_list">
+                <div class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a309-56502cda" class="logo_wrapper"><img src="images/dassetix-logo-version-clair.png" loading="lazy" alt="" class="logo_logo"></div>
+                </div>
+                <div class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a30b-56502cda" class="logo_wrapper"><img class="logo_logo _2" src="images/macité-blanc.png" alt="" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;76.34375px&quot;}]" sizes="(max-width: 479px) 65vw, 133.484375px" loading="lazy" srcset="images/macité-blanc-p-500.png 500w, images/macité-blanc-p-800.png 800w, images/macité-blanc-p-1080.png 1080w, images/macité-blanc.png 1502w"></div>
+                </div>
+                <div class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a307-56502cda" class="logo_wrapper"><img src="images/monochromes-carte-de-visite-v1-recto.png" loading="lazy" sizes="(max-width: 479px) 78vw, 229.84375px" srcset="images/monochromes-carte-de-visite-v1-recto-p-500.png 500w, images/monochromes-carte-de-visite-v1-recto-p-800.png 800w, images/monochromes-carte-de-visite-v1-recto-p-1080.png 1080w, images/monochromes-carte-de-visite-v1-recto-p-1600.png 1600w, images/monochromes-carte-de-visite-v1-recto-p-2000.png 2000w, images/monochromes-carte-de-visite-v1-recto.png 3146w" alt="" class="logo_logo _3"></div>
+                </div>
+                <div class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a305-56502cda" class="logo_wrapper"><img src="images/Dream-Your-Song-9lll-blanc-contour.png" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;134.89584350585938px&quot;}]" alt="" class="logo_logo dreamyoursong"></div>
+                </div>
+                <div class="logo_list-link w-inline-block">
+                  <div id="w-node-bb4d8235-3651-d3b7-6328-5bd7cb90a301-56502cda" class="logo_wrapper"><img src="images/immosure.png" loading="lazy" alt="" class="logo_logo"></div>
+                </div>
+              </div>
+              <div class="logo_list2">
+                <div class="logo_list-link w-inline-block">
+                  <div id="w-node-b83d5a69-1d8e-a6bd-f900-3a39122e077a-56502cda" class="logo_wrapper"><img src="images/stra-crytpo-img.png" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;76.34375px&quot;}]" alt="" class="logo_logo _2"></div>
+                </div>
+                <div id="w-node-_80183b40-f5e9-4b53-0620-461dcf6ad402-56502cda" class="logo_list-link w-inline-block">
+                  <div id="w-node-_80183b40-f5e9-4b53-0620-461dcf6ad403-56502cda" class="logo_wrapper"><img class="logo_logo _2" src="images/octavia-crypto-img.png" alt="" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;76.34375px&quot;}]" sizes="(max-width: 479px) 70vw, 143.921875px" loading="lazy" srcset="images/octavia-crypto-img-p-500.png 500w, images/octavia-crypto-img-p-800.png 800w, images/octavia-crypto-img-p-1080.png 1080w, images/octavia-crypto-img.png 1545w"></div>
+                </div>
+                <div class="logo_list-link w-inline-block">
+                  <div id="w-node-b83d5a69-1d8e-a6bd-f900-3a39122e0783-56502cda" class="logo_wrapper"><img src="images/neptun-img.png" loading="lazy" alt="" class="logo_logo"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="work" data-w-id="f0ed4de9-f03f-c224-4d94-de8f5fd55219" class="section_portfolio">
+        <div style="width:95%" class="padding-global-portfolio">
+          <div class="padding-section-large">
+            <div class="portfolio_wrapper">
+              <div class="padding-top padding-section-large">
+                <div class="margin-bottom margin-xlarge">
+                  <div class="text-align-center">
+                    <div class="max-width-large align-center">
+                      <div class="margin-bottom margin-small">
+                        <h2 class="heading-2">Nos références<a href="http://monochromes.webflow.io/" target="_blank"><br> 2024-2025</a>
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div data-w-id="f0ed4de9-f03f-c224-4d94-de8f5fd55228" class="portfolio_component">
+                <div class="portfolio_list-wrapper" style="will-change: transform; transform: translate3d(-5.5392vw, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                  <div class="w-layout-grid portfolio_list">
+                    <div id="w-node-_1feedf27-dc0c-ca09-28f2-f1119a6dcb8d-56502cda" class="portfolio_item hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/nocode-developpement-img-trader.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 100vw, 32vw" loading="lazy" srcset="images/nocode-developpement-img-trader-p-500.jpg 500w, images/nocode-developpement-img-trader-p-800.jpg 800w, images/nocode-developpement-img-trader-p-1080.jpg 1080w, images/nocode-developpement-img-trader.jpg 2076w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="1feedf27-dc0c-ca09-28f2-f1119a6dcb93" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-_7dfff69a-c10a-7cc9-3c43-d937af2775b6-56502cda" class="portfolio_item" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/Capture-décran_28-5-2024_20555_www.spiritsong.fr.jpeg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/Capture-décran_28-5-2024_20555_www.spiritsong.fr-p-500.jpeg 500w, images/Capture-décran_28-5-2024_20555_www.spiritsong.fr-p-800.jpeg 800w, images/Capture-décran_28-5-2024_20555_www.spiritsong.fr-p-1080.jpeg 1080w, images/Capture-décran_28-5-2024_20555_www.spiritsong.fr-p-1600.jpeg 1600w, images/Capture-décran_28-5-2024_20555_www.spiritsong.fr.jpeg 1685w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="7dfff69a-c10a-7cc9-3c43-d937af2775bc" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-_1476c423-7e6e-d686-3ed8-4526287533be-56502cda" class="portfolio_item hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/nocode-developpement-img-blog-macité.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 100vw, 32vw" loading="lazy" srcset="images/nocode-developpement-img-blog-macité-p-500.jpg 500w, images/nocode-developpement-img-blog-macité-p-800.jpg 800w, images/nocode-developpement-img-blog-macité.jpg 823w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533c4" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-_1476c423-7e6e-d686-3ed8-4526287533c5-56502cda" class="portfolio_item" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/nocode-developpement-img-planete-terre-3d.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/terre-image-site-p-500.jpg 500w, images/terre-image-site-p-800.jpg 800w, images/nocode-developpement-img-planete-terre-3d.jpg 823w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533cb" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio_list-wrapper is-bottom" style="will-change: transform; transform: translate3d(-5.5392vw, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                  <div class="w-layout-grid portfolio_list">
+                    <div id="w-node-_1476c423-7e6e-d686-3ed8-4526287533b0-56502cda" class="portfolio_item hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/Capture-web_7-11-2023_153227_monochromes123.webflow.io.jpeg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 100vw, 32vw" loading="lazy" srcset="images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-500.jpeg 500w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-800.jpeg 800w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-1080.jpeg 1080w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io-p-1600.jpeg 1600w, images/Capture-web_7-11-2023_153227_monochromes123.webflow.io.jpeg 1733w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533b6" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-bcf5c29a-c01e-1d88-729a-87b562523d63-56502cda" class="portfolio_item" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/nocode-developpement-img-market-shoes.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/nocode-developpement-img-market-shoes-p-500.jpg 500w, images/nocode-developpement-img-market-shoes-p-800.jpg 800w, images/nocode-developpement-img-market-shoes-p-1080.jpg 1080w, images/nocode-developpement-img-market-shoes.jpg 2076w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="bcf5c29a-c01e-1d88-729a-87b562523d69" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-_1476c423-7e6e-d686-3ed8-4526287533b7-56502cda" class="portfolio_item hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/Capture-décran_28-5-2024_20310_neptun.finance.jpeg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 100vw, 32vw" loading="lazy" srcset="images/Capture-décran_28-5-2024_20310_neptun.finance-p-500.jpeg 500w, images/Capture-décran_28-5-2024_20310_neptun.finance-p-800.jpeg 800w, images/Capture-décran_28-5-2024_20310_neptun.finance-p-1080.jpeg 1080w, images/Capture-décran_28-5-2024_20310_neptun.finance-p-1600.jpeg 1600w, images/Capture-décran_28-5-2024_20310_neptun.finance.jpeg 1685w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="1476c423-7e6e-d686-3ed8-4526287533bd" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-_649b915e-847f-a773-2500-d8ff90123108-56502cda" data-w-id="649b915e-847f-a773-2500-d8ff90123108" class="portfolio_item" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/developpeur-code-img-3D-facile-pour-votre-site.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/3dsite-image-p-500.jpg 500w, images/3dsite-image-p-800.jpg 800w, images/developpeur-code-img-3D-facile-pour-votre-site.jpg 823w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="aabad387-e3d1-a65e-35d7-f9df9af29393" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="portfolio_list-wrapper" style="will-change: transform; transform: translate3d(-5.5392vw, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                  <div class="w-layout-grid portfolio_list">
+                    <div id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400cd-56502cda" class="portfolio_item hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/nocode-developpement-img-blackfriday.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 100vw, 32vw" loading="lazy" srcset="images/nocode-developpement-img-blackfriday-p-500.jpg 500w, images/nocode-developpement-img-blackfriday-p-800.jpg 800w, images/nocode-developpement-img-blackfriday-p-1080.jpg 1080w, images/nocode-developpement-img-blackfriday.jpg 2102w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400d3" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400d4-56502cda" class="portfolio_item" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/nocode-developpement-img-real-estate-agency.jpg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/nocode-developpement-img-real-estate-agency-p-500.jpg 500w, images/nocode-developpement-img-real-estate-agency-p-800.jpg 800w, images/nocode-developpement-img-real-estate-agency-p-1080.jpg 1080w, images/nocode-developpement-img-real-estate-agency.jpg 2076w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400da" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400db-56502cda" class="portfolio_item" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/developpeur-code-francais-img-marketplace-nft-crypto-pool.jpeg" alt="" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" srcset="images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-500.jpeg 500w, images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-800.jpeg 800w, images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-1080.jpeg 1080w, images/Capture-web_7-11-2023_163134_moncodeamoi0000-2e36ae2fba1c9f1f26f399e.webflow.io-p-1600.jpeg 1600w, images/developpeur-code-francais-img-marketplace-nft-crypto-pool.jpeg 1733w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small hide-tablet">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400e1" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                    <div id="w-node-fc07edcd-fa9e-034c-7332-a8c4b7e400e2-56502cda" class="portfolio_item hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
+                      <img class="portfolio_image" src="images/nocode-developper-img-peintre-art-julie-chevassus.jpg" alt="" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 100vw, 32vw" loading="lazy" srcset="images/nocode-developper-img-peintre-art-julie-chevassus-p-500.jpg 500w, images/nocode-developper-img-peintre-art-julie-chevassus-p-800.jpg 800w, images/nocode-developper-img-peintre-art-julie-chevassus.jpg 823w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                      <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
+                        <div class="button_text-small">Voir le projet</div>
+                        <div bind="fc07edcd-fa9e-034c-7332-a8c4b7e400e8" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 15 15" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_1002)">
+                              <path d="M3.854 11.146L11.146 3.85396" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M11.146 9.82019L11.146 3.85398L5.17978 3.85398" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_1002">
+                                <rect width="15" height="15" fill="currentColor" transform="translate(0 15) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="capability" class="section_capability">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="capability_component">
+                <div class="margin-bottom margin-xxlarge">
+                  <div class="text-align-center">
+                    <div class="max-width-medium">
+                      <h2>L'union de 2 mondes, pour forger une application moderne et performante<br></h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-layout-grid capability_list">
+                  <div class="capability_item">
+                    <div class="margin-bottom margin-custom1"><img src="images/figma-5-2.svg" loading="lazy" alt="Figma" class="capability_icon-image"></div>
+                    <div class="margin-bottom margin-xsmall">
+                      <h3>UX - UI Designer</h3>
+                    </div>
+                    <p>Des créations sur-mesure qui incarnent l'essence de votre entreprise. Nous nous engageons à saisir ce qui rend votre marque exceptionnelle, afin de forger un design unique, mémorable et parfaitement adapté à votre identité.<br></p>
+                  </div>
+                  <div class="capability_item">
+                    <div class="margin-bottom margin-custom1"><img src="images/full-stack-program-icon-400x391.png" loading="lazy" alt="" class="capability_icon-image"></div>
+                    <div class="margin-bottom margin-xsmall">
+                      <h3>Développement Next.js & TypeScript</h3>
+                    </div>
+                    <p>Nous développons des applications web modernes avec Next.js et TypeScript, garantissant une expérience utilisateur fluide, des performances optimales et une évolutivité parfaite. Notre expertise en Tailwind CSS assure des interfaces élégantes et responsives.<br></p>
+                  </div>
+                  <div class="capability_item">
+                    <div class="margin-bottom margin-custom1"><img src="images/Sans-titre-122.png" loading="lazy" sizes="48px" srcset="images/Sans-titre-122-p-500.png 500w, images/Sans-titre-122-p-800.png 800w, images/Sans-titre-122-p-1080.png 1080w, images/Sans-titre-122.png 1320w" alt="" class="capability_icon-image"></div>
+                    <div class="margin-bottom margin-xsmall">
+                      <h3>Accompagnement Stratégique</h3>
+                    </div>
+                    <p>À chaque étape clé du projet, levée de fonds, l'optimisation SEO jusqu'au marketing digital, nous sommes à vos côtés. Nous nous assurons que chaque aspect de votre projet est abouti pour un impact maximal et une croissance soutenue.<br></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="process" class="section_process">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <!-- Section process vide -->
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section_experience">
+        <div class="padding-global">
+          <div class="container-large">
+            <div>
+              <div class="w-layout-grid experience_component">
+                <div class="experience_content-left">
+                  <div class="margin-bottom margin-xlarge">
+                    <h2>Nos compétences</h2>
+                  </div>
+                  <div class="margin-bottom margin-small"><img src="images/PPchouc.jpeg" loading="lazy" alt="" class="image chouc"><img src="images/516uue7a6nrierf3359njq9ldfr3.jpeg" loading="lazy" alt="" class="image"></div>
+                  <div class="margin-bottom margin-xsmall">
+                    <h2 class="experience_profile-name">Lucas<br> Choucroun<br><span class="text-span-3">Lead Frontend Developer<br>Spécialiste UX/UI Design<br><span class="co-founder-text">Co-fondateur d'Arqova</span></span><br></h2>
+                    <h2 class="experience_profile-name">Ehua <br> Kassi<br><span class="text-span-4">Senior Backend Developer<br>Expert Blockchain<br><span class="co-founder-text">Co-fondateur d'Arqova</span></span>‍<br></h2>
+                  </div>
+                  <div class="button-group">
+                    <div class="experience_available-button">
+                      <div class="button_circle is-fill">
+                        <div class="button_glow"></div>
+                      </div>
+                      <div class="button_text-small">Disponible </div>
+                    </div>
+                    <div class="experience_available-button">
+                      <div class="button_circle is-fill">
+                        <div class="button_glow"></div>
+                      </div>
+                      <div class="button_text-small">Disponible </div>
+                    </div>
+                  </div>
+                  <div class="margin-top margin-medium">
+                    <div class="button-group">
+                      <a href="/projet" class="button is-icon is-alternate w-inline-block">
+                        <div class="button_text-regular">Estimation gratuite</div>
+                        <div bind="6f3403cd-a416-0ce0-94d2-a8e89eb80d9e" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 17 17" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                            <g clip-path="url(#clip0_614_964)">
+                              <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_614_964">
+                                <rect width="16" height="16" fill="currentColor" transform="translate(0.5 16.5) rotate(-90)"></rect>
+                              </clipPath>
+                            </defs>
+                          </svg></div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="experience_content-right">
+                  <div data-w-id="ca8b4cb6-7504-30c1-3887-1334fc4d2a6f" class="experience_timeline-wrapper">
+                    <div class="experience_progress-bar-wrapper">
+                      <div class="experience_progress-bar" style="will-change: width, height; height: 41.751%;"></div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/Frame-116.svg" loading="lazy" alt="Finsweet Client First" class="experience_image"></div>
+                      </div>
+                      <div id="w-node-ca8b4cb6-7504-30c1-3887-1334fc4d2a76-56502cda" data-w-id="ca8b4cb6-7504-30c1-3887-1334fc4d2a76" class="experience_timeline-right" style="will-change: opacity; opacity: 1;">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4 class="heading-25">Lead Frontend Developer - Spécialiste UX/UI Design</h4>
+                          </div>
+                          <p class="text-size-small">Lucas maîtrise le développement frontend avec Next.js, TypeScript et Tailwind CSS. Il excelle également dans la conception d'interfaces utilisateur, le design visuel et l'ergonomie, créant des expériences utilisateur exceptionnelles et des applications modernes.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/fullstack-blanc.png" loading="lazy" sizes="64px" srcset="images/fullstack-blanc-p-500.png 500w, images/fullstack-blanc-p-800.png 800w, images/fullstack-blanc.png 902w" alt="" class="experience_image"></div>
+                      </div>
+                      <div id="w-node-_51af8ea0-12c9-54b6-cff9-8b0eb8871da9-56502cda" data-w-id="51af8ea0-12c9-54b6-cff9-8b0eb8871da9" class="experience_timeline-right" style="will-change: opacity; opacity: 1;">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>Senior Backend Developer - Expert Blockchain</h4>
+                          </div>
+                          <p class="text-size-small">Ehua est spécialisé dans le développement backend avec Node.js, TypeScript et les technologies blockchain. Il excelle dans la création d'APIs robustes, l'intégration de bases de données, et maîtrise parfaitement les pipelines CI/CD et les environnements cloud. Son expertise couvre également les plateformes blockchain Ethereum, Polkadot et Solana.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/pouce-blanc.png" loading="lazy" sizes="64px" srcset="images/pouce-blanc-p-500.png 500w, images/pouce-blanc-p-800.png 800w, images/pouce-blanc.png 814w" alt="" class="experience_image"></div>
+                      </div>
+                      <div data-w-id="b540fd51-9f63-9ddd-7832-86fcc71a4018" class="experience_timeline-right" style="will-change: opacity; opacity: 1;">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>Chef de Projet</h4>
+                          </div>
+                          <p class="text-size-small">Fort de près de 7 ans de freelance, nous avons conduis avec succès plus de quarante cinq projets de bout en bout. Un de nos clients a réussi une levée de fond significative, atteignant près de 25 millions d'euros en seed et pre-seed funding, témoignant de la qualité et de la fiabilité de notre travail.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/phone-silhouette-black-white2.png" loading="lazy" width="44" alt="" class="experience_image shopi"></div>
+                      </div>
+                      <div data-w-id="23dc615e-f5b2-3eac-356c-67bc84250f34" class="experience_timeline-right" style="will-change: opacity; opacity: 0.3;">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>App Mobile - React Native & Expo</h4>
+                          </div>
+                          <p class="text-size-small">Nous créons des applications mobiles de haute qualité avec React Native et Expo. Nous utilisons EAS pour le déploiement, Expo Router v6 pour la navigation, et la New Architecture pour des performances optimales. Lucas optimise le design et l'engagement, tandis qu'Ehua assure un développement technique robuste.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="w-layout-grid experience_timeline-step">
+                      <div class="experience_timeline-left">
+                        <div class="experience_timeline-icon-wrapper"><img src="images/shopi-blanc.png" loading="lazy" sizes="64px" srcset="images/shopi-blanc-p-500.png 500w, images/shopi-blanc-p-800.png 800w, images/shopi-blanc.png 963w" alt="" class="experience_image macit"></div>
+                      </div>
+                      <div data-w-id="a902134e-67eb-b180-42a4-67829279679e" class="experience_timeline-right" style="will-change: opacity; opacity: 0.3;">
+                        <div class="experience_text-wrapper">
+                          <div class="margin-bottom margin-xsmall">
+                            <h4>E-commerce - Ads - SEO</h4>
+                          </div>
+                          <p class="text-size-small">Lucas, ancien e-commerçant avec plusieurs boutiques, spécialiste en e-commerce Shopify avec Next.js + Storefront API, Hydrogen + Oxygen. Autoformé en marketing digital, il dynamise les ventes et gère les stocks efficacement grâce à une gestion à flux tendu. Il maîtrise le SEO et la gestion de campagnes publicitaires sur Google, Facebook, Instagram, TikTok et YouTube.<br></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="steps" class="section_steps">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="margin-bottom margin-xlarge">
+                <div class="text-align-center">
+                  <div class="max-width-large align-center">
+                    <div class="max-width-medium align-center">
+                      <div class="margin-bottom">
+                        <h2 class="heading">Les 5 étapes de la création de votre nouveau site internet...</h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-layout-grid process_component">
+                <div id="w-node-_4155532e-e0ea-9c10-0123-d89ad7b98fc6-56502cda" class="w-layout-grid process_row">
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/048579A7-9748-4357-A675-BF76610495E7_1048579A7-9748-4357-A675-BF76610495E7.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;102.95833587646484px&quot;}]" alt="Mail" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">01</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>Un rendez-vous</h5>
+                        </div>
+                        <p class="text-size-small">Prenez rendez vous ou demander un devis gratuit</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/EFB6AC06-B22C-42F1-B402-CF24DEF2A34D_1EFB6AC06-B22C-42F1-B402-CF24DEF2A34D.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;102.45833587646484px&quot;}]" alt="Check List" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">02</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>Un devis</h5>
+                        </div>
+                        <p class="text-size-small">Devis détaillé de l'ensemble du site du design, au fonctionnement</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/D579D1FF-97FE-42E0-803A-33634CB722AD_1D579D1FF-97FE-42E0-803A-33634CB722AD.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;126.44792175292969px&quot;}]" alt="Calendar" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">03</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>L'accord</h5>
+                        </div>
+                        <p class="text-size-small">L'acceptation du projet et date de délivrance</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/02073CC0-207B-4079-9DA5-BBFDA837CE50_102073CC0-207B-4079-9DA5-BBFDA837CE50.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;117.45833587646484px&quot;}]" alt="Design &amp; Dev" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">04</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>Design &amp; Developement</h5>
+                        </div>
+                        <p class="text-size-small">Création du Design du fonctionnement et du SEO</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="process_card">
+                    <div class="process_card-content">
+                      <div class="process_card-content-top">
+                        <div class="margin-bottom margin-custom1"><img src="images/0C17496A-94A8-4C96-BA7A-447EE7E40FD4_10C17496A-94A8-4C96-BA7A-447EE7E40FD4.webp" loading="lazy" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;157.4375px&quot;}]" alt="Dollar coins" class="process_card-image"></div>
+                        <div class="margin-bottom margin-xsmall">
+                          <div class="text-color-green">05</div>
+                        </div>
+                        <div class="margin-bottom margin-xsmall">
+                          <h5>La livraison</h5>
+                        </div>
+                        <p class="text-size-small">50% d'acompte et 50% pour la livraison finale</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section_cta">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="padding-section-large">
+              <div class="cta_wrapper">
+                <div id="w-node-_6a4bf255-96da-1a0d-d04f-c8d2b80e9d90-56502cda" class="cta_image-wrapper"><img src="images/62d0e2afe8be95338740ec90_62736cc4162e55511e79f7cf_Figma_Logo.svg" loading="lazy" alt="" class="cta_image"><img src="images/webk-sydney-logo-circle-Light-500_1webk-sydney-logo-circle-Light-500.webp" loading="lazy" data-sizes="[{&quot;max&quot;:10000,&quot;size&quot;:&quot;56px&quot;}]" alt="Client logo" class="cta_image"><img src="images/62d0e2aeb4e06c8b6b8249a4_62736cc4162e55368179f7d1_f2w__pfeil.svg" loading="lazy" alt="" class="cta_image-arrow"></div>
+                <h4 class="text-align-center">Prêt à travailler ensemble ?</h4>
+                <div id="w-node-f770db37-2bae-dea1-eb97-bb553ad981f9-56502cda" class="button-group">
+                  <a href="/projet" class="button is-icon w-inline-block">
+                    <div class="button_text-regular">Contactez nous</div>
+                    <div bind="278dfd81-468a-85f5-180d-82556cd44d01" class="icon-1x1-small w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 17 17" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                        <g clip-path="url(#clip0_614_964)">
+                          <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_614_964">
+                            <rect width="16" height="16" fill="currentColor" transform="translate(0.5 16.5) rotate(-90)"></rect>
+                          </clipPath>
+                        </defs>
+                      </svg></div>
+                  </a>
+                </div>
+                <div class="cta_background-image-wrapper">
+                  <div class="image-overlay-layer-linear"></div><img class="cta_background-noise" src="images/noise_1noise.webp" alt="" data-sizes="[{&quot;max&quot;:479,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;92vw&quot;}]" sizes="(max-width: 479px) 100vw, (max-width: 767px) 94vw, (max-width: 991px) 92vw, 94vw" loading="lazy" srcset="images/noise_1-p-500.png 500w, images/noise_1-p-800.png 800w, images/noise_1noise.webp 838w"><img src="images/background.svg" loading="lazy" alt="" class="cta_background-image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="footer_component">
+      <div class="padding-global">
+        <div class="container-large">
+          <div class="padding-top padding-section-large">
+            <div class="padding-vertical padding-medium">
+              <div class="footer_bottom-wrapper">
+                <p class="footer_credit-text">Lucas Choucroun.<br>Ehua Kassi.</p>
+                <div class="w-layout-grid footer_social-list">
+                  <a href="https://www.linkedin.com/in/lucas-choucroun-8541b0217/" target="_blank" class="footer_social-link w-inline-block"><img src="images/linkedin-3-1.svg" loading="lazy" alt="Linkedin" class="footer_social-image"></a>
+                  <a href="https://www.linkedin.com/in/ehua-kassi-b7b91382/" target="_blank" class="footer_social-link w-inline-block"><img src="images/linkedin-3-1.svg" loading="lazy" alt="Linkedin" class="footer_social-image"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script>
+    // Animation de la section portfolio au scroll - Version rapide et simple
+    document.addEventListener('DOMContentLoaded', function() {
+      const portfolioSection = document.querySelector('.section_portfolio');
+      
+      if (!portfolioSection) {
+        console.log('Section portfolio non trouvée');
+        return;
+      }
+
+      // Fonction pour animer la largeur au scroll
+      function animatePortfolioOnScroll() {
+        const scrollTop = window.pageYOffset;
+        const sectionTop = portfolioSection.offsetTop;
+        const sectionHeight = portfolioSection.offsetHeight;
+        const windowHeight = window.innerHeight;
+        
+        // Calculer le pourcentage de scroll dans la section - se déclenche plus tard
+        const scrollProgress = (scrollTop - sectionTop + windowHeight * 0.5) / (sectionHeight * 0.3);
+        
+        // Limiter le pourcentage entre 0 et 1
+        const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
+        
+        // Animation de la largeur : de 95% à 100% - arrive plus vite
+        const widthPercentage = 95 + (clampedProgress * 5);
+        
+        // Appliquer la largeur avec transition plus smooth
+        const portfolioContainer = portfolioSection.querySelector('.padding-global-portfolio');
+        if (portfolioContainer) {
+          portfolioContainer.style.width = widthPercentage + '%';
+          portfolioContainer.style.transition = 'width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        }
+        
+        // Animation simple des éléments - juste un léger scale, pas d'opacité
+        const portfolioItems = document.querySelectorAll('.portfolio_item');
+        portfolioItems.forEach((item) => {
+          // Scale très subtil : de 1.0 à 1.02
+          const scale = 1.0 + (clampedProgress * 0.02);
+          
+          item.style.transform = `translate3d(0px, 0rem, 0px) scale3d(${scale}, ${scale}, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)`;
+          item.style.transition = 'transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        });
+        
+        console.log('Scroll progress:', clampedProgress.toFixed(2), 'Width:', widthPercentage.toFixed(1) + '%');
+      }
+      
+      // Écouter le scroll
+      window.addEventListener('scroll', animatePortfolioOnScroll);
+      
+      // Animation initiale
+      animatePortfolioOnScroll();
+      
+      // Effet parallaxe horizontal au survol de la souris
+      function handleMouseMove(e) {
+        const rect = portfolioSection.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const sectionWidth = rect.width;
+        
+        // Calculer la position relative de la souris (0 à 1)
+        const mousePosition = mouseX / sectionWidth;
+        
+        // Appliquer l'effet de parallaxe aux wrappers
+        const portfolioWrappers = document.querySelectorAll('.portfolio_list-wrapper');
+        
+        portfolioWrappers.forEach((wrapper, index) => {
+          let translateX = 0;
+          
+          if (index === 0) {
+            // Premier wrapper : se déplace vers la gauche quand souris à gauche
+            translateX = (mousePosition - 0.5) * -600;
+          } else if (index === 1) {
+            // Deuxième wrapper : se déplace vers la gauche quand souris à gauche (comme les autres)
+            translateX = (mousePosition - 0.5) * -600;
+          } else if (index === 2) {
+            // Troisième wrapper : se déplace vers la gauche quand souris à gauche
+            translateX = (mousePosition - 0.5) * -500;
+          }
+          
+          wrapper.style.transform = `translate3d(${translateX}px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)`;
+          wrapper.style.transition = 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)';
+        });
+        
+        console.log('Mouse position:', mousePosition.toFixed(2));
+      }
+      
+      // Ajouter les événements de souris
+      portfolioSection.addEventListener('mousemove', handleMouseMove);
+      
+      // Reset quand la souris quitte la section
+      portfolioSection.addEventListener('mouseleave', function() {
+        const portfolioWrappers = document.querySelectorAll('.portfolio_list-wrapper');
+        portfolioWrappers.forEach((wrapper) => {
+          wrapper.style.transform = 'translate3d(-5.5392vw, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)';
+          wrapper.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+        });
+      });
+      
+      // Effet de défilement vertical sur les images au survol
+      const portfolioItems = document.querySelectorAll('.portfolio_item');
+      
+      portfolioItems.forEach((item) => {
+        const image = item.querySelector('img');
+        if (!image) return;
+        
+        // Créer un conteneur pour l'image avec overflow hidden
+        const imageContainer = image.parentElement;
+        if (!imageContainer) return;
+        
+        // S'assurer que le conteneur a overflow hidden
+        imageContainer.style.overflow = 'hidden';
+        imageContainer.style.position = 'relative';
+        
+        // S'assurer que l'image a une position absolue pour le défilement
+        image.style.position = 'absolute';
+        image.style.top = '0';
+        image.style.left = '0';
+        image.style.width = '100%';
+        image.style.height = 'auto';
+        image.style.transition = 'transform 8s cubic-bezier(0.25, 0.1, 0.25, 1)';
+        
+        // Événement mouseenter - défilement vers le bas
+        item.addEventListener('mouseenter', function() {
+          const containerHeight = imageContainer.offsetHeight;
+          const imageHeight = image.offsetHeight;
+          const scrollDistance = Math.max(0, imageHeight - containerHeight);
+          
+          if (scrollDistance > 0) {
+            image.style.transform = `translateY(-${scrollDistance}px)`;
+          }
+        });
+        
+        // Événement mouseleave - retour à la position initiale
+        item.addEventListener('mouseleave', function() {
+          image.style.transform = 'translateY(0px)';
+        });
+      });
+      
+      console.log('Animation portfolio rapide + parallaxe horizontal + défilement vertical initialisée');
+      
+      // Animation de la timeline experience avec ligne progressive
+      const timelineSteps = document.querySelectorAll('.experience_timeline-step');
+      const progressBar = document.querySelector('.experience_progress-bar');
+      
+      if (timelineSteps.length > 0 && progressBar) {
+        // Fonction pour animer la timeline au scroll
+        function animateTimelineOnScroll() {
+          const experienceSection = document.querySelector('.section_experience');
+          if (!experienceSection) return;
+          
+          const scrollTop = window.pageYOffset;
+          const sectionTop = experienceSection.offsetTop;
+          const sectionHeight = experienceSection.offsetHeight;
+          const windowHeight = window.innerHeight;
+          
+          // Calculer le pourcentage de scroll dans la section - se déclenche un peu plus tard
+          const scrollProgress = (scrollTop - sectionTop + windowHeight * 0.6) / (sectionHeight * 0.7);
+          const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
+          
+          // Animer la barre de progression (ligne qui s'éclaire) - plus smooth
+          const progressHeight = clampedProgress * 100;
+          progressBar.style.height = progressHeight + '%';
+          progressBar.style.transition = 'height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)';
+          
+          // Animer chaque étape de la timeline
+          timelineSteps.forEach((step, index) => {
+            const stepProgress = (clampedProgress - (index * 0.2)) / 0.2;
+            const stepClampedProgress = Math.max(0, Math.min(1, stepProgress));
+            
+            const leftElement = step.querySelector('.experience_timeline-left');
+            const rightElement = step.querySelector('.experience_timeline-right');
+            
+            if (leftElement && rightElement) {
+              // Icônes toujours visibles (pas d'animation)
+              leftElement.style.opacity = '1';
+              leftElement.style.transform = 'translateY(0px)';
+              leftElement.style.transition = 'none';
+              
+              // Seul le texte s'anime progressivement
+              const textOpacity = stepClampedProgress;
+              const textTranslateY = (1 - stepClampedProgress) * 30;
+              
+              rightElement.style.opacity = textOpacity;
+              rightElement.style.transform = `translateY(${textTranslateY}px)`;
+              rightElement.style.transition = 'opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)';
+            }
+          });
+          
+          console.log('Timeline progress:', (clampedProgress * 100).toFixed(1) + '%');
+        }
+        
+        // Écouter le scroll
+        window.addEventListener('scroll', animateTimelineOnScroll);
+        
+        // Animation initiale
+        animateTimelineOnScroll();
+        
+        console.log('Animation timeline experience avec ligne progressive initialisée');
+      }
+      
+      // Animation du menu au scroll avec éclairage des sections
+      const menuLinks = document.querySelectorAll('.navbar_link');
+        const sections = {
+          'work': document.querySelector('.section_portfolio'),
+          'capability': document.querySelector('#capability'),
+          'steps': document.querySelector('#steps'),
+          'experience': document.querySelector('.section_experience')
+        };
+        
+        // Sections qui correspondent au lien "Compétences"
+        const capabilitySections = [
+          document.querySelector('#capability'),
+          document.querySelector('.section_experience')
+        ];
+      
+      function animateMenuOnScroll() {
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        
+        // D'abord, remettre tous les liens en état normal
+        menuLinks.forEach(link => {
+          link.style.transform = 'scale(1)';
+          link.style.opacity = '0.7';
+          link.style.background = 'transparent';
+          link.style.borderRadius = '0px';
+          link.style.padding = '8px 0px';
+          link.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.3s ease-out, background 0.3s ease-out, padding 0.3s ease-out';
+          link.style.textShadow = 'none';
+        });
+        
+        // Trouver la section la plus proche du centre de l'écran
+        let closestSection = null;
+        let closestDistance = Infinity;
+        
+        Object.keys(sections).forEach(sectionKey => {
+          const section = sections[sectionKey];
+          if (!section) return;
+          
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          const sectionCenter = sectionTop + (sectionHeight / 2);
+          const screenCenter = scrollTop + (windowHeight / 2);
+          
+          // Ne considérer une section que si on est vraiment dedans (pas juste en haut de page)
+          if (screenCenter >= sectionTop - windowHeight * 0.1) {
+            const distance = Math.abs(sectionCenter - screenCenter);
+            
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestSection = sectionKey;
+            }
+          }
+        });
+        
+        // Vérifier si on est sur une des sections "compétences"
+        let isOnCapabilitySection = false;
+        capabilitySections.forEach(section => {
+          if (section) {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionBottom = sectionTop + sectionHeight;
+            const screenCenter = scrollTop + (windowHeight / 2);
+            
+            if (screenCenter >= sectionTop && screenCenter <= sectionBottom) {
+              isOnCapabilitySection = true;
+            }
+          }
+        });
+        
+        // Éclairer le lien approprié seulement si on est vraiment dans une section
+        if (closestSection && scrollTop > 100) {
+          // Si on est sur une section "compétences", éclairer le lien "Compétences"
+          if (isOnCapabilitySection) {
+            const capabilityLink = Array.from(menuLinks).find(link => {
+              const href = link.getAttribute('href');
+              return href === '#capability';
+            });
+            
+            if (capabilityLink) {
+              capabilityLink.style.transform = 'scale(1.1)';
+              capabilityLink.style.opacity = '1';
+              capabilityLink.style.background = 'rgba(255, 255, 255, 0.1)';
+              capabilityLink.style.borderRadius = '8px';
+              capabilityLink.style.padding = '8px 16px';
+              capabilityLink.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.3s ease-out, background 0.3s ease-out, padding 0.3s ease-out';
+              capabilityLink.style.textShadow = '0 0 10px rgba(255, 255, 255, 0.3)';
+            }
+          } else {
+            // Sinon, éclairer le lien de la section la plus proche
+            const correspondingLink = Array.from(menuLinks).find(link => {
+              const href = link.getAttribute('href');
+              return href === `#${closestSection}`;
+            });
+            
+            if (correspondingLink) {
+              correspondingLink.style.transform = 'scale(1.1)';
+              correspondingLink.style.opacity = '1';
+              correspondingLink.style.background = 'rgba(255, 255, 255, 0.1)';
+              correspondingLink.style.borderRadius = '8px';
+              correspondingLink.style.padding = '8px 16px';
+              correspondingLink.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.3s ease-out, background 0.3s ease-out, padding 0.3s ease-out';
+              correspondingLink.style.textShadow = '0 0 10px rgba(255, 255, 255, 0.3)';
+            }
+          }
+        }
+        
+        console.log('Menu animation updated - closest section:', closestSection);
+      }
+      
+        // Écouter le scroll pour l'animation du menu
+        window.addEventListener('scroll', animateMenuOnScroll);
+        
+        // Animation initiale seulement si on n'est pas en haut de page
+        if (window.pageYOffset > 100) {
+          animateMenuOnScroll();
+        }
+      
+      console.log('Animation menu au scroll initialisée');
+    });
+
+    // Menu mobile personnalisé
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
+    const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+
+    // Ouvrir le menu
+    mobileMenuToggle.addEventListener('click', function() {
+      mobileMenuOverlay.classList.add('active');
+      mobileMenuToggle.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Empêcher le scroll
+    });
+
+    // Fermer le menu
+    function closeMobileMenu() {
+      mobileMenuOverlay.classList.remove('active');
+      mobileMenuToggle.classList.remove('active');
+      document.body.style.overflow = ''; // Restaurer le scroll
+    }
+
+    mobileMenuClose.addEventListener('click', closeMobileMenu);
+    mobileMenuOverlay.addEventListener('click', function(e) {
+      if (e.target === mobileMenuOverlay) {
+        closeMobileMenu();
+      }
+    });
+
+    // Fermer le menu quand on clique sur un lien
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Fermer le menu avec la touche Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) {
+        closeMobileMenu();
+      }
+    });
+
+    // FORCER le centrage du bouton "Estimation gratuite" sur mobile
+    function centerEstimationButton() {
+      if (window.innerWidth <= 991) {
+        const button = document.querySelector('a[href="/projet"]');
+        if (button) {
+          button.style.display = 'block';
+          button.style.margin = '0 auto';
+          button.style.textAlign = 'center';
+          button.style.width = 'fit-content';
+        }
+        
+        // FORCER le centrage du h4 "Senior Backend Developer - Expert Blockchain" UNIQUEMENT sur mobile
+        const h4Elements = document.querySelectorAll('h4');
+        h4Elements.forEach(h4 => {
+          if (h4.textContent.includes('Senior Backend Developer')) {
+            h4.style.textAlign = 'center';
+            h4.style.display = 'block';
+            h4.style.margin = '0 auto';
+          }
+        });
+      } else {
+        // Sur desktop, remettre l'alignement par défaut
+        const h4Elements = document.querySelectorAll('h4');
+        h4Elements.forEach(h4 => {
+          if (h4.textContent.includes('Senior Backend Developer')) {
+            h4.style.textAlign = '';
+            h4.style.display = '';
+            h4.style.margin = '';
+          }
+        });
+      }
+    }
+    
+    // Exécuter au chargement et au redimensionnement
+    centerEstimationButton();
+    window.addEventListener('resize', centerEstimationButton);
+
+    console.log('Menu mobile personnalisé initialisé');
+  </script>
+  <script>
+    // Gestion de la page de loading et animation de la homepage
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      const pageWrapper = document.querySelector('.page-wrapper');
+      
+      // Afficher le loading pendant 2 secondes
+      setTimeout(function() {
+        // Commencer l'animation de la homepage
+        pageWrapper.classList.add('fade-in');
+        
+        // Faire disparaître le loading
+        loadingScreen.classList.add('fade-out');
+        
+        // Supprimer complètement l'élément après la transition
+        setTimeout(function() {
+          loadingScreen.remove();
+        }, 1000); // 1 seconde pour la transition fade-out
+      }, 2000); // 2 secondes de loading
+    });
+  </script>
+</body>
+</html>
