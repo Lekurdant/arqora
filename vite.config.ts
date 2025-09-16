@@ -9,7 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './index.html',
-        form: './form.html',
+        projet: './projet.html',
         blog: './blog.html',
         admin: './admin-blog.html',
         article: './article.html'
