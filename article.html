@@ -533,12 +533,7 @@
       font-weight: 600;
       font-size: 0.75rem;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 
-        0 0 0 1px rgba(34, 197, 94, 0.2),
-        0 0 0 2px rgba(255, 77, 136, 0.1),
-        0 8px 20px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -550,16 +545,8 @@
     }
     
     .ad-cta:hover {
-      transform: translateY(-2px) scale(1.05);
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 
-        0 0 0 1px rgba(34, 197, 94, 0.4),
-        0 0 0 2px rgba(255, 77, 136, 0.2),
-        0 12px 30px rgba(34, 197, 94, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
     }
     
     .ad-badge {
@@ -1295,7 +1282,11 @@
               <div class="cta_wrapper">
                 <div class="cta_image-wrapper">
                   <img src="images/62d0e2afe8be95338740ec90_62736cc4162e55511e79f7cf_Figma_Logo.svg" loading="lazy" alt="" class="cta_image">
-                  <img src="images/webk-sydney-logo-circle-Light-500_1webk-sydney-logo-circle-Light-500.webp" loading="lazy" alt="Client logo" class="cta_image">
+                  <svg class="cta_image" width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/>
+                    <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/>
+                  </svg>
                   <img src="images/62d0e2aeb4e06c8b6b8249a4_62736cc4162e55368179f7d1_f2w__pfeil.svg" loading="lazy" alt="" class="cta_image-arrow">
                 </div>
                 <h4 class="text-align-center">Besoin d'aide pour votre projet ?</h4>
