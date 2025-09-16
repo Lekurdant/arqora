@@ -465,28 +465,28 @@
     }
     
     .ad-banner:hover {
-      transform: translateY(-8px) scale(1.02);
+      transform: translateY(-4px);
     }
     
     .ad-banner-inner {
-      background: linear-gradient(135deg, rgba(13, 13, 13, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%);
+      background: rgba(26, 26, 26, 0.95);
       border-radius: 23px;
       padding: 35px 25px;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(10px);
     }
     
     .ad-icon-wrapper {
       width: 60px;
       height: 60px;
       margin: 0 auto 25px;
-      background: linear-gradient(135deg, #22c55e 0%, #ff4d88 100%);
+      background: rgba(42, 42, 42, 0.8);
       border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
     }
     
     .ad-icon {
@@ -566,17 +566,14 @@
       position: absolute;
       top: 10px;
       right: 12px;
-      background: transparent;
-      color: #22c55e;
-      padding: 0;
-      font-size: 0.75rem;
-      font-weight: 900;
+      background: rgba(42, 42, 42, 0.8);
+      color: #00ff88;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      text-shadow: 
-        0 0 10px rgba(34, 197, 94, 0.8),
-        0 0 20px rgba(34, 197, 94, 0.4),
-        2px 2px 4px rgba(0, 0, 0, 0.8);
       z-index: 10;
       animation: badgeBounce 2s ease-in-out infinite;
       transform-origin: center;
@@ -749,15 +746,16 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: linear-gradient(135deg, #4d65ff 0%, #ff4d88 100%);
-        padding: 2px;
+        background: rgba(26, 26, 26, 0.95);
+        padding: 0;
         z-index: 1000;
         animation: slideUp 0.5s ease-out;
+        backdrop-filter: blur(10px);
       }
       
       .mobile-ad-banner-inner {
-        background: rgba(13, 13, 13, 0.98);
-        padding: 15px;
+        background: transparent;
+        padding: 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -781,14 +779,40 @@
       }
       
       .mobile-ad-cta {
-        background: #4d65ff;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         color: #fff;
         padding: 10px 20px;
-        border-radius: 20px;
+        border-radius: 12px;
         font-weight: 600;
         font-size: 0.875rem;
         white-space: nowrap;
         text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .mobile-ad-cta::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.5s ease;
+      }
+      
+      .mobile-ad-cta:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      }
+      
+      .mobile-ad-cta:hover::before {
+        left: 100%;
       }
       
       .mobile-ad-close {
@@ -928,7 +952,7 @@
     <div class="mobile-ad-banner-inner">
       <button class="mobile-ad-close" onclick="document.getElementById('mobile-ad').style.display='none'">×</button>
       <div class="mobile-ad-content">
-        <div class="mobile-ad-title">🚀 Créez votre site avec NoCodeBaby</div>
+        <div class="mobile-ad-title">🚀 Créez votre site avec Arqova</div>
         <div class="mobile-ad-subtitle">Design moderne, livraison rapide - 50% de réduction</div>
       </div>
       <a href="/projet" class="mobile-ad-cta">Commencer</a>
@@ -1805,62 +1829,32 @@
         currentIndex = (currentIndex + 1) % adContents.length;
         const nextIndex = (currentIndex + 1) % adContents.length;
         
-        // Animation moderne pour la bannière gauche
+        // Animation simple avec fondu pour la bannière gauche
         if (leftBanner) {
           const leftContent = adContents[currentIndex];
           const newLeftContent = createAdElement(leftContent);
           
-          // Créer un conteneur temporaire pour la nouvelle publicité
-          const tempLeft = document.createElement('div');
-          tempLeft.innerHTML = newLeftContent;
-          tempLeft.querySelector('.ad-content-wrapper').classList.add('ad-entering');
+          // Faire disparaître l'ancien contenu
+          leftBanner.style.opacity = '0';
           
-          // Ajouter la classe de sortie à l'ancien contenu
-          const oldLeftContent = leftBanner.querySelector('.ad-content-wrapper');
-          if (oldLeftContent) {
-            oldLeftContent.classList.add('ad-exiting');
-            
-            setTimeout(() => {
-              leftBanner.innerHTML = newLeftContent;
-              setTimeout(() => {
-                const wrapper = leftBanner.querySelector('.ad-content-wrapper');
-                if (wrapper) {
-                  wrapper.classList.remove('ad-entering');
-                }
-              }, 50);
-            }, 500);
-          } else {
+          setTimeout(() => {
             leftBanner.innerHTML = newLeftContent;
-          }
+            leftBanner.style.opacity = '1';
+          }, 200);
         }
         
-        // Animation moderne pour la bannière droite
+        // Animation simple avec fondu pour la bannière droite
         if (rightBanner) {
           const rightContent = adContents[nextIndex];
           const newRightContent = createAdElement(rightContent);
           
-          // Créer un conteneur temporaire pour la nouvelle publicité
-          const tempRight = document.createElement('div');
-          tempRight.innerHTML = newRightContent;
-          tempRight.querySelector('.ad-content-wrapper').classList.add('ad-entering');
+          // Faire disparaître l'ancien contenu
+          rightBanner.style.opacity = '0';
           
-          // Ajouter la classe de sortie à l'ancien contenu
-          const oldRightContent = rightBanner.querySelector('.ad-content-wrapper');
-          if (oldRightContent) {
-            oldRightContent.classList.add('ad-exiting');
-            
-            setTimeout(() => {
-              rightBanner.innerHTML = newRightContent;
-              setTimeout(() => {
-                const wrapper = rightBanner.querySelector('.ad-content-wrapper');
-                if (wrapper) {
-                  wrapper.classList.remove('ad-entering');
-                }
-              }, 50);
-            }, 500);
-          } else {
+          setTimeout(() => {
             rightBanner.innerHTML = newRightContent;
-          }
+            rightBanner.style.opacity = '1';
+          }, 200);
         }
       }
       
@@ -1869,10 +1863,10 @@
         rotateAds();
       }, 1000);
       
-      // Rotation automatique
-      setInterval(rotateAds, 8000);
+      // Rotation automatique synchronisée avec la barre de progression (7.5s)
+      setInterval(rotateAds, 7500);
       
-      // Gestion du scroll pour les bannières
+      // Gestion du scroll pour les bannières avec effet de fondu
       let lastScrollTop = 0;
       window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -1881,24 +1875,27 @@
         
         if (leftAd && rightAd) {
           if (scrollTop > lastScrollTop) {
-            // Scroll vers le bas - cacher les pubs
-            leftAd.style.transform = 'translateX(-200px) translateY(-50%)';
-            rightAd.style.transform = 'translateX(200px) translateY(-50%)';
+            // Scroll vers le bas - faire disparaître en fondu
+            leftAd.style.opacity = '0';
+            rightAd.style.opacity = '0';
           } else {
-            // Scroll vers le haut - montrer les pubs
-            leftAd.style.transform = 'translateX(0) translateY(-50%)';
-            rightAd.style.transform = 'translateX(0) translateY(-50%)';
+            // Scroll vers le haut - faire réapparaître en fondu
+            leftAd.style.opacity = '1';
+            rightAd.style.opacity = '1';
           }
         }
         
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
       });
       
-      // Ajouter les transitions pour le scroll
+      // Ajouter les transitions pour le fondu synchronisé
       const style = document.createElement('style');
       style.textContent = `
         .ads-container {
-          transition: transform 0.3s ease-out;
+          transition: opacity 0.2s ease-out;
+        }
+        .ad-banner-inner {
+          transition: opacity 0.2s ease-out;
         }
       `;
       document.head.appendChild(style);
