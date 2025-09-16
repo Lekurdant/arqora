@@ -12,6 +12,74 @@
   <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
   <link href="images/webclip.png" rel="apple-touch-icon">
   <style>
+    /* Style moderne pour le bouton "Contactez-nous" - même que blog.html */
+    .button.is-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px 32px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .button.is-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .button.is-icon:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .button.is-icon:hover::before {
+      left: 100%;
+    }
+
+    .button.is-icon .button_text-regular {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Style des catégories - même que blog.html */
+    .blog-category {
+      display: inline-block;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      color: #00ff88;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 136, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      transform: rotate(-1deg);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .blog-category::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
     /* Styles pour l'article */
     .article-container {
       max-width: 800px;
@@ -33,9 +101,20 @@
     }
     
     .article-category {
-      color: #4d65ff;
-      font-weight: 500;
+      display: inline-block;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      color: #00ff88;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 136, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      transform: rotate(-1deg);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .article-title {
@@ -171,14 +250,20 @@
       color: rgba(255, 255, 255, 0.65);
     }
     .related-grid .blog-meta .blog-category-pill {
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(255, 255, 255, 0.06);
-      color: #4d65ff;
-      font-weight: 600;
-      letter-spacing: 0.02em;
+      display: inline-block;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      color: #00ff88;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 255, 136, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      transform: rotate(-1deg);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .related-grid .blog-meta .meta-dot {
       width: 4px;
@@ -785,7 +870,7 @@
   </svg>
   <!-- Bannières publicitaires latérales -->
   <div class="ads-container left">
-    <a href="form.html" class="ad-banner">
+    <a href="/projet" class="ad-banner">
       <div class="ad-banner-inner">
         <div class="ad-content-wrapper">
           <div class="ad-badge">NEW</div>
@@ -813,7 +898,7 @@
   </div>
   
   <div class="ads-container right">
-    <a href="form.html" class="ad-banner">
+    <a href="/projet" class="ad-banner">
       <div class="ad-banner-inner">
         <div class="ad-content-wrapper">
           <div class="ad-badge">NEW</div>
@@ -846,7 +931,7 @@
         <div class="mobile-ad-title">🚀 Créez votre site avec NoCodeBaby</div>
         <div class="mobile-ad-subtitle">Design moderne, livraison rapide - 50% de réduction</div>
       </div>
-      <a href="form.html" class="mobile-ad-cta">Commencer</a>
+      <a href="/projet" class="mobile-ad-cta">Commencer</a>
     </div>
   </div>
 
@@ -1035,7 +1120,7 @@
           </button>
         </nav>
         <div class="navbar_button-wrapper">
-          <a href="/form" class="button is-navbar-button hide-tablet w-inline-block">
+          <a href="/projet" class="button is-navbar-button hide-tablet w-inline-block">
             <div class="button_circle"></div>
             <div class="button_text-small">Prenez un rendez-vous</div>
           </a>
@@ -1191,7 +1276,7 @@
                 </div>
                 <h4 class="text-align-center">Besoin d'aide pour votre projet ?</h4>
                 <div class="button-group">
-                  <a href="form.html" class="button is-icon w-inline-block">
+                  <a href="/projet" class="button is-icon w-inline-block">
                     <div class="button_text-regular">Contactez-nous</div>
                     <div class="icon-1x1-small w-embed">
                       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 17 17" fill="none">
