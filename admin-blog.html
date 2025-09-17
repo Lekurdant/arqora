@@ -273,6 +273,27 @@
       border: 1px solid #ff3b30;
       color: #ff3b30;
     }
+    
+    /* Compteurs de caractères */
+    .char-counter {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: right;
+      margin-top: 0.25rem;
+    }
+    
+    .char-counter.perfect {
+      color: #22c55e;
+      font-weight: 600;
+    }
+    
+    .char-counter.warning {
+      color: #ff9500;
+    }
+    
+    .char-counter.error {
+      color: #ff3b30;
+    }
   </style>
 </head>
 <body>
@@ -343,12 +364,21 @@
             <div class="form-group">
               <label for="title" class="form-label">Titre *</label>
               <input type="text" id="title" name="title" class="form-input" required>
+              <div class="char-counter" id="title-counter">0/60</div>
             </div>
             
             <div class="form-group">
               <label for="excerpt" class="form-label">Extrait *</label>
               <textarea id="excerpt" name="excerpt" class="form-textarea" rows="3" required 
                 placeholder="Résumé court qui apparaîtra dans la liste des articles"></textarea>
+              <div class="char-counter" id="excerpt-counter">0/200</div>
+            </div>
+            
+            <div class="form-group">
+              <label for="metaDescription" class="form-label">Meta Description *</label>
+              <textarea id="metaDescription" name="metaDescription" class="form-textarea" rows="2" required 
+                placeholder="Description pour Google (150-160 caractères recommandés)"></textarea>
+              <div class="char-counter" id="metaDescription-counter">0/160</div>
             </div>
             
             <div class="form-group">
@@ -386,8 +416,22 @@
             </div>
             
             <div class="form-group">
+              <label for="imageAlt" class="form-label">Alt text de l'image *</label>
+              <input type="text" id="imageAlt" name="imageAlt" class="form-input" required
+                placeholder="Description de l'image pour l'accessibilité et le SEO">
+              <div class="char-counter" id="imageAlt-counter">0/125</div>
+            </div>
+            
+            <div class="form-group">
               <label for="content" class="form-label">Contenu *</label>
               <textarea id="content" name="content" class="form-textarea"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="focusKeywords" class="form-label">Mots-clés principaux *</label>
+              <input type="text" id="focusKeywords" name="focusKeywords" class="form-input" required
+                placeholder="Ex: créer site webflow, no-code développement">
+              <div class="char-counter" id="focusKeywords-counter">0/100</div>
             </div>
             
             <div class="form-group">
@@ -712,16 +756,19 @@
       }
       const slugFromId = (document.getElementById('article-id').value || '').trim();
       const excerpt = (document.getElementById('excerpt').value || '').trim();
+      const metaDescription = (document.getElementById('metaDescription').value || '').trim();
       const category = (document.getElementById('category').value || '').trim();
       const author = (document.getElementById('author').value || '').trim();
       const readTime = (document.getElementById('readTime').value || '').trim();
       const tags = (document.getElementById('tags').value || '').trim();
+      const focusKeywords = (document.getElementById('focusKeywords').value || '').trim();
+      const imageAlt = (document.getElementById('imageAlt').value || '').trim();
       const published = document.getElementById('published').checked;
       let coverBase64 = '';
       if (fileInput.files && fileInput.files[0]) {
         coverBase64 = await blobToDataURL(fileInput.files[0]);
       }
-      const body = { title, content: contentHtml, coverBase64, excerpt, category, author, readTime, tags, published };
+      const body = { title, content: contentHtml, coverBase64, excerpt, metaDescription, category, author, readTime, tags, focusKeywords, imageAlt, published };
       if (slugFromId) body.slug = slugFromId;
       // Force un cache-bust de la cover côté affichage après sauvegarde
       try {
@@ -777,6 +824,44 @@
       }
     });
     
+    // Compteurs de caractères
+    function updateCharCounter(elementId, counterId, minPerfect, maxPerfect) {
+      const element = document.getElementById(elementId);
+      const counter = document.getElementById(counterId);
+      
+      if (element && counter) {
+        element.addEventListener('input', function() {
+          const length = this.value.length;
+          counter.textContent = `${length}/${maxPerfect}`;
+          
+          // Changer la couleur selon la zone SEO
+          counter.className = 'char-counter';
+          
+          if (length >= minPerfect && length <= maxPerfect) {
+            counter.classList.add('perfect'); // VERT - zone parfaite SEO
+          } else if (length < minPerfect * 0.5 || length > maxPerfect * 1.3) {
+            counter.classList.add('error'); // ROUGE - vraiment trop court/long
+          } else {
+            counter.classList.add('warning'); // ORANGE - acceptable mais pas optimal
+          }
+        });
+      }
+    }
+    
+    // Initialiser les compteurs avec zones parfaites SEO
+    document.addEventListener('DOMContentLoaded', function() {
+      // Titre: 30-60 caractères (parfait pour Google)
+      updateCharCounter('title', 'title-counter', 30, 60);
+      // Extrait: 120-200 caractères (bon pour les snippets)
+      updateCharCounter('excerpt', 'excerpt-counter', 120, 200);
+      // Meta Description: 120-160 caractères (optimal pour Google)
+      updateCharCounter('metaDescription', 'metaDescription-counter', 120, 160);
+      // Mots-clés: 20-100 caractères (pas trop court, pas trop long)
+      updateCharCounter('focusKeywords', 'focusKeywords-counter', 20, 100);
+      // Alt text: 50-125 caractères (descriptif mais concis)
+      updateCharCounter('imageAlt', 'imageAlt-counter', 50, 125);
+    });
+
     // Charger les articles au démarrage (nécessite login)
     ensureLoggedIn();
     if (isLoggedInUI()) {

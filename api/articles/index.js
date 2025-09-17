@@ -55,7 +55,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
     try {
-      const { title, content, slug, coverBase64, excerpt, category, author, readTime, tags, published } = await readJsonBody(req);
+      const { title, content, slug, coverBase64, excerpt, metaDescription, category, author, readTime, tags, focusKeywords, imageAlt, published } = await readJsonBody(req);
       if (!title || !content) {
         return res.status(400).json({ error: 'Missing title or content' });
       }
@@ -80,10 +80,13 @@ export default async function handler(req, res) {
         slug: normalizedSlug,
         publishedAt: existing?.publishedAt || new Date().toISOString(),
         excerpt: (typeof excerpt !== 'undefined') ? excerpt : (existing?.excerpt || ''),
+        metaDescription: (typeof metaDescription !== 'undefined') ? metaDescription : (existing?.metaDescription || excerpt || ''),
         category: (typeof category !== 'undefined') ? category : (existing?.category || 'nocode'),
         author: (typeof author !== 'undefined') ? author : (existing?.author || 'Nocodebaby'),
         readTime: (typeof readTime !== 'undefined') ? readTime : (existing?.readTime || '5 min'),
         tags: (typeof normalizedTags !== 'undefined') ? normalizedTags : (existing?.tags || []),
+        focusKeywords: (typeof focusKeywords !== 'undefined') ? focusKeywords : (existing?.focusKeywords || ''),
+        imageAlt: (typeof imageAlt !== 'undefined') ? imageAlt : (existing?.imageAlt || ''),
         published: (typeof published === 'boolean') ? published : (existing?.published !== false),
         coverUrl: existing?.coverUrl
       };
