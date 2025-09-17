@@ -100,7 +100,15 @@ export default async function handler(req, res) {
           const path = `articles/${normalizedSlug}/cover.${ext}`;
           // Écrire l'image dans le repo
           let existingCoverSha = null;
-          try { const f = await getFile(path); if (f) existingCoverSha = f.sha; } catch {}
+          try { 
+            // Chercher l'image existante avec n'importe quelle extension
+            const dir = await listDir(`articles/${normalizedSlug}`);
+            const existingCover = dir.find(f => f.name.startsWith('cover.'));
+            if (existingCover) {
+              const f = await getFile(existingCover.path);
+              if (f) existingCoverSha = f.sha;
+            }
+          } catch {}
           await putFile(path, bytes, `chore: update cover for ${normalizedSlug}`, existingCoverSha);
           article.coverUrl = getRawUrl(path) + `?t=${Date.now()}`;
         }
