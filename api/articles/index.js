@@ -99,17 +99,16 @@ export default async function handler(req, res) {
           const bytes = Buffer.from(b64, 'base64');
           const path = `articles/${normalizedSlug}/cover.${ext}`;
           // Écrire l'image dans le repo
-          let existingCoverSha = null;
+          // Supprimer l'ancienne image si elle existe
           try { 
-            // Chercher l'image existante avec n'importe quelle extension
             const dir = await listDir(`articles/${normalizedSlug}`);
             const existingCover = dir.find(f => f.name.startsWith('cover.'));
             if (existingCover) {
-              const f = await getFile(existingCover.path);
-              if (f) existingCoverSha = f.sha;
+              await deleteFile(existingCover.path, `chore: remove old cover for ${normalizedSlug}`, existingCover.sha);
             }
           } catch {}
-          await putFile(path, bytes, `chore: update cover for ${normalizedSlug}`, existingCoverSha);
+          // Uploader la nouvelle image sans SHA (création)
+          await putFile(path, bytes, `chore: update cover for ${normalizedSlug}`);
           article.coverUrl = getRawUrl(path) + `?t=${Date.now()}`;
         }
       }
