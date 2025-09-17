@@ -2,9 +2,87 @@
 <html data-wf-page="article-page-id" data-wf-site="6662fa25b80fa05e56502ce2" lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Article - Nocodebaby</title>
+  <title id="page-title">Article - Arqova</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
+  
+  <!-- Meta Description Dynamique -->
+  <meta name="description" content="" id="meta-description">
+  
+  <!-- Meta Keywords -->
+  <meta name="keywords" content="" id="meta-keywords">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="" id="og-url">
+  <meta property="og:title" content="" id="og-title">
+  <meta property="og:description" content="" id="og-description">
+  <meta property="og:image" content="" id="og-image">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="" id="og-image-alt">
+  <meta property="og:site_name" content="Arqova - Agence Web">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:updated_time" content="" id="og-updated">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="" id="twitter-url">
+  <meta property="twitter:title" content="" id="twitter-title">
+  <meta property="twitter:description" content="" id="twitter-description">
+  <meta property="twitter:image" content="" id="twitter-image">
+  <meta property="twitter:image:alt" content="" id="twitter-image-alt">
+  <meta property="twitter:site" content="@arqova">
+  <meta property="twitter:creator" content="@arqova">
+  
+  <!-- Article Meta -->
+  <meta property="article:author" content="" id="article-author">
+  <meta property="article:published_time" content="" id="article-published">
+  <meta property="article:section" content="" id="article-section">
+  <meta property="article:tag" content="" id="article-tags">
+  <meta property="article:modified_time" content="" id="article-modified">
+  
+  <!-- Additional SEO Meta -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow">
+  <meta name="bingbot" content="index, follow">
+  <link rel="canonical" href="" id="canonical-url">
+  
+  <!-- Structured Data JSON-LD pour l'IA -->
+  <script type="application/ld+json" id="structured-data">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "",
+    "description": "",
+    "image": "",
+    "author": {
+      "@type": "Organization",
+      "name": "Arqova",
+      "url": "https://arqova.fr"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Arqova",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png"
+      }
+    },
+    "datePublished": "",
+    "dateModified": "",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": ""
+    },
+    "articleSection": "",
+    "keywords": "",
+    "wordCount": 0,
+    "timeRequired": "",
+    "inLanguage": "fr-FR"
+  }
+  </script>
+  
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/portfolioazaza.webflow.css" rel="stylesheet" type="text/css">
@@ -86,6 +164,304 @@
       margin: 0 auto;
     }
     
+    /* Breadcrumbs Styles */
+    .breadcrumbs-container {
+      max-width: 800px;
+      margin: 0 auto 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 0.875rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    
+    .breadcrumb-item {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .breadcrumb-item:hover {
+      color: #22c55e;
+      text-decoration: none;
+      transform: translateY(-1px);
+      text-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .breadcrumb-separator {
+      margin: 0 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .breadcrumb-current {
+      color: #fff;
+      font-weight: 500;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    /* FAQ Styles */
+    .faq-section {
+      margin: 4rem 0;
+    }
+    
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .faq-title {
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .faq-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .faq-question {
+      width: 100%;
+      padding: 1.5rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .faq-question:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Supprimer l'animation hover quand la FAQ est ouverte */
+    .faq-item[aria-expanded="true"] .faq-question:hover {
+      background: none;
+    }
+    
+    .faq-question-text {
+      flex: 1;
+      margin-right: 1rem;
+    }
+    
+    .faq-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: #fff;
+      stroke-width: 1.5;
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .faq-answer-content {
+      padding: 0 1.5rem 1.5rem 1.5rem;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+    }
+    
+    .faq-answer-content strong {
+      color: #fff;
+      font-weight: 600;
+    }
+    
+    /* Table of Contents Styles */
+    .toc-container {
+      margin: 2rem 0;
+    }
+    
+    .toc-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .toc-title {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .toc-nav {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .toc-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .toc-item-h2 {
+      margin-left: 0;
+    }
+    
+    .toc-item-h3 {
+      margin-left: 1.5rem;
+      position: relative;
+    }
+    
+    .toc-item-h3::before {
+      content: "•";
+      color: #4d65ff;
+      position: absolute;
+      left: -1rem;
+    }
+    
+    .toc-link {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      transition: all 0.2s ease;
+      display: block;
+      padding: 0.25rem 0;
+    }
+    
+    .toc-link:hover {
+      color: #4d65ff;
+      text-decoration: underline;
+    }
+    
+    .toc-item-h3 .toc-link {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Internal Links Styles */
+    .internal-link {
+      color: #4d65ff;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(77, 101, 255, 0.3);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .internal-link:hover {
+      color: #00ff88;
+      border-bottom-color: #00ff88;
+      text-decoration: none;
+    }
+    
+    .internal-link::after {
+      content: "🔗";
+      font-size: 0.8em;
+      margin-left: 0.25rem;
+      opacity: 0.7;
+    }
+    
+    /* Reading Progress Indicator */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
+    
+    .reading-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #4d65ff, #00ff88);
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+    
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+    
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .back-to-top:hover {
+      background: rgba(0, 255, 136, 0.2);
+      border-color: rgba(0, 255, 136, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .back-to-top svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fff;
+      stroke-width: 2;
+    }
+    
     .article-header {
       text-align: center;
       margin-bottom: 4rem;
@@ -98,6 +474,21 @@
       margin-bottom: 2rem;
       font-size: 0.875rem;
       color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .read-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .read-time svg {
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+    
+    .read-time:hover svg {
+      opacity: 1;
     }
     
     .article-category {
@@ -454,7 +845,9 @@
     }
     
     .ad-banner {
-      width: 180px;
+      width: 240px !important;
+      min-width: 240px !important;
+      max-width: 240px !important;
       background: transparent;
       border-radius: 24px;
       padding: 0;
@@ -832,7 +1225,9 @@
     /* Style pour écrans moyens */
     @media (max-width: 1400px) {
       .ad-banner {
-        width: 150px;
+        width: 240px !important;
+        min-width: 240px !important;
+        max-width: 240px !important;
       }
       
       .ad-banner-inner {
@@ -868,6 +1263,18 @@
   </style>
 </head>
 <body>
+  <!-- Reading Progress Indicator -->
+  <div class="reading-progress">
+    <div class="reading-progress-bar" id="reading-progress-bar"></div>
+  </div>
+  
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="back-to-top" onclick="scrollToTop()" aria-label="Retour en haut">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+      <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  
   <!-- SVG liquid filter for glass button -->
   <svg width="0" height="0" style="position:absolute; overflow:hidden" aria-hidden="true" focusable="false">
     <filter id="liquidGlass" x="-20%" y="-20%" width="140%" height="140%">
@@ -1207,6 +1614,9 @@
                   }
                 </style>
 
+                <!-- Breadcrumbs -->
+                <div id="breadcrumbs" class="breadcrumbs-container"></div>
+                
                 <!-- Article Header -->
                 <div class="article-header" id="article-header">
                   <!-- Skeleton header (remplacé après chargement) -->
@@ -1231,6 +1641,9 @@
                   </div>
                 </div>
 
+                <!-- Table of Contents -->
+                <div id="table-of-contents" class="toc-container"></div>
+                
                 <!-- Article Content -->
                 <div class="article-content" id="article-content">
                   <!-- Skeleton paragraphs (remplacés après chargement) -->
@@ -1259,6 +1672,8 @@
                   </div>
                 </div>
 
+                <!-- FAQ Section -->
+                <div id="faq-section" class="faq-section"></div>
 
               </div>
 
@@ -1351,14 +1766,14 @@
     }
     // Fonction pour formater le temps de lecture
     function formatReadTime(rt) {
-      if (!rt) return '5 min de lecture';
+      if (!rt) return '5 min';
       const raw = String(rt).trim();
       const s = raw.toLowerCase();
       const m = s.match(/^(\d+)(?:\s*(?:min|mins|minute|minutes)?)?$/);
-      if (m) return `${m[1]} min de lecture`;
-      if (s.includes('lecture')) return raw;
-      if (s.includes('min')) return `${raw} de lecture`;
-      return `${raw} min de lecture`;
+      if (m) return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>${m[1]} min`;
+      if (s.includes('lecture')) return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>${raw.replace(' de lecture', '')}`;
+      if (s.includes('min')) return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>${raw.replace(' de lecture', '')}`;
+      return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><polyline points="12,6 12,12 16,14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>${raw} min`;
     }
     
     // Fonction pour créer une carte d'article similaire
@@ -1386,6 +1801,362 @@
       `;
     }
     
+    // Fonction pour ajouter les breadcrumbs
+    function addBreadcrumbs(article) {
+      const breadcrumbEl = document.getElementById('breadcrumbs');
+      if (breadcrumbEl) {
+        const categoryName = getCategoryDisplayName(article.category);
+        breadcrumbEl.innerHTML = `
+          <nav class="breadcrumb" aria-label="Fil d'Ariane">
+            <a href="/" class="breadcrumb-item">🏠 Accueil</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="/blog.html" class="breadcrumb-item">📝 Blog</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="/blog.html?category=${article.category}" class="breadcrumb-item">${categoryName}</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current" aria-current="page">${article.title}</span>
+          </nav>
+        `;
+      }
+    }
+    
+    // Fonction pour obtenir le nom d'affichage de la catégorie
+    function getCategoryDisplayName(category) {
+      const categoryNames = {
+        'dev': '💻 Développement',
+        'design': '🎨 Design',
+        'seo': '🔍 SEO',
+        'nocode': '🚀 No-Code',
+        'marketing': '📈 Marketing',
+        'business': '💼 Business'
+      };
+      return categoryNames[category] || '📝 Article';
+    }
+    
+    // Fonction pour ajouter les liens internes automatiques
+    async function addInternalLinks(contentEl, currentArticle) {
+      if (!contentEl) return;
+      
+      try {
+        // Récupérer tous les articles pour créer les liens
+        const response = await fetch('/api/articles');
+        const articles = await response.json();
+        
+        // Filtrer l'article actuel
+        const otherArticles = articles.filter(art => art.slug !== currentArticle.slug);
+        
+        // Mots-clés et leurs articles associés
+        const keywordLinks = {
+          'site web': otherArticles.filter(art => art.category === 'dev' || art.tags?.includes('site web')),
+          'développement': otherArticles.filter(art => art.category === 'dev'),
+          'design': otherArticles.filter(art => art.category === 'design'),
+          'SEO': otherArticles.filter(art => art.category === 'seo'),
+          'no-code': otherArticles.filter(art => art.category === 'nocode'),
+          'création site': otherArticles.filter(art => art.category === 'dev'),
+          'agence web': otherArticles.filter(art => art.category === 'dev' || art.category === 'design'),
+          'web design': otherArticles.filter(art => art.category === 'design'),
+          'référencement': otherArticles.filter(art => art.category === 'seo'),
+          'marketing digital': otherArticles.filter(art => art.category === 'marketing')
+        };
+        
+        // Parcourir le contenu et ajouter les liens
+        let content = contentEl.innerHTML;
+        
+        Object.keys(keywordLinks).forEach(keyword => {
+          const articles = keywordLinks[keyword];
+          if (articles.length > 0) {
+            const randomArticle = articles[Math.floor(Math.random() * articles.length)];
+            const linkUrl = `/article.html?slug=${randomArticle.slug}`;
+            
+            // Créer le lien avec un style spécial
+            const linkHtml = `<a href="${linkUrl}" class="internal-link" title="En savoir plus sur ${randomArticle.title}">${keyword}</a>`;
+            
+            // Remplacer la première occurrence du mot-clé (insensible à la casse)
+            const regex = new RegExp(`\\b${keyword}\\b`, 'i');
+            content = content.replace(regex, linkHtml);
+          }
+        });
+        
+        contentEl.innerHTML = content;
+        
+      } catch (error) {
+        console.error('Erreur lors de l\'ajout des liens internes:', error);
+      }
+    }
+    
+    // Fonction pour ajouter la table des matières
+    function addTableOfContents() {
+      const tocEl = document.getElementById('table-of-contents');
+      const contentEl = document.getElementById('article-content');
+      
+      if (tocEl && contentEl) {
+        const headings = contentEl.querySelectorAll('h2, h3');
+        
+        if (headings.length > 2) { // Seulement si il y a plus de 2 titres
+          let tocHTML = `
+            <div class="toc-wrapper">
+              <h3 class="toc-title">📋 Table des matières</h3>
+              <nav class="toc-nav" role="navigation" aria-label="Table des matières">
+                <ul class="toc-list">
+          `;
+          
+          headings.forEach((heading, index) => {
+            const id = `heading-${index}`;
+            const level = heading.tagName.toLowerCase();
+            const text = heading.textContent.trim();
+            
+            // Ajouter un ID au titre pour le lien
+            heading.id = id;
+            
+            // Créer l'élément de la table des matières
+            const indentClass = level === 'h3' ? 'toc-item-h3' : 'toc-item-h2';
+            tocHTML += `
+              <li class="toc-item ${indentClass}">
+                <a href="#${id}" class="toc-link" onclick="scrollToHeading('${id}')">
+                  ${text}
+                </a>
+              </li>
+            `;
+          });
+          
+          tocHTML += `
+                </ul>
+              </nav>
+            </div>
+          `;
+          
+          tocEl.innerHTML = tocHTML;
+        }
+      }
+    }
+    
+    // Fonction pour faire défiler vers un titre
+    function scrollToHeading(headingId) {
+      const element = document.getElementById(headingId);
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        // Ajouter un effet de surbrillance temporaire
+        element.style.backgroundColor = 'rgba(77, 101, 255, 0.2)';
+        setTimeout(() => {
+          element.style.backgroundColor = '';
+        }, 2000);
+      }
+    }
+    
+    // Fonction pour ajouter la section FAQ
+    function addFAQSection(article) {
+      const faqEl = document.getElementById('faq-section');
+      if (faqEl) {
+        const faqData = generateFAQData(article);
+        if (faqData.length > 0) {
+          faqEl.innerHTML = `
+            <div class="faq-container">
+              <h2 class="faq-title">Questions Fréquentes</h2>
+              <div class="faq-list">
+                ${faqData.map((faq, index) => `
+                  <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(${index})" aria-expanded="false">
+                      <span class="faq-question-text">${faq.question}</span>
+                      <div class="faq-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 17 17" fill="none">
+                          <g clip-path="url(#clip0_614_964)">
+                            <path d="M3 8.5L14 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M9.5 13L14 8.5L9.5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                          </g>
+                        </svg>
+                      </div>
+                    </button>
+                    <div class="faq-answer" id="faq-answer-${index}">
+                      <div class="faq-answer-content">${faq.answer}</div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+      }
+    }
+    
+    // Fonction pour générer les données FAQ selon la catégorie
+    function generateFAQData(article) {
+      const categoryFAQs = {
+        'dev': [
+          {
+            question: "Combien coûte un site web développé sur mesure ?",
+            answer: "Un site web développé sur mesure coûte entre <strong>2500€ et 8000€</strong> selon la complexité. Nous proposons des devis personnalisés gratuits pour évaluer vos besoins précis."
+          },
+          {
+            question: "Quel est le délai de livraison pour un site web ?",
+            answer: "Le délai de livraison varie de <strong>3 à 8 semaines</strong> selon la complexité du projet. Nous vous tenons informé de l'avancement à chaque étape."
+          },
+          {
+            question: "Proposez-vous la maintenance après la livraison ?",
+            answer: "Oui, nous offrons des <strong>contrats de maintenance</strong> à partir de 150€/mois incluant mises à jour, sauvegardes et support technique."
+          }
+        ],
+        'design': [
+          {
+            question: "Pouvez-vous créer une identité visuelle complète ?",
+            answer: "Absolument ! Nous créons des <strong>identités visuelles complètes</strong> : logo, charte graphique, supports de communication pour 1200€ à 3000€."
+          },
+          {
+            question: "Combien de propositions de design recevrai-je ?",
+            answer: "Vous recevrez <strong>3 propositions de design</strong> différentes, avec 2 révisions gratuites pour affiner votre choix."
+          }
+        ],
+        'seo': [
+          {
+            question: "Combien de temps pour voir les premiers résultats SEO ?",
+            answer: "Les premiers résultats SEO sont visibles après <strong>3-6 mois</strong> d'optimisation continue. Nous fournissons des rapports mensuels détaillés."
+          },
+          {
+            question: "Quel est le coût d'un audit SEO ?",
+            answer: "Un audit SEO complet coûte <strong>800€</strong> et inclut l'analyse technique, concurrentielle et un plan d'action personnalisé."
+          }
+        ],
+        'nocode': [
+          {
+            question: "Quelle plateforme no-code recommandez-vous ?",
+            answer: "Nous recommandons <strong>Webflow, Bubble ou Framer</strong> selon vos besoins. Chaque plateforme a ses avantages que nous vous expliquons en détail."
+          },
+          {
+            question: "Puis-je modifier mon site no-code moi-même ?",
+            answer: "Oui ! Nous vous formons à l'utilisation de votre plateforme et vous laissons un <strong>accès complet</strong> pour vos modifications futures."
+          }
+        ]
+      };
+      
+      return categoryFAQs[article.category] || [
+        {
+          question: "Comment puis-je vous contacter pour un projet ?",
+          answer: "Contactez-nous via notre <strong>formulaire de contact</strong> ou par email à contact@arqova.fr. Nous répondons sous 24h et proposons un appel découverte gratuit."
+        },
+        {
+          question: "Travaillez-vous avec des entreprises de toutes tailles ?",
+          answer: "Oui, nous accompagnons <strong>startups, PME et grandes entreprises</strong> dans leurs projets web. Chaque projet est adapté à votre budget et vos objectifs."
+        }
+      ];
+    }
+    
+    // Fonction pour toggle FAQ
+    function toggleFAQ(index) {
+      const answer = document.getElementById(`faq-answer-${index}`);
+      const button = answer.previousElementSibling;
+      const icon = button.querySelector('.faq-icon');
+      const faqItem = button.closest('.faq-item');
+      
+      if (answer.style.maxHeight) {
+        answer.style.maxHeight = null;
+        button.setAttribute('aria-expanded', 'false');
+        faqItem.setAttribute('aria-expanded', 'false');
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        button.setAttribute('aria-expanded', 'true');
+        faqItem.setAttribute('aria-expanded', 'true');
+        icon.style.transform = 'rotate(90deg)';
+      }
+    }
+    
+    // Fonction pour mettre à jour les balises meta dynamiquement
+    function updateMetaTags(article, publishedDate) {
+      const currentUrl = window.location.href;
+      const articleImage = article.coverUrl || 'https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png';
+      const tags = Array.isArray(article.tags) ? article.tags.join(', ') : (article.tags || '');
+      
+      // Meta Description (150-160 caractères optimaux)
+      const description = article.excerpt && article.excerpt.length > 0 
+        ? article.excerpt.substring(0, 155) + (article.excerpt.length > 155 ? '...' : '')
+        : `Découvrez ${article.title} - Guide complet par Arqova, agence spécialisée en création de sites web modernes.`;
+      
+      // Mettre à jour les balises meta
+      document.getElementById('meta-description').setAttribute('content', description);
+      document.getElementById('meta-keywords').setAttribute('content', `${article.category}, ${tags}, création site web, développement web, Arqova`);
+      
+      // Open Graph
+      document.getElementById('og-url').setAttribute('content', currentUrl);
+      document.getElementById('og-title').setAttribute('content', article.title);
+      document.getElementById('og-description').setAttribute('content', description);
+      document.getElementById('og-image').setAttribute('content', articleImage);
+      document.getElementById('og-image-alt').setAttribute('content', `Image de couverture pour ${article.title}`);
+      document.getElementById('og-updated').setAttribute('content', publishedDate);
+      
+      // Twitter
+      document.getElementById('twitter-url').setAttribute('content', currentUrl);
+      document.getElementById('twitter-title').setAttribute('content', article.title);
+      document.getElementById('twitter-description').setAttribute('content', description);
+      document.getElementById('twitter-image').setAttribute('content', articleImage);
+      document.getElementById('twitter-image-alt').setAttribute('content', `Image de couverture pour ${article.title}`);
+      
+      // Article Meta
+      document.getElementById('article-author').setAttribute('content', article.author || 'Arqova');
+      document.getElementById('article-published').setAttribute('content', publishedDate);
+      document.getElementById('article-section').setAttribute('content', article.category || 'développement');
+      document.getElementById('article-tags').setAttribute('content', tags);
+      document.getElementById('article-modified').setAttribute('content', publishedDate);
+      document.getElementById('canonical-url').setAttribute('href', currentUrl);
+      
+      // Mettre à jour le structured data JSON-LD
+      updateStructuredData(article, publishedDate, currentUrl);
+    }
+    
+    // Fonction pour mettre à jour le structured data JSON-LD
+    function updateStructuredData(article, publishedDate, currentUrl) {
+      const articleImage = article.coverUrl || 'https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png';
+      const tags = Array.isArray(article.tags) ? article.tags.join(', ') : (article.tags || '');
+      const description = article.excerpt && article.excerpt.length > 0 
+        ? article.excerpt.substring(0, 155) + (article.excerpt.length > 155 ? '...' : '')
+        : `Découvrez ${article.title} - Guide complet par Arqova, agence spécialisée en création de sites web modernes.`;
+      
+      // Calculer le nombre de mots et temps de lecture
+      const contentText = article.content ? article.content.replace(/<[^>]*>/g, '') : '';
+      const wordCount = contentText.split(/\s+/).length;
+      const readTime = Math.ceil(wordCount / 200); // 200 mots par minute
+      
+      const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": article.title,
+        "description": description,
+        "image": articleImage,
+        "author": {
+          "@type": "Organization",
+          "name": article.author || "Arqova",
+          "url": "https://arqova.fr"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Arqova",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png"
+          }
+        },
+        "datePublished": publishedDate,
+        "dateModified": publishedDate,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": currentUrl
+        },
+        "articleSection": article.category || "développement",
+        "keywords": `${article.category}, ${tags}, création site web, développement web, Arqova`,
+        "wordCount": wordCount,
+        "timeRequired": `PT${readTime}M`,
+        "inLanguage": "fr-FR"
+      };
+      
+      // Mettre à jour le script JSON-LD
+      const scriptElement = document.getElementById('structured-data');
+      if (scriptElement) {
+        scriptElement.textContent = JSON.stringify(structuredData, null, 2);
+      }
+    }
+    
     // Fonction pour charger l'article
     async function loadArticle() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -1402,7 +2173,13 @@
         const when = article.publishedAt || article.createdAt || info.uploadedAt || new Date().toISOString();
         
         // Mettre à jour le titre de la page
-        document.title = `${article.title} - Nocodebaby`;
+        document.title = `${article.title} - Arqova`;
+        
+        // Mettre à jour toutes les balises meta dynamiquement
+        updateMetaTags(article, when);
+        
+        // Ajouter les breadcrumbs
+        addBreadcrumbs(article);
         
         // Mettre à jour le header de l'article
         const headerEl = document.getElementById('article-header');
@@ -1410,7 +2187,7 @@
           <div class="article-meta">
             <span class="article-category">${article.category.toUpperCase()}</span>
             <span>${formatDate(when)}</span>
-            <span>${formatReadTime(article.readTime)}</span>
+            <span class="read-time">${formatReadTime(article.readTime)}</span>
           </div>
           <h1 class="article-title">${article.title}</h1>
           <p class="article-excerpt">${article.excerpt}</p>
@@ -1452,6 +2229,15 @@
         // Afficher le contenu (et retirer tout éventuel skeleton paragraphe si on l'ajoute plus tard)
         const contentEl = document.getElementById('article-content');
         if (contentEl) contentEl.innerHTML = article.content;
+        
+        // Ajouter les liens internes automatiques
+        addInternalLinks(contentEl, article);
+        
+        // Ajouter la table des matières
+        addTableOfContents();
+        
+        // Ajouter la section FAQ
+        addFAQSection(article);
         
         
         // Charger les articles similaires
@@ -1528,9 +2314,51 @@
       }
     }
     
+    // Fonction pour mettre à jour la progression de lecture
+    function updateReadingProgress() {
+      const progressBar = document.getElementById('reading-progress-bar');
+      if (!progressBar) return;
+      
+      const articleContent = document.getElementById('article-content');
+      if (!articleContent) return;
+      
+      const articleTop = articleContent.offsetTop;
+      const articleHeight = articleContent.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Calculer la progression (0 à 100%)
+      const progress = Math.min(100, Math.max(0, 
+        ((scrollTop + windowHeight - articleTop) / articleHeight) * 100
+      ));
+      
+      progressBar.style.width = progress + '%';
+      
+      // Afficher/masquer le bouton retour en haut
+      const backToTopBtn = document.getElementById('back-to-top');
+      if (backToTopBtn) {
+        if (scrollTop > 300) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      }
+    }
+    
+    // Fonction pour retourner en haut de page
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+    
     // Charger l'article au chargement de la page
     document.addEventListener('DOMContentLoaded', function() {
       loadArticle();
+      
+      // Ajouter l'écouteur de scroll pour la progression de lecture
+      window.addEventListener('scroll', updateReadingProgress);
       
       // FORCER la taille du logo Arqova - même que blog.html
       function resizeLogo() {
@@ -1743,7 +2571,7 @@
       const adContents = [
         {
           title: "Site Web Pro",
-          subtitle: "Design unique & moderne pour votre entreprise",
+          subtitle: "Design moderne & professionnel",
           cta: "Créer maintenant",
           badge: "NEW",
           icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1754,7 +2582,7 @@
         },
         {
           title: "E-commerce",
-          subtitle: "Boutique en ligne clé en main",
+          subtitle: "Boutique en ligne professionnelle",
           cta: "Démarrer",
           badge: "NEW",
           icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1765,7 +2593,7 @@
         },
         {
           title: "Portfolio",
-          subtitle: "Présentez vos créations avec style",
+          subtitle: "Présentez vos créations",
           cta: "Voir exemples",
           badge: "NEW",
           icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1776,7 +2604,7 @@
         },
         {
           title: "Blog Pro",
-          subtitle: "Partagez votre expertise facilement",
+          subtitle: "Partagez votre expertise",
           cta: "Commencer",
           badge: "NEW",
           icon: `<svg class="ad-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
