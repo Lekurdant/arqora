@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Buffer } from 'node:buffer';
-import { listDir, getFile, putFile, getRawUrl, safeSlug } from '../_github.js';
+import { listDir, getFile, putFile, deleteFile, getRawUrl, safeSlug } from '../_github.js';
 
 async function readJsonBody(req) {
   return new Promise((resolve, reject) => {
@@ -105,10 +105,27 @@ export default async function handler(req, res) {
             const existingCover = dir.find(f => f.name.startsWith('cover.'));
             if (existingCover) {
               await deleteFile(existingCover.path, `chore: remove old cover for ${normalizedSlug}`, existingCover.sha);
+              // Attendre un peu pour que GitHub traite la suppression
+              await new Promise(resolve => setTimeout(resolve, 2000));
             }
           } catch {}
-          // Uploader la nouvelle image sans SHA (création)
-          await putFile(path, bytes, `chore: update cover for ${normalizedSlug}`);
+          // Uploader la nouvelle image; en cas de 422, réessayer avec SHA courant
+          try {
+            await putFile(path, bytes, `chore: update cover for ${normalizedSlug}`);
+          } catch (e) {
+            const msg = String(e && e.message || e);
+            if (msg.includes(' 422 ') || msg.includes('status":"422')) {
+              try {
+                const f = await getFile(path);
+                const sha = f?.sha;
+                await putFile(path, bytes, `chore: update cover for ${normalizedSlug}`, sha);
+              } catch (e2) {
+                throw e2;
+              }
+            } else {
+              throw e;
+            }
+          }
           article.coverUrl = getRawUrl(path) + `?t=${Date.now()}`;
         }
       }
