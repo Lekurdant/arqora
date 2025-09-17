@@ -670,9 +670,12 @@
         document.getElementById('article-id').value = article.slug;
         document.getElementById('title').value = article.title;
         document.getElementById('excerpt').value = article.excerpt || '';
+        document.getElementById('metaDescription').value = article.metaDescription || '';
         document.getElementById('category').value = article.category || '';
         document.getElementById('author').value = article.author || '';
         document.getElementById('readTime').value = article.readTime || '';
+        document.getElementById('focusKeywords').value = article.focusKeywords || '';
+        document.getElementById('imageAlt').value = article.imageAlt || '';
         document.getElementById('published').checked = article.published !== false;
         
         if (article.tags && Array.isArray(article.tags)) {
