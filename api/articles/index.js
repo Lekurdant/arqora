@@ -99,7 +99,7 @@ export default async function handler(req, res) {
           const bytes = Buffer.from(b64, 'base64');
           const path = `articles/${normalizedSlug}/cover.${ext}`;
           // Écrire l'image dans le repo
-          let existingCoverSha = undefined;
+          let existingCoverSha = null;
           try { const f = await getFile(path); if (f) existingCoverSha = f.sha; } catch {}
           await putFile(path, bytes, `chore: update cover for ${normalizedSlug}`, existingCoverSha);
           article.coverUrl = getRawUrl(path) + `?t=${Date.now()}`;
