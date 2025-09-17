@@ -348,6 +348,15 @@
     
     .toc-item-h2 {
       margin-left: 0;
+      position: relative;
+    }
+    
+    .toc-item-h2::before {
+      content: "▶";
+      color: #00ff88;
+      position: absolute;
+      left: -1.5rem;
+      font-size: 0.8rem;
     }
     
     .toc-item-h3 {
@@ -357,7 +366,7 @@
     
     .toc-item-h3::before {
       content: "•";
-      color: #4d65ff;
+      color: #00ff88;
       position: absolute;
       left: -1rem;
     }
@@ -563,7 +572,7 @@
       font-size: 2rem;
       margin-top: 3rem;
       margin-bottom: 1.5rem;
-      color: #fff;
+      color: #ccffcc;
     }
     
     .article-content h3 {
@@ -609,7 +618,7 @@
     }
     
     .article-content blockquote {
-      border-left: 4px solid #4d65ff;
+      border-left: 4px solid #00ff88;
       padding-left: 2rem;
       margin: 2rem 0;
       font-style: italic;
