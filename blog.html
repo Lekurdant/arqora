@@ -237,10 +237,21 @@
       }
     }
 
-    /* Marge minimum pour les cartes sur petits écrans mobiles */
+    /* Correction du problème de débordement sur petits écrans mobiles */
     @media screen and (max-width: 479px) {
+      .blog-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+      }
+      
       .blog-card {
-        margin: 0 15px !important;
+        margin-top: 15px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
       }
     }
 
