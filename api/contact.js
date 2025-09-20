@@ -76,7 +76,7 @@ export default async function handler(req, res) {
 
     if (a.email) {
       await transporter.sendMail({
-        from: fromEmail,
+        from: `"Arqova" <${fromEmail}>`,
         to: a.email,
         replyTo: fromEmail,
         subject: 'Confirmation de votre demande - Arqova',
