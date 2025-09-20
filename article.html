@@ -453,6 +453,13 @@
       background: rgba(255, 255, 255, 0.2); /* Surlignage plus visible */
     }
     
+    /* Styles pour le texte en gras dans l'article */
+    .article-content strong,
+    .article-content b {
+      color: rgba(255, 255, 255, 0.78); /* Très très léger, limite imperceptible */
+      font-weight: 600;
+    }
+    
     /* Reading Progress Indicator */
     .reading-progress {
       position: fixed;
@@ -1224,6 +1231,14 @@
       list-style: none;
       padding: 0;
       margin: 0;
+      max-height: 60vh;
+      overflow-y: auto;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE/Edge */
+    }
+    
+    .toc-list::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
     }
     
     .toc-item {
@@ -2534,6 +2549,21 @@
           activeLink.style.background = 'rgba(255, 255, 255, 0.05)';
           activeLink.style.borderLeftColor = 'rgba(255, 255, 255, 0.3)';
           activeLink.style.transform = 'translateX(4px)';
+          
+          // SCROLL AUTOMATIQUE : Centrer le lien actif dans le sommaire
+          const tocList = document.querySelector('.toc-list');
+          if (tocList) {
+            const linkRect = activeLink.getBoundingClientRect();
+            const tocRect = tocList.getBoundingClientRect();
+            const linkCenter = linkRect.top + linkRect.height / 2;
+            const tocCenter = tocRect.top + tocRect.height / 2;
+            
+            // Si le lien n'est pas visible, scroll pour le centrer
+            if (linkCenter < tocRect.top || linkCenter > tocRect.bottom) {
+              const scrollAmount = linkCenter - tocCenter;
+              tocList.scrollTop += scrollAmount;
+            }
+          }
         }
       }
       
