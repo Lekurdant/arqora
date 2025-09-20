@@ -437,6 +437,22 @@
       opacity: 0.7;
     }
     
+    /* Styles pour tous les liens dans le contenu de l'article */
+    .article-content a {
+      color: rgba(255, 255, 255, 0.9); /* Un peu plus blanc */
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.1); /* Juste un surlignage simple */
+      padding: 0.1rem 0.2rem;
+      border-radius: 3px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .article-content a:hover {
+      color: rgba(255, 255, 255, 1); /* Blanc pur au hover */
+      background: rgba(255, 255, 255, 0.2); /* Surlignage plus visible */
+    }
+    
     /* Reading Progress Indicator */
     .reading-progress {
       position: fixed;
@@ -496,7 +512,7 @@
     
     .article-header {
       text-align: center;
-      margin-bottom: 4rem;
+      margin-bottom: 1.5rem;
     }
     
     .article-meta {
@@ -558,7 +574,7 @@
       max-height: 500px;
       object-fit: cover;
       border-radius: 20px;
-      margin-bottom: 4rem;
+      margin: 1rem 0 1rem 0;
     }
     .article-image[src$='placeholder-article.jpg'] {
       background: linear-gradient(135deg, rgba(77,101,255,0.15), rgba(0,255,136,0.12));
@@ -847,7 +863,7 @@
     .skeleton-title { height: 36px; border-radius: 12px; margin: 0 auto 16px; width: 70%; }
     .skeleton-meta { display: flex; gap: 16px; justify-content: center; margin-bottom: 24px; }
     .skeleton-meta-line { height: 12px; border-radius: 10px; width: 120px; }
-    .skeleton-image { width: 100%; height: 360px; border-radius: 20px; margin: 0 auto 32px; }
+    .skeleton-image { width: 100%; height: 360px; border-radius: 20px; margin: 0 auto 1rem; }
     .skeleton-paragraph { height: 14px; border-radius: 10px; margin: 0 auto 14px; width: 92%; }
     .skeleton-h2 { height: 28px; border-radius: 12px; width: 50%; margin: 3rem 0 1.25rem; }
     .skeleton-h3 { height: 20px; border-radius: 10px; width: 35%; margin: 2.5rem 0 1rem; }
@@ -1145,8 +1161,331 @@
       overflow: hidden;
     }
     
+    /* Sommaire latéral collé au texte */
+    .toc-sidebar {
+      position: fixed;
+      left: calc(50vw - 600px - 80px); /* Positionné à gauche du contenu principal avec encore plus d'espace */
+      top: 50%;
+      transform: translateY(-50%);
+      width: 240px;
+      max-height: 80vh;
+      overflow-y: auto;
+      background: transparent; /* Complètement transparent */
+      border: none; /* Pas de bordure */
+      border-right: 2px solid rgba(255, 255, 255, 0.3); /* Juste une barre à droite */
+      border-radius: 0; /* Pas de coins arrondis */
+      padding: 1.5rem;
+      backdrop-filter: none; /* Pas de blur */
+      box-shadow: none; /* Pas d'ombre */
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .toc-sidebar.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .toc-sidebar::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .toc-sidebar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2px;
+    }
+    
+    .toc-sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+    }
+    
+    .toc-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .toc-title svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.7;
+    }
+    
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .toc-item {
+      margin-bottom: 0.4rem;
+    }
+    
+    .toc-link {
+      display: block;
+      padding: 0.6rem 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      line-height: 1.3;
+      transition: all 0.3s ease;
+      position: relative;
+      border-left: 3px solid transparent;
+      cursor: pointer; /* Curseur pointer pour indiquer que c'est cliquable */
+    }
+    
+    .toc-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+      border-left-color: rgba(255, 255, 255, 0.3);
+      transform: translateX(4px);
+    }
+    
+    .toc-link.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.15);
+      border-left-color: #ffffff;
+      font-weight: 500;
+    }
+    /* Renforcer la spécificité pour éviter tout override */
+    .toc-sidebar .toc-link.active,
+    #table-of-contents .toc-link.active,
+    .toc-container .toc-link.active,
+    .toc-nav .toc-link.active {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-left-color: #ffffff !important;
+      font-weight: 600 !important;
+    }
+    
+    .toc-link.active::before {
+      content: '';
+      position: absolute;
+      left: -1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background: #00ff88;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    }
+    
+    .toc-link.h2 {
+      font-weight: 500;
+      padding-left: 1.2rem;
+    }
+    
+    .toc-link.h3 {
+      font-size: 0.8rem;
+      padding-left: 1.8rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .toc-link.h3.active {
+      color: #ffffff;
+    }
+
+    /* Styles pour le bouton de partage */
+    .share-container {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0 2.5rem 0;
+      position: relative;
+    }
+    
+    .share-button {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 20px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .share-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .share-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .share-button:hover::before {
+      left: 100%;
+    }
+    
+    .share-button svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.3s ease;
+    }
+    
+    .share-button:hover svg {
+      transform: scale(1.1);
+    }
+    
+    .share-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(13, 13, 13, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 8px;
+      margin-top: 8px;
+      min-width: 200px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(-10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+    }
+    
+    .share-dropdown.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    .share-dropdown::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: rgba(13, 13, 13, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: none;
+      border-right: none;
+      transform: translateX(-50%) rotate(45deg);
+    }
+    
+    .share-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .share-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: translateX(4px);
+    }
+    
+    .share-option svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    
+    .share-option.facebook:hover {
+      background: rgba(24, 119, 242, 0.2);
+      color: #1877f2;
+    }
+    
+    .share-option.twitter:hover {
+      background: rgba(29, 161, 242, 0.2);
+      color: #1da1f2;
+    }
+    
+    .share-option.whatsapp:hover {
+      background: rgba(37, 211, 102, 0.2);
+      color: #25d366;
+    }
+    
+    .share-option.email:hover {
+      background: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+    
+    
+    .share-option.telegram:hover {
+      background: rgba(0, 136, 204, 0.2);
+      color: #0088cc;
+    }
+    
+    .share-option.reddit:hover {
+      background: rgba(255, 69, 0, 0.2);
+      color: #ff4500;
+    }
+    
+    .share-option.copy:hover {
+      background: rgba(0, 255, 136, 0.2);
+      color: #00ff88;
+    }
+
+    /* Responsive - écrans moyens */
+    @media (max-width: 1400px) {
+      .toc-sidebar {
+        left: calc(50vw - 500px - 80px); /* Ajustement pour écrans moyens */
+      }
+    }
+    
+    @media (max-width: 1200px) {
+      .toc-sidebar {
+        left: calc(50vw - 400px - 80px); /* Ajustement pour écrans plus petits */
+      }
+    }
+    
+    @media (max-width: 1000px) {
+      .toc-sidebar {
+        left: calc(50vw - 350px - 80px); /* Ajustement pour écrans plus petits */
+      }
+    }
+    
+    @media (max-width: 900px) {
+      .toc-sidebar {
+        left: 1rem; /* Retour à la marge gauche sur petits écrans */
+      }
+    }
+    
     /* Responsive - mobile */
     @media (max-width: 768px) {
+      .toc-sidebar {
+        display: none; /* Masquer le sommaire latéral sur mobile */
+      }
+      
       .article-title {
         font-size: 2rem;
         line-height: 1.3;
@@ -1162,6 +1501,17 @@
         font-size: 1.25rem;
         margin-top: 1.5rem;
         margin-bottom: 1rem;
+      }
+      
+      .share-dropdown {
+        min-width: 180px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      .share-option {
+        padding: 10px 14px;
+        font-size: 0.85rem;
       }
       
       .toc-title {
@@ -1323,6 +1673,24 @@
   </style>
 </head>
 <body>
+  <!-- Sommaire latéral absolu -->
+  <div class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="8" y1="6" x2="21" y2="6"></line>
+        <line x1="8" y1="12" x2="21" y2="12"></line>
+        <line x1="8" y1="18" x2="21" y2="18"></line>
+        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+      </svg>
+      Sommaire
+    </div>
+    <ul class="toc-list" id="toc-list">
+      <!-- Les éléments du sommaire seront générés dynamiquement -->
+    </ul>
+  </div>
+
   <!-- Reading Progress Indicator -->
   <div class="reading-progress">
     <div class="reading-progress-bar" id="reading-progress-bar"></div>
@@ -1701,6 +2069,66 @@
                   </div>
                 </div>
 
+                <!-- Share Button -->
+                <div class="share-container">
+                  <button class="share-button" id="share-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="18" cy="5" r="3"></circle>
+                      <circle cx="6" cy="12" r="3"></circle>
+                      <circle cx="18" cy="19" r="3"></circle>
+                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                    Partager
+                  </button>
+                  <div class="share-dropdown" id="share-dropdown">
+                    <a href="#" class="share-option copy" data-action="copy">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                      Copier le lien
+                    </a>
+                    <a href="#" class="share-option facebook" data-action="facebook" target="_blank">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                      </svg>
+                      Facebook
+                    </a>
+                    <a href="#" class="share-option twitter" data-action="twitter" target="_blank">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                      </svg>
+                      Twitter
+                    </a>
+                    <a href="#" class="share-option whatsapp" data-action="whatsapp" target="_blank">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                      </svg>
+                      WhatsApp
+                    </a>
+                    <a href="#" class="share-option email" data-action="email">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                      Email
+                    </a>
+                    <a href="#" class="share-option telegram" data-action="telegram" target="_blank">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                      </svg>
+                      Telegram
+                    </a>
+                    <a href="#" class="share-option reddit" data-action="reddit" target="_blank">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+                      </svg>
+                      Reddit
+                    </a>
+                  </div>
+                </div>
+
                 <!-- Table of Contents -->
                 <div id="table-of-contents" class="toc-container"></div>
                 
@@ -1901,7 +2329,8 @@
       try {
         // Récupérer tous les articles pour créer les liens
         const response = await fetch('/api/articles');
-        const articles = await response.json();
+        const data = await response.json();
+        const articles = Array.isArray(data) ? data : [];
         
         // Filtrer l'article actuel
         const otherArticles = articles.filter(art => art.slug !== currentArticle.slug);
@@ -1947,21 +2376,17 @@
       }
     }
     
-    // Fonction pour ajouter la table des matières
+    // Fonction pour ajouter la table des matières latérale
     function addTableOfContents() {
-      const tocEl = document.getElementById('table-of-contents');
+      const tocListEl = document.getElementById('toc-list');
+      const tocSidebarEl = document.getElementById('toc-sidebar');
       const contentEl = document.getElementById('article-content');
       
-      if (tocEl && contentEl) {
+      if (tocListEl && tocSidebarEl && contentEl) {
         const headings = contentEl.querySelectorAll('h2, h3');
         
         if (headings.length > 2) { // Seulement si il y a plus de 2 titres
-          let tocHTML = `
-            <div class="toc-wrapper">
-              <h3 class="toc-title">Sommaire</h3>
-              <nav class="toc-nav" role="navigation" aria-label="Sommaire">
-                <ul class="toc-list">
-          `;
+          let tocHTML = '';
           
           headings.forEach((heading, index) => {
             const id = `heading-${index}`;
@@ -1972,34 +2397,181 @@
             heading.id = id;
             
             // Créer l'élément de la table des matières
-            const indentClass = level === 'h3' ? 'toc-item-h3' : 'toc-item-h2';
+            const levelClass = level === 'h3' ? 'h3' : 'h2';
             tocHTML += `
-              <li class="toc-item ${indentClass}">
-                <a href="#${id}" class="toc-link" onclick="scrollToHeading('${id}')">
+              <li class="toc-item">
+                <span class="toc-link ${levelClass}" data-target="${id}">
                   ${text}
-                </a>
+                </span>
               </li>
             `;
           });
           
-          tocHTML += `
-                </ul>
-              </nav>
-            </div>
-          `;
+          tocListEl.innerHTML = tocHTML;
           
-          tocEl.innerHTML = tocHTML;
+          // Afficher le sommaire latéral seulement quand on arrive au contenu
+          showTocWhenNeeded();
+          
+          // Ajouter la navigation par clic
+          addTocNavigation();
+          
+          // Démarrer immédiatement
+          startScrollHoverEffect();
+        } else {
+          // Masquer le sommaire si pas assez de titres
+          tocSidebarEl.classList.remove('visible');
         }
       }
     }
     
-    // Fonction pour faire défiler vers un titre
+    // Fonction pour ajouter la navigation par clic au sommaire
+    function addTocNavigation() {
+      const links = document.querySelectorAll('.toc-link');
+      
+      links.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('data-target');
+          if (targetId) {
+            scrollToHeading(targetId);
+          }
+        });
+      });
+    }
+    
+    // Fonction pour afficher le sommaire à partir d'un scroll fixe
+    function showTocWhenNeeded() {
+      const tocSidebarEl = document.getElementById('toc-sidebar');
+      
+      if (!tocSidebarEl) return;
+      
+      function checkScrollPosition() {
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const triggerPoint = 1000; // 1000px de scroll pour activer le sommaire
+        const endPoint = documentHeight - windowHeight - 1000; // 1000px avant la fin
+        
+        if (scrollTop >= triggerPoint && scrollTop <= endPoint) {
+          tocSidebarEl.classList.add('visible');
+        } else {
+          tocSidebarEl.classList.remove('visible');
+        }
+      }
+      
+      // Événement scroll pour gérer l'affichage
+      window.addEventListener('scroll', checkScrollPosition);
+      
+      // Vérifier la position initiale
+      checkScrollPosition();
+    }
+    
+    // Fonction pour appliquer l'effet hover automatiquement selon le scroll
+    function startScrollHoverEffect() {
+      // VERSION À TOUTE ÉPREUVE : Recharger les éléments à chaque fois
+      function updateHoverEffect() {
+        const links = document.querySelectorAll('.toc-link');
+        const tocSidebarEl = document.getElementById('toc-sidebar');
+        
+        if (links.length === 0 || !tocSidebarEl) return;
+        
+        // VÉRIFIER SI LE SOMMAIRE EST VISIBLE
+        if (!tocSidebarEl.classList.contains('visible')) {
+          return; // Ne pas faire l'effet si le sommaire n'est pas visible
+        }
+        
+        // Créer un mapping simple (à chaque fois)
+        const linkToElement = new Map();
+        links.forEach(link => {
+          const targetId = link.getAttribute('data-target');
+          const element = document.getElementById(targetId);
+          if (element) {
+            linkToElement.set(link, element);
+          }
+        });
+        
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const viewportCenter = scrollTop + windowHeight / 2;
+        
+        let activeLink = null;
+        let closestDistance = Infinity;
+        
+        // Trouver l'élément le plus proche du centre de la fenêtre
+        for (let i = 0; i < links.length; i++) {
+          const link = links[i];
+          const element = linkToElement.get(link);
+          
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const elementTop = rect.top + scrollTop;
+            const elementCenter = elementTop + rect.height / 2;
+            const distance = Math.abs(elementCenter - viewportCenter);
+            
+            // LOGIQUE SIMPLIFIÉE: Un élément est visible s'il est dans la fenêtre
+            const isVisible = rect.top < windowHeight && rect.bottom > 0;
+            
+            if (isVisible && distance < closestDistance) {
+              closestDistance = distance;
+              activeLink = link;
+            }
+          }
+        }
+        
+        // Appliquer l'effet hover au lien actif
+        if (activeLink) {
+          // Retirer l'effet hover de tous les liens
+          links.forEach(link => {
+            link.style.color = '';
+            link.style.background = '';
+            link.style.borderLeftColor = '';
+            link.style.transform = '';
+          });
+          
+          // Appliquer l'effet hover au lien actif
+          activeLink.style.color = '#fff';
+          activeLink.style.background = 'rgba(255, 255, 255, 0.05)';
+          activeLink.style.borderLeftColor = 'rgba(255, 255, 255, 0.3)';
+          activeLink.style.transform = 'translateX(4px)';
+        }
+      }
+      
+      // NOUVELLE APPROCHE: Utiliser un timer au lieu d'événements de scroll
+      let lastScrollTop = 0;
+      
+      function checkScroll() {
+        const currentScrollTop = window.pageYOffset;
+        
+        if (Math.abs(currentScrollTop - lastScrollTop) > 5) {
+          updateHoverEffect();
+          lastScrollTop = currentScrollTop;
+        }
+      }
+      
+      // Vérifier toutes les 100ms
+      setInterval(checkScroll, 100);
+      
+      // Initialiser
+      updateHoverEffect();
+    }
+    
+    // Fonction pour faire défiler vers un titre (centré au milieu de l'écran)
     function scrollToHeading(headingId) {
       const element = document.getElementById(headingId);
       if (element) {
-        element.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
+        const windowHeight = window.innerHeight;
+        const elementHeight = element.offsetHeight;
+        const elementTop = element.offsetTop;
+        
+        // Calculer la position pour centrer l'élément au milieu de l'écran
+        // Un peu plus haut que le milieu (comme la détection du sommaire)
+        const targetPosition = elementTop - (windowHeight / 2) + (elementHeight / 2) + 100;
+        
+        // Faire défiler vers cette position
+        window.scrollTo({
+          top: Math.max(0, targetPosition), // Ne pas aller en négatif
+          behavior: 'smooth'
         });
         
         // Ajouter un effet de surbrillance temporaire
@@ -2419,6 +2991,7 @@
     // Charger l'article au chargement de la page
     document.addEventListener('DOMContentLoaded', function() {
       loadArticle();
+      initShareButton();
       
       // Ajouter l'écouteur de scroll pour la progression de lecture
       window.addEventListener('scroll', updateReadingProgress);
@@ -2750,25 +3323,35 @@
       
       // Gestion du scroll pour les bannières avec effet de fondu
       let lastScrollTop = 0;
-      window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const leftAd = document.querySelector('.ads-container.left');
-        const rightAd = document.querySelector('.ads-container.right');
-        
-        if (leftAd && rightAd) {
-          if (scrollTop > lastScrollTop) {
-            // Scroll vers le bas - faire disparaître en fondu
-            leftAd.style.opacity = '0';
-            rightAd.style.opacity = '0';
-          } else {
-            // Scroll vers le haut - faire réapparaître en fondu
-            leftAd.style.opacity = '1';
-            rightAd.style.opacity = '1';
-          }
+      let adTicking = false;
+      
+      function handleAdScroll() {
+        if (!adTicking) {
+          requestAnimationFrame(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const leftAd = document.querySelector('.ads-container.left');
+            const rightAd = document.querySelector('.ads-container.right');
+            
+            if (leftAd && rightAd) {
+              if (scrollTop > lastScrollTop) {
+                // Scroll vers le bas - faire disparaître en fondu
+                leftAd.style.opacity = '0';
+                rightAd.style.opacity = '0';
+              } else {
+                // Scroll vers le haut - faire réapparaître en fondu
+                leftAd.style.opacity = '1';
+                rightAd.style.opacity = '1';
+              }
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            adTicking = false;
+          });
+          adTicking = true;
         }
-        
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-      });
+      }
+      
+      window.addEventListener('scroll', handleAdScroll, { passive: true });
       
       // Ajouter les transitions pour le fondu synchronisé
       const style = document.createElement('style');
@@ -2810,6 +3393,163 @@
         }
       }
     }
+    
+    // Fonctionnalité de partage
+    function initShareButton() {
+      const shareButton = document.getElementById('share-button');
+      const shareDropdown = document.getElementById('share-dropdown');
+      const shareOptions = document.querySelectorAll('.share-option');
+      
+      if (!shareButton || !shareDropdown) return;
+      
+      // Variables pour stocker les données de l'article
+      let articleData = {
+        title: '',
+        url: '',
+        description: ''
+      };
+      
+      // Fonction pour obtenir les données de l'article
+      function getArticleData() {
+        const titleEl = document.querySelector('.article-title');
+        const excerptEl = document.querySelector('.article-excerpt');
+        
+        articleData.title = titleEl ? titleEl.textContent : document.title;
+        articleData.url = window.location.href;
+        articleData.description = excerptEl ? excerptEl.textContent : '';
+        
+        return articleData;
+      }
+      
+      // Fonction pour copier le lien dans le presse-papiers
+      async function copyToClipboard(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showNotification('Lien copié dans le presse-papiers !', 'success');
+        } catch (err) {
+          // Fallback pour les navigateurs plus anciens
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          showNotification('Lien copié dans le presse-papiers !', 'success');
+        }
+      }
+      
+      // Fonction pour afficher une notification
+      function showNotification(message, type = 'info') {
+        // Créer l'élément de notification
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: ${type === 'success' ? 'rgba(0, 255, 136, 0.9)' : 'rgba(77, 101, 255, 0.9)'};
+          color: white;
+          padding: 12px 20px;
+          border-radius: 8px;
+          font-size: 0.9rem;
+          font-weight: 500;
+          z-index: 10000;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        `;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        // Animation d'entrée
+        setTimeout(() => {
+          notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Supprimer après 3 secondes
+        setTimeout(() => {
+          notification.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.parentNode.removeChild(notification);
+            }
+          }, 300);
+        }, 3000);
+      }
+      
+      // Fonction pour générer les URLs de partage
+      function getShareUrl(platform, data) {
+        const encodedUrl = encodeURIComponent(data.url);
+        const encodedTitle = encodeURIComponent(data.title);
+        const encodedDescription = encodeURIComponent(data.description);
+        
+        switch (platform) {
+          case 'facebook':
+            return `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+          case 'twitter':
+            return `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+          case 'whatsapp':
+            return `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`;
+          case 'email':
+            return `mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedUrl}`;
+          case 'telegram':
+            return `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`;
+          case 'reddit':
+            return `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`;
+          default:
+            return null;
+        }
+      }
+      
+      // Gestionnaire pour le bouton de partage
+      shareButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        shareDropdown.classList.toggle('active');
+      });
+      
+      // Gestionnaire pour les options de partage
+      shareOptions.forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.preventDefault();
+          const action = this.dataset.action;
+          const data = getArticleData();
+          
+          switch (action) {
+            case 'copy':
+              copyToClipboard(data.url);
+              break;
+            case 'email':
+              window.location.href = getShareUrl('email', data);
+              break;
+            default:
+              const shareUrl = getShareUrl(action, data);
+              if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+              }
+              break;
+          }
+          
+          // Fermer le menu déroulant
+          shareDropdown.classList.remove('active');
+        });
+      });
+      
+      // Fermer le menu déroulant en cliquant ailleurs
+      document.addEventListener('click', function(e) {
+        if (!shareButton.contains(e.target) && !shareDropdown.contains(e.target)) {
+          shareDropdown.classList.remove('active');
+        }
+      });
+      
+      // Fermer le menu déroulant avec la touche Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          shareDropdown.classList.remove('active');
+        }
+      });
+    }
   </script>
 </body>
-</html> 
+</html>
