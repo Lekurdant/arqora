@@ -51,6 +51,7 @@ export default async function handler(req, res) {
         <li>Design: ${Array.isArray(a.design) ? a.design.join(', ') : ''}</li>
         <li>Budget: ${Array.isArray(a.budget) ? a.budget.join(', ') : ''}</li>
         <li>Email: ${a.email || ''}</li>
+        ${a.projectDetails ? `<li>Détails du projet: ${a.projectDetails}</li>` : ''}
       </ul>
     `;
 

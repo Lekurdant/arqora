@@ -27,6 +27,7 @@
     design: [],
     budget: [],
     email: null,
+    projectDetails: null,
   };
   let pdf=[]
   let fileInput;
@@ -51,12 +52,25 @@
       }
 
       const uploaded = [];
-      for (let i = 0; i < pdf.length; i++) {
-        // On ne dispose que des noms; on lit depuis l'input
-        const files = fileInput?.files || [];
+      const files = fileInput?.files || [];
+      
+      for (let i = 0; i < files.length; i++) {
         const f = files[i];
         if (f) {
-          if (f.type !== 'application/pdf') throw new Error('Upload PDF uniquement.');
+          // Vérifier le type de fichier
+          const allowedTypes = [
+            'application/pdf',
+            'image/jpeg',
+            'image/jpg', 
+            'image/png',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          ];
+          
+          if (!allowedTypes.includes(f.type)) {
+            throw new Error('Seuls les fichiers PDF, JPEG, PNG et DOC sont acceptés.');
+          }
+          
           const dataUrl = await toDataUrl(f);
           uploaded.push({ filename: f.name, dataUrl });
         }
@@ -92,20 +106,33 @@
 
   function handleFileUpload(e) {
     const files = e.target.files;
-    let pdfs = []
+    let newPdfs = [];
+    
     for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    console.log(`Uploading file: ${file.name}, size: ${file.size} bytes`);
-    if (file.type !== 'application/pdf') {
-      throw new Error('Please upload only PDF files.');
+      const file = files[i];
+      console.log(`Uploading file: ${file.name}, size: ${file.size} bytes`);
+      
+      // Vérifier le type de fichier
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/jpg', 
+        'image/png',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+      
+      if (!allowedTypes.includes(file.type)) {
+        throw new Error('Seuls les fichiers PDF, JPEG, PNG et DOC sont acceptés.');
+      }
+      
+      formData.append('pdfs[]', file, file.name);
+      newPdfs.push(file.name);
     }
-    formData.append('pdfs[]', file, file.name); // 'pdfs[]' indicates this is an array of files
-    pdf = [...pdf, file.name]
-
-  }
- 
-  console.log(pdf)
-
+    
+    // Ajouter les nouveaux fichiers à la liste existante
+    pdf = [...pdf, ...newPdfs];
+    console.log('Total files:', pdf);
   }
 
   function next() {
@@ -381,8 +408,8 @@
                   on:click={animatecheckbox}
                   ><input
                     type="checkbox"
-                    id="Portefolio"
-                    name="Portefolio"
+                    id="Site Vitrine"
+                    name="Site Vitrine"
                     data-name="web design"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cce2"
                     class="w-checkbox-input checkbox"
@@ -399,9 +426,9 @@
                   on:click={animatecheckbox}
                   ><input
                     type="checkbox"
-                    id="SPA"
-                    name="Webflow-Build"
-                    data-name="Webflow Build"
+                    id="Application Web"
+                    name="Application Web"
+                    data-name="Application Web"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cce9"
                     class="w-checkbox-input checkbox"
                   /><img
@@ -417,9 +444,9 @@
                   on:click={animatecheckbox}
                   ><input
                     type="checkbox"
-                    id="Webflow Support"
-                    name="Webflow-Support"
-                    data-name="Webflow Support"
+                    id="Application Mobile"
+                    name="Application Mobile"
+                    data-name="Application Mobile"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005ccf0"
                     class="w-checkbox-input checkbox"
                   /><img
@@ -437,9 +464,9 @@
                   on:click={animatecheckbox}
                   ><input
                     type="checkbox"
-                    id="Other"
-                    name="Other"
-                    data-name="Other"
+                    id="E-commerce"
+                    name="E-commerce"
+                    data-name="E-commerce"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005ccf7"
                     class="w-checkbox-input checkbox"
                   /><img
@@ -804,7 +831,8 @@
             >
               <div class="form-section-title-dark">Confirmer la demande.</div>
               <p class="paragraph-dark">
-                Vous pouvez télecharger ici un ou plusieurs fichiers complémentaires<br
+                Vous pouvez télécharger ici un ou plusieurs fichiers complémentaires (PDF, JPEG, PNG, DOC)<br />
+                <strong>Maximum : 5000 KO au total</strong><br
                 />
               </p>
               
@@ -817,8 +845,9 @@
                   type="file"
                   id="file"
                   multiple
+                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
                 />
-                <div class="text w-inline-block">Téchargez votre fichier</div>
+                <div class="text w-inline-block">Téléchargez votre fichier (PDF, JPEG, PNG, DOC)</div>
                 
               </label>
               <p class="paragraph-dark">
@@ -827,6 +856,22 @@
                
                 {/each}
               </p>
+              
+              <div class="form-wrap-full">
+                <div class="field-title-dark">
+                  Détaillez plus votre projet (optionnel)
+                </div>
+                <textarea
+                  class="field-input-dark w-input"
+                  maxlength="1000"
+                  name="Project-Details"
+                  data-name="Project Details"
+                  placeholder="Décrivez votre projet en quelques mots..."
+                  id="Project-Details"
+                  rows="4"
+                  bind:value={Answers.projectDetails}
+                ></textarea>
+              </div>
             </div>
             <div class="title-left-dark">
               <div class="text-block-3-dark">Confirmation</div>
@@ -1096,6 +1141,12 @@
 
   .field-input-dark::placeholder {
     color: rgba(255, 255, 255, 0.5);
+  }
+
+  textarea.field-input-dark {
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
   }
 
   .title-left-dark {
