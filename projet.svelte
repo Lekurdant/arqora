@@ -34,8 +34,44 @@
   let file;
   let issent = false;
   let isSuccess = false;
+  let emailError = false;
+  
+  // Fonction pour réinitialiser l'erreur email quand l'utilisateur tape
+  const handleEmailInput = () => {
+    if (emailError) {
+      emailError = false;
+    }
+  };
   
   const handleDataUpload = async () => {
+    // Réinitialiser l'état d'erreur
+    emailError = false;
+    
+    // Vérifier que l'email est rempli
+    if (!Answers.email || Answers.email.trim() === '') {
+      emailError = true;
+      addNotification.addNotification({
+        text: 'Vous devez renseigner votre adresse email pour envoyer votre demande',
+        position: 'bottom-right',
+        type: 'error',
+        removeAfter: 5000,
+      });
+      return;
+    }
+
+    // Vérifier le format de l'email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(Answers.email.trim())) {
+      emailError = true;
+      addNotification.addNotification({
+        text: 'Veuillez saisir une adresse email valide',
+        position: 'bottom-right',
+        type: 'error',
+        removeAfter: 5000,
+      });
+      return;
+    }
+
     issent = true;
     try {
       // Convertir les pièces jointes PDF en dataURL pour API serverless
@@ -156,7 +192,7 @@
     }
     if (activeform == 2 && (Answers.cdc.length == 0)) {
       addNotification.addNotification({
-            text: 'Repondez  par oui ou non ',
+            text: 'Veuillez répondre par Oui ou Non pour le contenu rédigé',
             position: 'bottom-right',
             type: 'error',
             removeAfter: 4000,
@@ -165,7 +201,7 @@
     }
     if (activeform == 3 && (Answers.design.length == 0)) {
       addNotification.addNotification({
-            text: 'Veuillez selectionner un type de projet',
+            text: 'Veuillez répondre par Oui ou Non pour les illustrations',
             position: 'bottom-right',
             type: 'error',
             removeAfter: 4000,
@@ -174,7 +210,7 @@
     }
     if (activeform == 4 && (Answers.budget.length == 0)) {
       addNotification.addNotification({
-            text: 'Veuillez selectionner un type de budget',
+            text: 'Veuillez sélectionner au moins une tranche de budget',
             position: 'bottom-right',
             type: 'error',
             removeAfter: 4000,
@@ -196,7 +232,19 @@
   function selectcheckbox(e) {
     if (activeform == 0) {
       Answers.type.push(e.id);
+      return true;
     }
+    if (activeform == 4) {
+      // Limiter à 2 sélections maximum pour le budget
+      if (Answers.budget.length < 2) {
+        Answers.budget.push(e.id);
+        return true;
+      } else {
+        // Si déjà 2 sélections, ne pas ajouter
+        return false;
+      }
+    }
+    return true;
   }
 
   function deselectcheckbox(e) {
@@ -204,6 +252,12 @@
       var index = Answers.type.indexOf(e.id);
       if (index !== -1) {
         Answers.type.splice(index, 1);
+      }
+    }
+    if (activeform == 4) {
+      var index = Answers.budget.indexOf(e.id);
+      if (index !== -1) {
+        Answers.budget.splice(index, 1);
       }
     }
   }
@@ -222,12 +276,20 @@
       trans_out.start();
       deselectcheckbox(event.target);
     } else {
+      // Vérifier si la sélection est autorisée
+      const selectionResult = selectcheckbox(event.target);
+      
+      // Si la sélection a été refusée (limite atteinte), annuler l'animation
+      if (selectionResult === false) {
+        element.dataset.scaled = "false"; // Remettre à false
+        return; // Ne pas faire l'animation
+      }
+      
       const trans_in = create_in_transition(element, checkscale, {
         duration: 400,
         direction: "in",
       });
       trans_in.start();
-      selectcheckbox(event.target);
     }
   }
 
@@ -239,7 +301,41 @@
       return;
     }
 
+    // Initialiser dataset.scaled si pas défini
+    if (clickedElement.dataset.scaled === undefined) {
+      clickedElement.dataset.scaled = "false";
+    }
+
+    // Vérifier la limite pour l'étape 4 (budget)
+    if (activeform == 4 && clickedElement.dataset.scaled === "false" && Answers.budget.length >= 2) {
+      // Limite atteinte, ne pas permettre la sélection
+      return;
+    }
+
+    // Permettre la désélection si l'élément est déjà sélectionné
     if (clickedElement.dataset.scaled === "true") {
+      clickedElement.dataset.scaled = "false";
+      const trans_out = create_in_transition(clickedElement, checkscale, {
+        duration: 400,
+        direction: "out",
+      });
+      trans_out.start();
+      
+      // Vider la réponse correspondante
+      if (activeform == 2) {
+        Answers.cdc = [];
+      }
+      if (activeform == 3) {
+        Answers.design = [];
+      }
+      if (activeform == 4) {
+        const inputId = clickedElement.querySelector("input").id;
+        Answers.budget = Answers.budget.filter(id => id !== inputId);
+      }
+      
+      setTimeout(() => {
+        group.dataset.isAnimating = "false";
+      }, 400);
       return;
     }
 
@@ -250,7 +346,13 @@
     );
 
     allCheckboxesInGroup.forEach((checkbox) => {
-      if (checkbox.dataset.scaled === "true") {
+      // Initialiser dataset.scaled si pas défini
+      if (checkbox.dataset.scaled === undefined) {
+        checkbox.dataset.scaled = "false";
+      }
+      
+      // Pour l'étape 4 (budget), ne pas désélectionner automatiquement les autres
+      if (activeform !== 4 && checkbox.dataset.scaled === "true") {
         checkbox.dataset.scaled = "false";
         const trans_out = create_in_transition(checkbox, checkscale, {
           duration: 400,
@@ -275,7 +377,10 @@
       Answers.design = [inputId];
     }
     if (activeform == 4) {
-      Answers.budget = [inputId];
+      // Pour le budget, ajouter à la liste (limite déjà vérifiée plus haut)
+      if (!Answers.budget.includes(inputId)) {
+        Answers.budget.push(inputId);
+      }
     }
 
     setTimeout(() => {
@@ -831,7 +936,7 @@
             >
               <div class="form-section-title-dark">Confirmer la demande.</div>
               <p class="paragraph-dark">
-                Vous pouvez télécharger ici un ou plusieurs fichiers complémentaires (PDF, JPEG, PNG, DOC)<br />
+                <strong>Optionnel :</strong> Vous pouvez télécharger ici un ou plusieurs fichiers complémentaires (Cahier des charges, Image design, Logo, Branding, Documents, etc.)<br />
                 <strong>Maximum : 5000 KO au total</strong><br
                 />
               </p>
@@ -891,13 +996,14 @@
               </div>
               <input
                 type="email"
-                class="field-input-dark w-input"
+                class="field-input-dark w-input {emailError ? 'email-error' : ''}"
                 maxlength="256"
                 name="Email"
                 data-name="Email"
                 placeholder="nomemail@email.com"
                 id="Email"
                 bind:value={Answers.email}
+                on:input={handleEmailInput}
               />
             </div>
           {/if}
@@ -1149,6 +1255,45 @@
     font-family: inherit;
   }
 
+  /* Style d'erreur pour l'input email */
+  .email-error {
+    border: 2px solid #ff4444 !important;
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.3) !important;
+    background-color: rgba(255, 68, 68, 0.05) !important;
+  }
+
+  /* Notifications sur mobile - approche simple */
+  @media (max-width: 768px) {
+    /* Cibler seulement les notifications avec du contenu */
+    :global(.notification-container:not(:empty)),
+    :global(.notifications:not(:empty)),
+    :global(.notification:not(:empty)) {
+      bottom: 120px !important;
+      top: auto !important;
+      background: rgba(0, 0, 0, 0.2) !important;
+      border-radius: 8px !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+      position: relative !important;
+    }
+    
+    /* Blur avec pseudo-élément */
+    :global(.notification-container:not(:empty)::before),
+    :global(.notifications:not(:empty)::before),
+    :global(.notification:not(:empty)::before) {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      border-radius: 8px !important;
+      z-index: -1 !important;
+    }
+  }
+
   .title-left-dark {
     position: absolute;
     top: 40px;
@@ -1275,30 +1420,45 @@
   /* Responsive */
   @media (max-width: 768px) {
     .form-wrapper-dark {
-      padding: 30px 15px;
+      padding: 20px 0px;
       margin: 0;
+      min-height: 100vh;
+      overflow-y: auto;
+      max-width: none !important;
     }
     
     .form-content-dark {
-      padding: 20px 15px;
+      padding: 15px 10px;
+      margin: 0 !important;
+      margin-bottom: 15px !important;
+      width: calc(100vw - 20px) !important;
+      margin-left: calc(-50vw + 50% + 10px) !important;
+      margin-right: calc(-50vw + 50% + 10px) !important;
     }
     
     .form-section-title-dark {
-      font-size: 2rem;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .paragraph-dark {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
     }
     
     .title-left-dark,
     .details-right-dark {
       position: static;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+      display: none; /* Cache "Formulaire" et "1 / 6" sur mobile */
     }
     
     /* Mobile: Barre de navigation adaptée */
     .nav-bar-clean {
       position: fixed;
       bottom: 20px;
-      left: 20px;
-      right: 20px;
+      left: 7px;
+      right: 7px;
       transform: none;
       padding: 12px 15px;
       gap: 10px;
@@ -1316,22 +1476,46 @@
 
     /* Mobile: 2 options par ligne minimum */
     .checkbox_wrap {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      justify-items: center;
-    }
-
-    .checkbox-field-dark {
-      width: 100%;
-      max-width: 200px;
-      min-height: 160px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 0 5px;
       margin: 0;
     }
 
-    /* Mobile: Monter la section "Que recherchez-vous ?" */
+    .checkbox-field-dark {
+      flex: 0 0 calc(50% - 4px);
+      max-width: calc(50% - 4px);
+      min-height: 120px;
+      margin: 0;
+      padding: 10px;
+    }
+    
+    .checkbox-title-dark {
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+    
+    .checkbox-image {
+      width: 35px !important;
+    }
+
+    /* Mobile: Supprime le margin-top négatif pour éviter les problèmes */
     .form-content-dark {
-      margin-top: -120px;
+      margin-top: 0;
+    }
+    
+    /* Force la hauteur exacte de l'écran sur mobile */
+    :global(body.body-form-dark) {
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+    
+    :global(.form-full-dark) {
+      min-height: 100vh;
+      overflow-y: auto;
     }
   }
 </style>
