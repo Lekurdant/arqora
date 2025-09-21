@@ -4,4 +4,4 @@ Disallow: /admin-blog.html
 Disallow: /backend/
 Disallow: /uploads/pdfs/
 
-Sitemap: https://nocodebaby.com/sitemap.xml 
+Sitemap: https://arqova.fr/sitemap.xml 

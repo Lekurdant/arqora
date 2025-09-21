@@ -82,7 +82,7 @@ export default async function handler(req, res) {
         excerpt: (typeof excerpt !== 'undefined') ? excerpt : (existing?.excerpt || ''),
         metaDescription: (typeof metaDescription !== 'undefined') ? metaDescription : (existing?.metaDescription || excerpt || ''),
         category: (typeof category !== 'undefined') ? category : (existing?.category || 'nocode'),
-        author: (typeof author !== 'undefined') ? author : (existing?.author || 'Nocodebaby'),
+        author: (typeof author !== 'undefined') ? author : (existing?.author || 'Arqova'),
         readTime: (typeof readTime !== 'undefined') ? readTime : (existing?.readTime || '5 min'),
         tags: (typeof normalizedTags !== 'undefined') ? normalizedTags : (existing?.tags || []),
         focusKeywords: (typeof focusKeywords !== 'undefined') ? focusKeywords : (existing?.focusKeywords || ''),

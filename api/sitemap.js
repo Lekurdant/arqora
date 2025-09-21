@@ -12,8 +12,8 @@ export default async function handler(req, res) {
   try {
     // Récupérer tous les articles
     const { data: articles } = await octokit.rest.repos.getContent({
-      owner: 'Lekur',
-      repo: 'arqora',
+      owner: 'Lekurdant',
+      repo: 'Arqova',
       path: 'articles',
     });
 
@@ -49,8 +49,8 @@ export default async function handler(req, res) {
         try {
           // Récupérer le contenu de l'article
           const { data: articleContent } = await octokit.rest.repos.getContent({
-            owner: 'Lekur',
-            repo: 'arqora',
+            owner: 'Lekurdant',
+            repo: 'Arqova',
             path: article.path,
           });
 
@@ -94,7 +94,15 @@ export default async function handler(req, res) {
       }
     }
 
+    // Ajouter les autres pages importantes
     sitemap += `
+  <!-- Page de contact/projet -->
+  <url>
+    <loc>https://arqova.fr/projet.html</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>`;
 
     // Définir les headers pour XML

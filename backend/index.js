@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 /* const options = {
-  key: fs.readFileSync("/etc/ssl/private/nocodebaby.com_key.txt"),
-  cert: fs.readFileSync("/etc/ssl/public/nocodebaby.com.crt")
+  key: fs.readFileSync("/etc/ssl/private/arqova.fr_key.txt"),
+  cert: fs.readFileSync("/etc/ssl/public/arqova.fr.crt")
 }; */
 require('dotenv').config(); // Charger les variables d'environnement
 
@@ -91,8 +91,8 @@ app.post('/upload-pdfs', upload, async (req, res) => {
 
   // Prepare email options
   const mailOptions = {
-    from: 'team@nocodebaby.com',
-    to: 'team@nocodebaby.com', // Should be replaced with the recipient's email address
+    from: 'team@arqova.fr',
+    to: 'team@arqova.fr', // Should be replaced with the recipient's email address
     subject: 'New Client Request',
     text: 'You have received a new client request: ',
     html: htmlContent,
@@ -112,7 +112,7 @@ app.post('/upload-pdfs', upload, async (req, res) => {
   `;
   // Prepare email options
   const mailClientOptions = {
-    from: 'team@nocodebaby.com',
+    from: 'team@arqova.fr',
     to: clientData.email, // Utilisation de l'email nettoyé
     subject: 'Merci de nous avoir contacté',
    html: htmlContentClient,

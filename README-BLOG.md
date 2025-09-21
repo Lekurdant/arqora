@@ -1,8 +1,8 @@
-# Guide d'utilisation du Blog Nocodebaby
+# Guide d'utilisation du Blog Arqova
 
 ## Vue d'ensemble
 
-Le système de blog Nocodebaby est conçu pour améliorer le référencement naturel (SEO) du site en publiant régulièrement du contenu de qualité sur le développement web, le no-code, le design et le SEO.
+Le système de blog Arqova est conçu pour améliorer le référencement naturel (SEO) du site en publiant régulièrement du contenu de qualité sur le développement web, le no-code, le design et le SEO.
 
 ## Architecture
 

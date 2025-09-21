@@ -3408,13 +3408,13 @@
         // Sauvegarder le choix de fermeture dans le localStorage
         const closeBtn = mobileBanner.querySelector('.mobile-ad-close');
         closeBtn.addEventListener('click', function() {
-          localStorage.setItem('nocodebaby_ad_closed', 'true');
-          localStorage.setItem('nocodebaby_ad_closed_time', Date.now());
+          localStorage.setItem('arqova_ad_closed', 'true');
+          localStorage.setItem('arqova_ad_closed_time', Date.now());
         });
         
         // Vérifier si l'utilisateur a déjà fermé la pub récemment
-        const adClosed = localStorage.getItem('nocodebaby_ad_closed');
-        const closedTime = localStorage.getItem('nocodebaby_ad_closed_time');
+        const adClosed = localStorage.getItem('arqova_ad_closed');
+        const closedTime = localStorage.getItem('arqova_ad_closed_time');
         if (adClosed && closedTime) {
           const hoursSinceClosed = (Date.now() - parseInt(closedTime)) / (1000 * 60 * 60);
           if (hoursSinceClosed < 24) {
