@@ -94,8 +94,15 @@ export default async function handler(req, res) {
       }
     }
 
-    // Fermer le sitemap
+    // Ajouter les autres pages importantes
     sitemap += `
+  <!-- Page de contact/projet -->
+  <url>
+    <loc>https://arqova.fr/projet.html</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>`;
 
     // Définir les headers pour XML
