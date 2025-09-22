@@ -23,10 +23,10 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Invalid code' });
     }
 
-    const token = jwt.sign({ role: 'admin' }, jwtSecret, { expiresIn: '1d' });
+    const token = jwt.sign({ role: 'admin' }, jwtSecret, { expiresIn: '90d' });
     const isProd = process.env.NODE_ENV === 'production';
 
-    res.setHeader('Set-Cookie', `auth=${token}; Path=/; HttpOnly; SameSite=Lax; ${isProd ? 'Secure;' : ''} Max-Age=86400`);
+    res.setHeader('Set-Cookie', `auth=${token}; Path=/; HttpOnly; SameSite=Lax; ${isProd ? 'Secure;' : ''} Max-Age=7776000`);
     return res.status(200).json({ ok: true });
   } catch (e) {
     return res.status(500).json({ error: 'Unexpected error' });

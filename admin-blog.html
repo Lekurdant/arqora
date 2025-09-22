@@ -98,11 +98,45 @@
       border-radius: 15px;
       margin-bottom: 1rem;
       transition: all 0.3s ease;
+      gap: 1.5rem;
     }
     
     .article-item:hover {
       border-color: #4d65ff;
       transform: translateY(-2px);
+    }
+    
+    .article-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex: 1;
+    }
+    
+    .article-thumbnail {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .article-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .article-thumbnail.no-image {
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 0.5rem;
     }
     
     .article-info h3 {
@@ -627,6 +661,15 @@
     async function loadArticles() {
       try {
         const response = await fetch('/api/articles');
+        
+        // Vérifier si la session a expiré
+        if (response.status === 401) {
+          showStatus('Votre session a expiré. Veuillez vous reconnecter.', true);
+          setLoggedInUI(false);
+          document.getElementById('login-overlay').style.display = 'block';
+          return;
+        }
+        
         const data = await response.json();
         const listEl = document.getElementById('article-list');
         listEl.innerHTML = '';
@@ -635,11 +678,22 @@
             const j = await fetch(item.url).then(r => r.json());
             const itemEl = document.createElement('div');
             itemEl.className = 'article-item';
+            
+            // Créer l'aperçu de l'image
+            const thumbnailHtml = j.coverUrl 
+              ? `<div class="article-thumbnail">
+                   <img src="${j.coverUrl}?t=${Date.now()}" alt="${j.imageAlt || j.title || 'Image de couverture'}" onerror="this.parentElement.className='article-thumbnail no-image'; this.parentElement.innerHTML='Pas d\\'image';">
+                 </div>`
+              : `<div class="article-thumbnail no-image">Pas d'image</div>`;
+            
             itemEl.innerHTML = `
-              <div class="article-info">
-                <h3>${j.title || item.slug}</h3>
-                <div class="article-meta">
-                  ${formatDate(j.publishedAt || item.uploadedAt || new Date().toISOString())}
+              <div class="article-content">
+                ${thumbnailHtml}
+                <div class="article-info">
+                  <h3>${j.title || item.slug}</h3>
+                  <div class="article-meta">
+                    ${formatDate(j.publishedAt || item.uploadedAt || new Date().toISOString())}
+                  </div>
                 </div>
               </div>
               <div class="article-actions">
@@ -659,7 +713,17 @@
     // Fonction pour éditer un article
     async function editArticle(slug) {
       try {
-        const info = await fetch(`/api/articles/${slug}`).then(r => r.json());
+        const infoResponse = await fetch(`/api/articles/${slug}`);
+        
+        // Vérifier si la session a expiré
+        if (infoResponse.status === 401) {
+          showStatus('Votre session a expiré. Veuillez vous reconnecter.', true);
+          setLoggedInUI(false);
+          document.getElementById('login-overlay').style.display = 'block';
+          return;
+        }
+        
+        const info = await infoResponse.json();
         // Toujours recharger la dernière version via l'URL renvoyée
         const article = await fetch(info.url, { cache: 'no-store' }).then(r => r.json());
         
@@ -705,6 +769,15 @@
     async function deleteArticle(slug) {
       try {
         const response = await fetch(`/api/articles/${slug}`, { method: 'DELETE', credentials: 'include' });
+        
+        // Vérifier si la session a expiré
+        if (response.status === 401) {
+          showStatus('Votre session a expiré. Veuillez vous reconnecter.', true);
+          setLoggedInUI(false);
+          document.getElementById('login-overlay').style.display = 'block';
+          return;
+        }
+        
         if (response.ok) {
           showStatus('Article supprimé avec succès');
           await loadArticles();
@@ -782,6 +855,14 @@
           credentials: 'include',
           body: JSON.stringify(body)
         });
+        
+        // Vérifier si la session a expiré
+        if (response.status === 401) {
+          showStatus('Votre session a expiré. Veuillez vous reconnecter.', true);
+          setLoggedInUI(false);
+          document.getElementById('login-overlay').style.display = 'block';
+          return;
+        }
         
         if (response.ok) {
           const savedArticle = await response.json();
