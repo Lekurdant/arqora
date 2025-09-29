@@ -13,6 +13,8 @@
   <link href="images/webclip.png" rel="apple-touch-icon">
   <!-- Inclure TinyMCE (auto-hébergé via CDN public, pas de clé requise) -->
   <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     /* Styles pour l'admin */
     .admin-container {
@@ -328,6 +330,132 @@
     .char-counter.error {
       color: #ff3b30;
     }
+    
+    /* Styles pour le dashboard statistiques */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      border-color: #4d65ff;
+      transform: translateY(-2px);
+    }
+    
+    .stat-icon {
+      font-size: 2rem;
+      opacity: 0.8;
+    }
+    
+    .stat-content {
+      flex: 1;
+    }
+    
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .chart-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .chart-container h3 {
+      margin: 0 0 1rem 0;
+      color: #fff;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+    
+    .chart-container canvas {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    
+    .chart-container.half {
+      margin-bottom: 0;
+    }
+    
+    .realtime-stats {
+      background: rgba(77, 101, 255, 0.05);
+      border: 1px solid rgba(77, 101, 255, 0.2);
+      border-radius: 15px;
+      padding: 1.5rem;
+    }
+    
+    .realtime-stats h3 {
+      margin: 0 0 1rem 0;
+      color: #4d65ff;
+      font-size: 1.125rem;
+      font-weight: 600;
+    }
+    
+    .realtime-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .realtime-item {
+      text-align: center;
+    }
+    
+    .realtime-number {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #4d65ff;
+      margin-bottom: 0.25rem;
+    }
+    
+    .realtime-label {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .realtime-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -492,8 +620,80 @@
         <!-- Statistiques -->
         <div id="stats-view" class="article-view" style="display: none;">
           <h2>Statistiques du blog</h2>
-          <div style="color: rgba(255, 255, 255, 0.7); text-align: center; padding: 3rem;">
-            <p>Les statistiques seront bientôt disponibles...</p>
+          
+          <!-- Statistiques générales -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">👥</div>
+              <div class="stat-content">
+                <div class="stat-number" id="visitors-today">-</div>
+                <div class="stat-label">Visiteurs aujourd'hui</div>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">📄</div>
+              <div class="stat-content">
+                <div class="stat-number" id="page-views-today">-</div>
+                <div class="stat-label">Pages vues</div>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">⏱️</div>
+              <div class="stat-content">
+                <div class="stat-number" id="avg-time">-</div>
+                <div class="stat-label">Temps moyen</div>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">📈</div>
+              <div class="stat-content">
+                <div class="stat-number" id="bounce-rate">-</div>
+                <div class="stat-label">Taux de rebond</div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Graphique évolution 7 jours -->
+          <div class="chart-container">
+            <h3>Évolution des visiteurs (7 derniers jours)</h3>
+            <canvas id="visitors-chart" width="400" height="200"></canvas>
+          </div>
+          
+          <!-- Pages populaires -->
+          <div class="chart-container">
+            <h3>Pages les plus vues</h3>
+            <canvas id="pages-chart" width="400" height="200"></canvas>
+          </div>
+          
+          <!-- Géographie et appareils -->
+          <div class="stats-row">
+            <div class="chart-container half">
+              <h3>Visiteurs par pays</h3>
+              <canvas id="countries-chart" width="300" height="200"></canvas>
+            </div>
+            
+            <div class="chart-container half">
+              <h3>Appareils utilisés</h3>
+              <canvas id="devices-chart" width="300" height="200"></canvas>
+            </div>
+          </div>
+          
+          <!-- Temps réel -->
+          <div class="realtime-stats">
+            <h3>📡 Temps réel</h3>
+            <div class="realtime-grid">
+              <div class="realtime-item">
+                <span class="realtime-number" id="active-users">-</span>
+                <span class="realtime-label">Visiteurs en ligne</span>
+              </div>
+              <div class="realtime-item">
+                <span class="realtime-number" id="current-hour-views">-</span>
+                <span class="realtime-label">Pages vues cette heure</span>
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -653,6 +853,7 @@
           break;
         case 'stats':
           document.getElementById('stats-view').style.display = 'block';
+          loadAnalytics();
           break;
       }
     }
@@ -935,6 +1136,226 @@
       // Alt text: 50-125 caractères (descriptif mais concis)
       updateCharCounter('imageAlt', 'imageAlt-counter', 50, 125);
     });
+
+    // Fonction pour charger les statistiques
+    async function loadAnalytics() {
+      try {
+        const response = await fetch('/api/analytics', { credentials: 'include' });
+        
+        // Vérifier si la session a expiré
+        if (response.status === 401) {
+          showStatus('Votre session a expiré. Veuillez vous reconnecter.', true);
+          setLoggedInUI(false);
+          document.getElementById('login-overlay').style.display = 'block';
+          return;
+        }
+        
+        const data = await response.json();
+        
+        // Mettre à jour les statistiques générales
+        document.getElementById('visitors-today').textContent = data.visitorsToday;
+        document.getElementById('page-views-today').textContent = data.pageViewsToday;
+        document.getElementById('avg-time').textContent = data.avgTimeOnSite;
+        document.getElementById('bounce-rate').textContent = data.bounceRate;
+        
+        // Mettre à jour le temps réel
+        document.getElementById('active-users').textContent = data.realTime.activeUsers;
+        document.getElementById('current-hour-views').textContent = data.realTime.currentHourViews;
+        
+        // Créer les graphiques
+        createVisitorsChart(data.last7Days);
+        createPagesChart(data.topPages);
+        createCountriesChart(data.countries);
+        createDevicesChart(data.devices);
+        
+      } catch (error) {
+        console.error('Erreur lors du chargement des statistiques:', error);
+        showStatus('Erreur lors du chargement des statistiques', true);
+      }
+    }
+    
+    // Fonction pour créer le graphique des visiteurs
+    function createVisitorsChart(data) {
+      const ctx = document.getElementById('visitors-chart').getContext('2d');
+      
+      // Détruire le graphique existant s'il y en a un
+      if (window.visitorsChart) {
+        window.visitorsChart.destroy();
+      }
+      
+      window.visitorsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.map(d => {
+            const date = new Date(d.date);
+            return date.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric' });
+          }),
+          datasets: [{
+            label: 'Visiteurs',
+            data: data.map(d => d.visitors),
+            borderColor: '#4d65ff',
+            backgroundColor: 'rgba(77, 101, 255, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#fff'
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.7)'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            },
+            y: {
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.7)'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Fonction pour créer le graphique des pages
+    function createPagesChart(data) {
+      const ctx = document.getElementById('pages-chart').getContext('2d');
+      
+      if (window.pagesChart) {
+        window.pagesChart.destroy();
+      }
+      
+      window.pagesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.map(p => p.name.length > 20 ? p.name.substring(0, 20) + '...' : p.name),
+          datasets: [{
+            label: 'Pages vues',
+            data: data.map(p => p.views),
+            backgroundColor: 'rgba(77, 101, 255, 0.8)',
+            borderColor: '#4d65ff',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#fff'
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.7)',
+                maxRotation: 45
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            },
+            y: {
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.7)'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Fonction pour créer le graphique des pays
+    function createCountriesChart(data) {
+      const ctx = document.getElementById('countries-chart').getContext('2d');
+      
+      if (window.countriesChart) {
+        window.countriesChart.destroy();
+      }
+      
+      window.countriesChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: data.map(c => c.name),
+          datasets: [{
+            data: data.map(c => c.percentage),
+            backgroundColor: [
+              '#4d65ff',
+              '#34c759',
+              '#ff9500',
+              '#ff3b30'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#fff',
+                padding: 20
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // Fonction pour créer le graphique des appareils
+    function createDevicesChart(data) {
+      const ctx = document.getElementById('devices-chart').getContext('2d');
+      
+      if (window.devicesChart) {
+        window.devicesChart.destroy();
+      }
+      
+      window.devicesChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: data.map(d => d.name),
+          datasets: [{
+            data: data.map(d => d.percentage),
+            backgroundColor: [
+              '#4d65ff',
+              '#34c759',
+              '#ff9500'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#fff',
+                padding: 20
+              }
+            }
+          }
+        }
+      });
+    }
 
     // Charger les articles au démarrage (nécessite login)
     ensureLoggedIn();

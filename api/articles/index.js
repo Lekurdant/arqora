@@ -38,13 +38,36 @@ export default async function handler(req, res) {
     try {
       const entries = await listDir('articles');
       const jsons = entries.filter(e => e.type === 'file' && e.name.endsWith('.json'));
-      const items = jsons.map(e => ({
-        slug: e.name.replace(/\.json$/, ''),
-        url: e.download_url || getRawUrl(e.path),
-        size: e.size,
-        uploadedAt: undefined
-      }));
-      return res.status(200).json({ items });
+      
+      // Charger et trier les articles par date de publication (plus récents en premier)
+      const articlesWithDates = await Promise.all(
+        jsons.map(async (e) => {
+          try {
+            const file = await getFile(e.path);
+            if (file && file.content) {
+              const article = JSON.parse(file.content);
+              return {
+                slug: e.name.replace(/\.json$/, ''),
+                url: e.download_url || getRawUrl(e.path),
+                size: e.size,
+                uploadedAt: undefined,
+                publishedAt: article.publishedAt || article.createdAt || new Date().toISOString(),
+                published: article.published !== false
+              };
+            }
+          } catch (error) {
+            console.error(`Erreur lors du chargement de l'article ${e.name}:`, error);
+          }
+          return null;
+        })
+      );
+      
+      // Filtrer les articles valides et publiés, puis trier par date
+      const validArticles = articlesWithDates
+        .filter(article => article && article.published)
+        .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+      
+      return res.status(200).json({ items: validArticles });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to list articles' });
     }
