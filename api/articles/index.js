@@ -14,6 +14,15 @@ async function readJsonBody(req) {
 }
 
 function requireAdmin(req, res) {
+  // 1. API key (pour n8n / automatisation)
+  const authHeader = req.headers.authorization || '';
+  if (authHeader.startsWith('Bearer ')) {
+    const apiKey = authHeader.slice(7);
+    if (apiKey && process.env.AUTOMATION_API_KEY && apiKey === process.env.AUTOMATION_API_KEY) {
+      return true;
+    }
+  }
+  // 2. JWT cookie (pour l'admin UI)
   try {
     const cookie = req.headers.cookie || '';
     const match = cookie.match(/(?:^|; )auth=([^;]+)/);
@@ -78,7 +87,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
     try {
-      const { title, content, slug, coverBase64, excerpt, metaDescription, category, author, readTime, tags, focusKeywords, imageAlt, published } = await readJsonBody(req);
+      const { title, content, slug, coverBase64, coverUrl, excerpt, metaDescription, category, author, readTime, tags, focusKeywords, imageAlt, published } = await readJsonBody(req);
       if (!title || !content) {
         return res.status(400).json({ error: 'Missing title or content' });
       }
@@ -150,6 +159,28 @@ export default async function handler(req, res) {
             }
           }
           article.coverUrl = getRawUrl(path) + `?t=${Date.now()}`;
+        }
+      }
+
+      // Alternative : télécharger la cover depuis une URL (pour n8n / automatisation)
+      if (!article.coverUrl && coverUrl && typeof coverUrl === 'string' && coverUrl.startsWith('http')) {
+        try {
+          const imgRes = await fetch(coverUrl);
+          if (imgRes.ok) {
+            const imgBuffer = Buffer.from(await imgRes.arrayBuffer());
+            const ct = imgRes.headers.get('content-type') || 'image/jpeg';
+            const imgExt = (ct.split('/')[1] || 'jpeg').split(';')[0].toLowerCase();
+            const imgPath = `articles/${normalizedSlug}/cover.${imgExt}`;
+            try {
+              const dir = await listDir(`articles/${normalizedSlug}`);
+              const old = dir.find(f => f.name.startsWith('cover.'));
+              if (old) await deleteFile(old.path, `chore: remove old cover for ${normalizedSlug}`, old.sha);
+            } catch {}
+            await putFile(imgPath, imgBuffer, `chore: update cover for ${normalizedSlug}`);
+            article.coverUrl = getRawUrl(imgPath) + `?t=${Date.now()}`;
+          }
+        } catch (e) {
+          console.error('[articles:POST] coverUrl error:', e.message);
         }
       }
 
