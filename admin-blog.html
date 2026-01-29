@@ -1168,9 +1168,14 @@
         document.getElementById('avg-time').textContent = data.avgTimeOnSite;
         document.getElementById('bounce-rate').textContent = data.bounceRate;
         
-        // Mettre à jour le temps réel
-        document.getElementById('active-users').textContent = data.realTime.activeUsers;
-        document.getElementById('current-hour-views').textContent = data.realTime.currentHourViews;
+        // Mettre à jour le temps réel (avec vérification)
+        if (data.realTime) {
+          document.getElementById('active-users').textContent = data.realTime.activeUsers || 0;
+          document.getElementById('current-hour-views').textContent = data.realTime.currentHourViews || 0;
+        } else {
+          document.getElementById('active-users').textContent = 0;
+          document.getElementById('current-hour-views').textContent = 0;
+        }
         
         // Créer les graphiques
         createVisitorsChart(data.last7Days);

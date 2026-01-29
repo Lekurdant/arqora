@@ -1,0 +1,189 @@
+{
+  "name": "Arqora - Publication automatique de blog",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "a1000001-0001-0001-0001-000000000001",
+      "name": "Tous les jours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// =============================================================\n// PERSONNALISEZ CETTE LISTE avec vos propres sujets d'articles\n// Le workflow choisit automatiquement le suivant chaque jour\n// =============================================================\nconst sujets = [\n  [\"Comment l'IA generative transforme le service client\", \"ia\"],\n  [\"No-code vs Low-code : quel choix pour votre projet\", \"nocode\"],\n  [\"Les 10 tendances SEO incontournables\", \"seo\"],\n  [\"Automatiser son business avec Make Zapier et n8n\", \"business\"],\n  [\"Web design : les tendances UI/UX qui dominent\", \"design\"],\n  [\"Utiliser l'IA pour creer du contenu marketing efficace\", \"marketing\"],\n  [\"Developper une API REST avec Node.js guide complet\", \"dev\"],\n  [\"Bubble vs FlutterFlow vs Webflow comparatif no-code\", \"nocode\"],\n  [\"Strategie de contenu SEO dominer Google\", \"seo\"],\n  [\"L'IA au service de la cybersecurite des PME\", \"ia\"],\n  [\"Creer une landing page qui convertit\", \"marketing\"],\n  [\"Les meilleurs outils d'IA pour les developpeurs\", \"dev\"],\n  [\"Mesurer le ROI de sa transformation digitale\", \"business\"],\n  [\"Design system pourquoi et comment en creer un\", \"design\"],\n  [\"Prompt engineering maitriser l'art de parler aux IA\", \"ia\"],\n  [\"E-commerce headless l'architecture qui change tout\", \"dev\"],\n  [\"Growth hacking 10 techniques pour accelerer sa croissance\", \"marketing\"],\n  [\"Accessibilite web rendre son site inclusif\", \"design\"],\n  [\"RAG et IA connecter une IA a vos donnees d'entreprise\", \"ia\"],\n  [\"Monetiser une application no-code\", \"nocode\"]\n];\n\nconst dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);\nconst index = dayOfYear % sujets.length;\nconst topic = sujets[index][0];\nconst category = sujets[index][1];\n\nconst promptText = `Tu es un redacteur web expert specialise en technologie, business digital et innovation. Tu ecris pour Arqora, une agence digitale francaise.\n\nEcris un article de blog complet en francais sur : \"${topic}\"\nCategorie : ${category}\n\nCONSIGNES :\n- Article professionnel, informatif et engageant, entre 1500 et 2500 mots\n- Style clair, accessible, expert mais pas jargonneux\n- Structure avec des H2 et H3 (JAMAIS de H1), paragraphes, listes a puces\n- Le HTML commence directement sans wrapper div\n- Exemples concrets, donnees chiffrees, conseils actionnables\n- Optimise SEO avec mots-cles integres naturellement\n- Conclusion avec un appel a l action subtil vers Arqora\n\nReponds UNIQUEMENT avec un objet JSON valide, sans backticks, sans markdown :\n{\n  \"title\": \"Titre accrocheur SEO (50-70 caracteres)\",\n  \"content\": \"<h2>Premier titre</h2><p>Paragraphe...</p>...(HTML complet sans H1)\",\n  \"excerpt\": \"Resume accrocheur (max 155 caracteres)\",\n  \"metaDescription\": \"Meta description SEO (120-155 caracteres)\",\n  \"tags\": [\"tag1\",\"tag2\",\"tag3\",\"tag4\",\"tag5\"],\n  \"focusKeywords\": \"mot-cle 1; mot-cle 2; mot-cle 3\",\n  \"readTime\": \"X min\",\n  \"imageAlt\": \"Description alt de l image de couverture\",\n  \"searchQuery\": \"two english words for Unsplash image search\"\n}`;\n\nreturn [{ json: { topic, category, promptText } }];"
+      },
+      "id": "a1000001-0001-0001-0001-000000000002",
+      "name": "Choisir un sujet",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=VOTRE_CLE_GEMINI_ICI",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ contents: [{ parts: [{ text: $json.promptText }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 8192 } }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "a1000001-0001-0001-0001-000000000003",
+      "name": "Generer article (Gemini)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = $input.first().json;\n\n// Extraire le texte de la reponse Gemini\nconst text = response.candidates[0].content.parts[0].text;\n\n// Parser le JSON (gere aussi le cas ou Gemini wrappe dans ```json)\nlet article;\ntry {\n  article = JSON.parse(text);\n} catch (e) {\n  const jsonMatch = text.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (jsonMatch) {\n    article = JSON.parse(jsonMatch[1].trim());\n  } else {\n    throw new Error('Reponse Gemini non parsable: ' + text.substring(0, 300));\n  }\n}\n\n// Valider les champs obligatoires\nif (!article.title || !article.content) {\n  throw new Error('Article incomplet: title ou content manquant');\n}\n\nreturn [{ json: article }];"
+      },
+      "id": "a1000001-0001-0001-0001-000000000004",
+      "name": "Parser reponse Gemini",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.unsplash.com/search/photos?query={{ encodeURIComponent($json.searchQuery || 'technology') }}&per_page=1&orientation=landscape",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Client-ID Mn72QddHHrkoiOnR4nqhaA6QXIgzO67XR0cSl9ofHmU"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1000001-0001-0001-0001-000000000005",
+      "name": "Chercher image (Unsplash)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [940, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recuperer les donnees de l'article depuis le node precedent\nconst article = $('Parser reponse Gemini').first().json;\nconst sujet = $('Choisir un sujet').first().json;\nconst unsplash = $input.first().json;\n\n// Recuperer l'URL de l'image Unsplash\nlet coverUrl = null;\nif (unsplash && unsplash.results && unsplash.results.length > 0) {\n  coverUrl = unsplash.results[0].urls.regular;\n}\n\n// Construire le payload pour POST /api/articles\nreturn [{\n  json: {\n    title: article.title,\n    content: article.content,\n    excerpt: article.excerpt || '',\n    metaDescription: article.metaDescription || article.excerpt || '',\n    category: sujet.category,\n    author: 'Arqova',\n    readTime: article.readTime || '8 min',\n    tags: article.tags || [],\n    focusKeywords: article.focusKeywords || '',\n    imageAlt: article.imageAlt || article.title,\n    published: true,\n    coverUrl: coverUrl\n  }\n}];"
+      },
+      "id": "a1000001-0001-0001-0001-000000000006",
+      "name": "Construire payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1180, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://VOTRE_DOMAINE/api/articles",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer VOTRE_CLE_API_ARQORA"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "a1000001-0001-0001-0001-000000000007",
+      "name": "Publier sur Arqora",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1420, 300]
+    }
+  ],
+  "connections": {
+    "Tous les jours": {
+      "main": [
+        [
+          {
+            "node": "Choisir un sujet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Choisir un sujet": {
+      "main": [
+        [
+          {
+            "node": "Generer article (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generer article (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Parser reponse Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parser reponse Gemini": {
+      "main": [
+        [
+          {
+            "node": "Chercher image (Unsplash)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chercher image (Unsplash)": {
+      "main": [
+        [
+          {
+            "node": "Construire payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construire payload": {
+      "main": [
+        [
+          {
+            "node": "Publier sur Arqora",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "tags": [],
+  "triggerCount": 0
+}
