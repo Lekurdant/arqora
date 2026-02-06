@@ -38,9 +38,17 @@ fi
 # Ajouter la date et l'heure
 MESSAGE="${MESSAGE} - $(date '+%d/%m/%Y %H:%M')"
 
-# Commit avec le message
-echo "💾 Commit avec le message: $MESSAGE"
-git commit -m "$MESSAGE"
+# Commit avec le message (seulement s'il y a des changements)
+if [ -n "$(git diff --cached --name-only)" ]; then
+    echo "💾 Commit avec le message: $MESSAGE"
+    git commit -m "$MESSAGE"
+else
+    echo "ℹ️  Aucun changement à committer"
+fi
+
+# Récupérer les changements distants avant de push
+echo "📥 Récupération des changements distants..."
+git pull --rebase
 
 # Push
 echo "🚀 Push vers le dépôt distant..."
