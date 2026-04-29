@@ -473,10 +473,11 @@
     // Force le background sombre pour la section "Que recherchez-vous ?"
     const formContent = document.querySelector('.form-content-dark');
     if (formContent) {
-      formContent.style.background = 'linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(20, 20, 20, 0.8) 100%)';
-      formContent.style.border = '1px solid rgba(255, 255, 255, 0.15)';
-      formContent.style.backdropFilter = 'blur(15px)';
-      formContent.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.4)';
+      formContent.style.background = 'linear-gradient(135deg, rgba(20, 20, 25, 0.62) 0%, rgba(10, 10, 15, 0.52) 100%)';
+      formContent.style.border = '1px solid rgba(255, 255, 255, 0.12)';
+      formContent.style.backdropFilter = 'blur(24px) saturate(160%)';
+      formContent.style.webkitBackdropFilter = 'blur(24px) saturate(160%)';
+      formContent.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)';
     }
   });
 
@@ -518,12 +519,8 @@
                     data-name="web design"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cce2"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119ea1_icon%2001.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span for="design" class="checkbox-title-dark w-form-label"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg
+                  ><span for="design" class="checkbox-title-dark w-form-label"
                     >Site Vitrine</span
                   ></label
                 ><label
@@ -536,12 +533,8 @@
                     data-name="Application Web"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cce9"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e9e_icon%2004.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span for="Webflow-Build" class="checkbox-title-dark w-form-label"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><circle cx="6.5" cy="6" r="0.6" fill="currentColor"/><circle cx="9" cy="6" r="0.6" fill="currentColor"/><circle cx="11.5" cy="6" r="0.6" fill="currentColor"/></svg
+                  ><span for="Webflow-Build" class="checkbox-title-dark w-form-label"
                     >Application Web</span
                   ></label
                 ><label
@@ -554,12 +547,8 @@
                     data-name="Application Mobile"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005ccf0"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e9c_icon%2003.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg
+                  ><span
                     for="Webflow-Support"
                     class="checkbox-title-dark w-form-label"
                     >Application Mobile</span
@@ -574,13 +563,61 @@
                     data-name="E-commerce"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005ccf7"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e9e_icon%2004.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span for="Other" class="checkbox-title-dark w-form-label"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg
+                  ><span for="Other" class="checkbox-title-dark w-form-label"
                     >E-commerce</span
+                  ></label
+                ><label
+                  class="w-checkbox checkbox-field-dark form12_checkbox_field"
+                  on:click={animatecheckbox}
+                  ><input
+                    type="checkbox"
+                    id="Agent IA"
+                    name="Agent IA"
+                    data-name="Agent IA"
+                    class="w-checkbox-input checkbox"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><path d="M12 3v3m0 12v3M5.636 5.636l2.121 2.121m8.486 8.486 2.121 2.121M3 12h3m12 0h3M5.636 18.364l2.121-2.121m8.486-8.486 2.121-2.121"/><circle cx="12" cy="12" r="4"/></svg
+                  ><span class="checkbox-title-dark w-form-label"
+                    >Agent IA / Chatbot</span
+                  ></label
+                ><label
+                  class="w-checkbox checkbox-field-dark form12_checkbox_field"
+                  on:click={animatecheckbox}
+                  ><input
+                    type="checkbox"
+                    id="Automatisation n8n"
+                    name="Automatisation n8n"
+                    data-name="Automatisation n8n"
+                    class="w-checkbox-input checkbox"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg
+                  ><span class="checkbox-title-dark w-form-label"
+                    >Automatisation n8n</span
+                  ></label
+                ><label
+                  class="w-checkbox checkbox-field-dark form12_checkbox_field"
+                  on:click={animatecheckbox}
+                  ><input
+                    type="checkbox"
+                    id="API / Integration"
+                    name="API / Integration"
+                    data-name="API / Integration"
+                    class="w-checkbox-input checkbox"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg
+                  ><span class="checkbox-title-dark w-form-label"
+                    >API / Intégration</span
+                  ></label
+                ><label
+                  class="w-checkbox checkbox-field-dark form12_checkbox_field"
+                  on:click={animatecheckbox}
+                  ><input
+                    type="checkbox"
+                    id="Audit IA"
+                    name="Audit IA"
+                    data-name="Audit IA"
+                    class="w-checkbox-input checkbox"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M8 11h6M11 8v6"/></svg
+                  ><span class="checkbox-title-dark w-form-label"
+                    >Audit / Conseil IA</span
                   ></label
                 >
               </div>
@@ -711,10 +748,8 @@
                   /><span
                     for="Written-Content-Yes"
                     class="checkbox-title-dark w-form-label">Oui</span
-                  ><img
-                    alt=""
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e92_yes.svg"
-                  /></label
+                  ><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8.5 12 11 14.5 15.5 10"/></svg
+                  ></label
                 ><label
                   class="w-checkbox checkbox-field-dark form12_checkbox_field"
                   on:click={handleSingleChoice}
@@ -729,10 +764,8 @@
                   /><span
                     for="Written-Content-No"
                     class="checkbox-title-dark w-form-label">Non</span
-                  ><img
-                    alt=""
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e91_no.svg"
-                  /></label
+                  ><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg
+                  ></label
                 >
               </div>
             </div>
@@ -783,10 +816,8 @@
                   /><span
                     for="Illustration-Yes"
                     class="checkbox-title-dark w-form-label">Oui</span
-                  ><img
-                    alt=""
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e92_yes.svg"
-                  /></label
+                  ><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8.5 12 11 14.5 15.5 10"/></svg
+                  ></label
                 ><label
                   class="w-checkbox checkbox-field-dark form12_checkbox_field"
                   on:click={handleSingleChoice}
@@ -800,10 +831,8 @@
                   /><span
                     for="Illustration-No"
                     class="checkbox-title-dark w-form-label">Non</span
-                  ><img
-                    alt=""
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e91_no.svg"
-                  /></label
+                  ><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg
+                  ></label
                 >
               </div>
             </div>
@@ -845,12 +874,8 @@
                     data-name="5000-10000"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cd5f"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e9d_icon%2002.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span for="5000-10000" class="checkbox-title-dark w-form-label"
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 8.5a4 4 0 1 0 0 7"/><line x1="7.5" y1="10.5" x2="12" y2="10.5"/><line x1="7.5" y1="13.5" x2="12" y2="13.5"/></svg
+                  ><span for="5000-10000" class="checkbox-title-dark w-form-label"
                     >500€ - 2500€</span
                   ></label
                 ><label
@@ -863,13 +888,9 @@
                     data-name="10000-20000"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cd64"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e9c_icon%2003.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span for="10000-20000" class="checkbox-title-dark w-form-label"
-                    >2500€- 10000€</span
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><circle cx="8" cy="9" r="5"/><circle cx="15" cy="15" r="5"/></svg
+                  ><span for="10000-20000" class="checkbox-title-dark w-form-label"
+                    >2500€ - 10 000€</span
                   ></label
                 ><label
                   class="w-checkbox checkbox-field-dark form12_checkbox_field"
@@ -881,13 +902,9 @@
                     data-name="20000+"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cd69"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119e9e_icon%2004.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span for="20000" class="checkbox-title-dark w-form-label"
-                    >10000€- 20000€</span
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 10v4"/><path d="M18 10v4"/></svg
+                  ><span for="20000" class="checkbox-title-dark w-form-label"
+                    >10 000€ - 20 000€</span
                   ></label
                 ><label
                   class="w-checkbox checkbox-field-dark form12_checkbox_field"
@@ -899,13 +916,9 @@
                     data-name="Support Rate"
                     data-w-id="b0b58362-0f4c-d6cc-f71c-017ee005cd6e"
                     class="w-checkbox-input checkbox"
-                  /><img
-                    width="60"
-                    src="https://uploads-ssl.webflow.com/654fdc5ad6f9d81d70119e32/654fdc5ad6f9d81d70119ea0_icon%2005.svg"
-                    alt=""
-                    class="checkbox-image"
-                  /><span for="Support-Rate" class="checkbox-title-dark w-form-label"
-                    >$20000 +</span
+                  /><svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="checkbox-image" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg
+                  ><span for="Support-Rate" class="checkbox-title-dark w-form-label"
+                    >20 000€ +</span
                   ></label
                 >
               </div>
@@ -1116,10 +1129,11 @@
 
   /* Force le background sombre pour la section "Que recherchez-vous ?" */
   :global(.form-content-dark) {
-    background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(20, 20, 20, 0.8) 100%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(15px) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    background: linear-gradient(135deg, rgba(20, 20, 25, 0.62) 0%, rgba(10, 10, 15, 0.52) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(24px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
   }
 
   /* Forcer la visibilité des boutons */
@@ -1151,13 +1165,14 @@
   }
 
   .form-content-dark {
-    background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(20, 20, 20, 0.8) 100%) !important;
+    background: linear-gradient(135deg, rgba(20, 20, 25, 0.62) 0%, rgba(10, 10, 15, 0.52) 100%) !important;
     border-radius: 16px;
     padding: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
     margin-bottom: 40px;
-    backdrop-filter: blur(15px) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(24px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
   }
 
   .form-section-title-dark {
@@ -1184,18 +1199,23 @@
     background: linear-gradient(135deg, rgba(40, 40, 40, 0.7) 0%, rgba(60, 60, 60, 0.5) 100%);
     border: 2px solid rgba(255, 255, 255, 0.25);
     border-radius: 12px;
-    padding: 20px;
-    margin: 10px;
+    padding: 14px;
+    margin: 8px;
     transition: all 0.3s ease;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    min-height: 180px;
+    min-height: 140px;
     justify-content: center;
     backdrop-filter: blur(8px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .checkbox-image {
+    width: 44px !important;
+    height: 44px !important;
   }
 
   .checkbox-field-dark:hover {
@@ -1214,9 +1234,9 @@
 
   .checkbox-title-dark {
     color: #ffffff;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    margin-top: 15px;
+    margin-top: 10px;
     line-height: 1.4;
   }
 
