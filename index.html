@@ -1116,7 +1116,7 @@ img.navbar_logo.chouc,
                           </svg></div>
                       </div>
                     </a>
-                    <div id="w-node-_1476c423-7e6e-d686-3ed8-4526287533b7-56502cda" class="portfolio_item hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
+                    <a href="https://neptun.finance" target="_blank" rel="noopener noreferrer" id="w-node-_1476c423-7e6e-d686-3ed8-4526287533b7-56502cda" class="portfolio_item portfolio_item-link hide-tablet" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; cursor: pointer; text-decoration: none; display: block;" aria-label="Visiter Neptun Finance">
                       <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
                       <img class="portfolio_image" src="images/Capture-décran_28-5-2024_20310_neptun.finance.jpeg" alt="Neptun Finance - Plateforme fintech" title="Neptun Finance — Plateforme fintech, dashboard et intégrations bancaires" data-sizes="[{&quot;max&quot;:767,&quot;size&quot;:&quot;100vw&quot;},{&quot;max&quot;:991,&quot;size&quot;:&quot;317.21875px&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 100vw, 32vw" loading="lazy" srcset="images/Capture-décran_28-5-2024_20310_neptun.finance-p-500.jpeg 500w, images/Capture-décran_28-5-2024_20310_neptun.finance-p-800.jpeg 800w, images/Capture-décran_28-5-2024_20310_neptun.finance-p-1080.jpeg 1080w, images/Capture-décran_28-5-2024_20310_neptun.finance-p-1600.jpeg 1600w, images/Capture-décran_28-5-2024_20310_neptun.finance.jpeg 1685w" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
                       <div class="button is-portfolio is-right" style="transform: translate3d(-50%, -20%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; opacity: 0;">
@@ -1133,7 +1133,7 @@ img.navbar_logo.chouc,
                             </defs>
                           </svg></div>
                       </div>
-                    </div>
+                    </a>
                     <a href="dassetix.html" id="w-node-_649b915e-847f-a773-2500-d8ff90123108-56502cda" data-w-id="649b915e-847f-a773-2500-d8ff90123108" class="portfolio_item portfolio_item-link" style="transform: translate3d(0px, 0rem, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d; cursor: pointer; text-decoration: none; display: block;" aria-label="Voir l'étude de cas Dassetix">
                       <div class="portfolio_image-overlay-layer" style="background-color: rgba(0, 0, 0, 0);"></div>
                       <img class="portfolio_image" src="images/dassetix_exemple.png" alt="Dassetix - Pool d'investissement collaboratif" title="Dassetix — App de pool d'investissement : déposer, mutualiser et faire travailler son épargne sereinement" data-sizes="[{&quot;max&quot;:991,&quot;size&quot;:&quot;55vw&quot;},{&quot;max&quot;:10000,&quot;size&quot;:&quot;32vw&quot;}]" sizes="(max-width: 991px) 55vw, 32vw" loading="lazy" style="transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;">
@@ -1884,7 +1884,11 @@ img.navbar_logo.chouc,
           var href = link.getAttribute('href');
           if (href) {
             e.preventDefault();
-            window.location.href = href;
+            if (link.getAttribute('target') === '_blank') {
+              window.open(href, '_blank', 'noopener,noreferrer');
+            } else {
+              window.location.href = href;
+            }
           }
         });
       });
