@@ -12,7 +12,11 @@ export default defineConfig({
         projet: './projet.html',
         blog: './blog.html',
         admin: './admin-blog.html',
-        article: './article.html'
+        article: './article.html',
+        chouquiz: './chouquiz.html',
+        monochromes: './monochromes.html',
+        dassetix: './dassetix.html',
+        weezdraw: './weezdraw.html'
       }
     },
     copyPublicDir: true
