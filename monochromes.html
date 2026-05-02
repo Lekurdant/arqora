@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>monochromes — case study · Arqova</title>
+<meta name="description" content="Case study : monochromes.art, plateforme expérimentale qui transforme les chefs-d'œuvre de la peinture en grilles de pixels collectionnables." />
+<link rel="icon" href="images/favicon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --bg-2: #0e0e12;
+    --bg-3: #15151b;
+    --line: #1d1d24;
+    --line-2: #2a2a35;
+    --fg: #e8e8ea;
+    --fg-2: #a8a8b3;
+    --fg-3: #6a6a78;
+    --accent: #6ee7c7;
+    --accent-2: #ffb86b;
+    --danger: #ff6b8a;
+    --font-display: "JetBrains Mono", ui-monospace, monospace;
+    --font-body: "JetBrains Mono", ui-monospace, monospace;
+    --font-num: "JetBrains Mono", ui-monospace, monospace;
+    --container: 1180px;
+    --pad: clamp(20px, 4vw, 56px);
+    --radius: 4px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 32px 32px;
+    z-index: 0;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
+    mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  .mono { font-family: var(--font-num); }
+  .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 12px var(--pad);
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    font-family: var(--font-num);
+    font-size: 12px;
+    color: var(--fg-2);
+  }
+  .topbar .left { display: flex; gap: 14px; align-items: center; }
+  .topbar .right { display: flex; gap: 14px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+  .topbar .center { color: var(--fg-3); letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
+  .topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  .topbar .pill { border: 1px solid var(--line-2); padding: 4px 10px; border-radius: 999px; color: var(--fg-2); }
+  .topbar a:hover { color: var(--fg); }
+
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); position: relative; z-index: 1; }
+  .section { padding: clamp(80px, 12vh, 140px) 0; position: relative; z-index: 1; }
+  .section + .section { border-top: 1px solid var(--line); }
+
+  .eyebrow {
+    font-family: var(--font-num);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero { padding-top: clamp(80px, 14vh, 160px); padding-bottom: clamp(60px, 10vh, 120px); }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(48px, 9vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin: 0 0 32px;
+    color: var(--fg);
+  }
+
+  .hero .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-top: 56px;
+    font-family: var(--font-num);
+    font-size: 12px;
+  }
+  @media (max-width: 720px) { .hero .meta-grid { grid-template-columns: repeat(2, 1fr); } }
+  .hero .meta-grid > div { background: var(--bg); padding: 16px 18px; }
+  .hero .meta-grid .k { color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; margin-bottom: 6px; }
+  .hero .meta-grid .v { color: var(--fg); }
+
+  .hero-tagline {
+    max-width: 720px;
+    color: var(--fg-2);
+    font-size: clamp(16px, 1.6vw, 19px);
+    line-height: 1.55;
+  }
+
+  .hero-meta-line {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    font-family: var(--font-num);
+    font-size: 12px;
+    color: var(--fg-3);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 24px;
+  }
+  .hero-meta-line span strong { color: var(--fg); font-weight: 500; }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .concept-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  h2.section-title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+  }
+
+  p.lede { color: var(--fg-2); font-size: clamp(16px, 1.6vw, 18px); max-width: 60ch; margin: 0 0 18px; }
+  p.body { color: var(--fg-2); font-size: 15px; margin: 0 0 14px; max-width: 62ch; }
+
+  .callout {
+    border-left: 1px solid var(--accent);
+    padding: 8px 0 8px 20px;
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.2vw, 26px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin: 8px 0 24px;
+    max-width: 32ch;
+  }
+
+  .capture {
+    position: relative;
+    border: 1px solid var(--line-2);
+    background: var(--bg-2);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .capture .browser-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-3);
+    font-family: var(--font-num);
+    font-size: 11px;
+    color: var(--fg-3);
+  }
+  .capture .traffic { display: flex; gap: 6px; }
+  .capture .traffic span { width: 10px; height: 10px; border-radius: 50%; background: #2a2a35; }
+  .capture .url { flex: 1; text-align: center; letter-spacing: 0.06em; }
+  .capture img { width: 100%; display: block; }
+
+  .capture-caption {
+    margin-top: 12px;
+    font-family: var(--font-num);
+    font-size: 11px;
+    color: var(--fg-3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex; gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .annot-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .annot {
+    grid-column: span 4;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    padding: 22px;
+    border-radius: var(--radius);
+    position: relative;
+  }
+  @media (max-width: 880px) { .annot { grid-column: span 12; } }
+  .annot .num-tag {
+    font-family: var(--font-num);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .annot h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .annot p { color: var(--fg-2); font-size: 13.5px; margin: 0; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-top: 32px;
+  }
+  @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat {
+    padding: 28px 24px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stat:last-child { border-right: none; }
+  .stat .v {
+    font-family: var(--font-num);
+    font-size: clamp(28px, 3.4vw, 40px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    line-height: 1;
+  }
+  .stat .k {
+    font-family: var(--font-num);
+    font-size: 11px;
+    color: var(--fg-3);
+    margin-top: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .pixel-demo {
+    border: 1px solid var(--line-2);
+    background: var(--bg-2);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 280px 1fr 240px;
+    gap: 28px;
+    align-items: stretch;
+  }
+  @media (max-width: 980px) { .pixel-demo { grid-template-columns: 1fr; } }
+  .pixel-side { display: flex; flex-direction: column; gap: 14px; font-family: var(--font-num); font-size: 12px; }
+  .pixel-side h4 {
+    font-family: var(--font-display);
+    margin: 0 0 4px;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .pixel-side .row { display: flex; justify-content: space-between; color: var(--fg-2); border-bottom: 1px dashed var(--line); padding-bottom: 6px; }
+  .pixel-side .row span:last-child { color: var(--fg); }
+
+  .pixel-canvas {
+    aspect-ratio: 1/1;
+    background: #050507;
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+    image-rendering: pixelated;
+  }
+  .pixel-canvas canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+  .pixel-canvas .crosshair {
+    position: absolute; pointer-events: none;
+    border: 1px solid var(--accent);
+    width: 24px; height: 24px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.6);
+    transition: transform 0.15s;
+    top: 0; left: 0;
+  }
+
+  .legend { display: flex; flex-direction: column; gap: 10px; font-family: var(--font-num); font-size: 11px; }
+  .legend .swatch { display: flex; align-items: center; gap: 10px; color: var(--fg-2); }
+  .legend .swatch i { width: 10px; height: 10px; display: block; border: 1px solid var(--line-2); }
+
+  footer.site {
+    border-top: 1px solid var(--line);
+    padding: 60px var(--pad);
+    font-family: var(--font-num);
+    font-size: 12px;
+    color: var(--fg-3);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  @media (max-width: 720px) { footer.site { grid-template-columns: 1fr; } }
+  footer.site h5 { color: var(--fg-2); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin: 0 0 14px; font-weight: 500; }
+  footer.site a:hover { color: var(--accent); }
+  footer.site .col p { margin: 0 0 8px; }
+
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 18px;
+    border: 1px solid var(--line-2);
+    color: var(--fg);
+    font-family: var(--font-num);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    border-radius: var(--radius);
+    background: var(--bg-2);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); color: #000; border-color: var(--accent); }
+  .btn.primary:hover { background: transparent; color: var(--accent); }
+
+  .sec-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: baseline;
+    margin-bottom: 40px;
+  }
+  .sec-head .idx {
+    font-family: var(--font-num);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    padding-top: 10px;
+  }
+  @media (max-width: 720px) { .sec-head { grid-template-columns: 1fr; gap: 8px; } .sec-head .idx { padding-top: 0; } }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .tag {
+    font-family: var(--font-num);
+    font-size: 11px;
+    padding: 5px 10px;
+    border: 1px solid var(--line-2);
+    color: var(--fg-2);
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
+
+  .ticker {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 16px 0;
+    overflow: hidden;
+    font-family: var(--font-num);
+    font-size: 13px;
+    color: var(--fg-2);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    margin-top: 60px;
+  }
+  .ticker .track {
+    display: inline-flex; gap: 56px;
+    animation: tick 40s linear infinite;
+  }
+  .ticker .track span::before { content: "◆ "; color: var(--accent); margin-right: 12px; }
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left">
+    <span class="dot"></span>
+    <span>monochromes / case-study</span>
+    <span style="color:var(--fg-3)">·</span>
+    <span style="color:var(--fg-3)">v1.0 — 2026</span>
+  </div>
+  <div class="center">portfolio · projet personnel</div>
+  <div class="right">
+    <span class="pill">FR</span>
+    <a href="#concept">concept</a>
+    <a href="#mecanique">mécanique</a>
+    <a href="#tech">tech</a>
+    <a href="#liens">liens</a>
+    <a href="index.html" style="color:var(--accent)">← arqova</a>
+  </div>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow">2026 / projet personnel / art × web</div>
+      <h1>monochromes<span style="color:var(--accent)">.</span></h1>
+      <p class="hero-tagline">
+        Une plateforme expérimentale qui transforme les chefs-d'œuvre de la peinture
+        en grilles de pixels collectionnables. Chaque parcelle est une enchère, chaque
+        œuvre un terrain de jeu partagé.
+      </p>
+      <div class="hero-meta-line">
+        <span><strong>Rôle</strong> · design + dev</span>
+        <span><strong>Stack</strong> · React, Canvas, WebSocket</span>
+        <span><strong>Live</strong> · monochromes.art</span>
+      </div>
+      <div class="meta-grid">
+        <div><div class="k">type</div><div class="v">art-game / web3</div></div>
+        <div><div class="k">durée</div><div class="v">4 mois</div></div>
+        <div><div class="k">parcelles</div><div class="v">100 048 / œuvre</div></div>
+        <div><div class="k">statut</div><div class="v" style="color:var(--accent)">● en ligne</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 CAPTURE -->
+  <section class="section" id="capture">
+    <div class="container">
+      <div class="sec-head">
+        <div class="idx">01 / aperçu</div>
+        <div>
+          <h2 class="section-title">Le site, en l'état.</h2>
+          <p class="lede">
+            Une seule page, dense, qui assume sa nature de tableau de bord.
+            Au centre : la grille. Sur les côtés : les outils, le chat,
+            les méta-données. Aucun fioriture, aucune fausse profondeur.
+          </p>
+        </div>
+      </div>
+      <div class="capture">
+        <div class="browser-bar">
+          <div class="traffic"><span></span><span></span><span></span></div>
+          <div class="url">monochromes.art</div>
+          <div style="width:46px"></div>
+        </div>
+        <img src="images/monochromes-site-capture.png" alt="Capture du site monochromes.art" />
+      </div>
+      <div class="capture-caption">
+        <span>fig.01 — vue principale, état initial</span>
+        <span>résolution native · 1920×991</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 CONCEPT -->
+  <section class="section" id="concept">
+    <div class="container">
+      <div class="sec-head">
+        <div class="idx">02 / concept</div>
+        <div>
+          <h2 class="section-title">Posséder un pixel d'un chef-d'œuvre.</h2>
+        </div>
+      </div>
+      <div class="concept-grid">
+        <div>
+          <div class="callout">« Et si La Nuit étoilée n'appartenait à personne — et à tout le monde, un pixel à la fois ? »</div>
+          <div class="tag-row">
+            <span class="tag">art classique</span>
+            <span class="tag">propriété fractionnée</span>
+            <span class="tag">jeu collaboratif</span>
+            <span class="tag">temps réel</span>
+          </div>
+        </div>
+        <div>
+          <p class="body"><strong style="color:var(--fg)">monochromes</strong> reproduit en haute densité de pixels des œuvres iconiques — Van Gogh, Vermeer, Hokusai — puis découpe chaque toile en parcelles unitaires qu'on peut acheter, échanger, et signer.</p>
+          <p class="body">Le résultat est volontairement austère : un fond noir, une grille, une typographie monospace. Toute l'attention va à l'œuvre et à l'écosystème social qui se construit autour.</p>
+          <p class="body">L'objectif n'est pas la spéculation. C'est un terrain d'expérimentation sur la propriété, la curation collective et la patience — il faut des heures pour parcourir une seule toile.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 MÉCANIQUE -->
+  <section class="section" id="mecanique">
+    <div class="container">
+      <div class="sec-head">
+        <div class="idx">03 / mécanique</div>
+        <div>
+          <h2 class="section-title">Trois boucles imbriquées.</h2>
+          <p class="lede">Le système repose sur trois mécaniques qui s'alimentent l'une l'autre.</p>
+        </div>
+      </div>
+
+      <div class="annot-grid">
+        <div class="annot">
+          <div class="num-tag">01 — explorer</div>
+          <h3>Naviguer la toile</h3>
+          <p>Molette pour zoomer, clic droit + glisser pour panner. La grille s'affiche de manière adaptative pour conserver des perfs lisibles, jusqu'à 1px par parcelle.</p>
+        </div>
+        <div class="annot">
+          <div class="num-tag">02 — enchérir</div>
+          <h3>Acquérir des parcelles</h3>
+          <p>Sélection rectangulaire, prix dynamique selon la rareté visuelle (luminance, contraste local). Validation on-chain via wallet connecté.</p>
+        </div>
+        <div class="annot">
+          <div class="num-tag">03 — habiter</div>
+          <h3>Discuter & signer</h3>
+          <p>Chat global par toile, signatures visibles au survol des parcelles d'un même propriétaire, historique des transactions par cellule.</p>
+        </div>
+      </div>
+
+      <div class="pixel-demo">
+        <div class="pixel-side">
+          <h4>Le premier monochrome de l'histoire</h4>
+          <div class="row"><span>Auteur</span><span>Van Gogh</span></div>
+          <div class="row"><span>Titre</span><span style="color:var(--accent-2)">The Starry Night</span></div>
+          <div class="row"><span>Année</span><span>1889</span></div>
+          <div class="row"><span>Estimation</span><span>$10,000,000</span></div>
+          <div class="row"><span>Parcelles</span><span>100,048</span></div>
+          <div class="row"><span>Vendues</span><span style="color:var(--accent)">14,206</span></div>
+        </div>
+        <div>
+          <div class="pixel-canvas" id="pixelCanvas">
+            <canvas id="pxc"></canvas>
+            <div class="crosshair" id="crosshair"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--font-num);font-size:11px;color:var(--fg-3);margin-top:10px;letter-spacing:0.08em;text-transform:uppercase">
+            <span>zoom · <span id="zoomVal">17.4</span>%</span>
+            <span>col · <span id="colVal">168</span>, row · <span id="rowVal">142</span></span>
+            <span>sélection · 0</span>
+          </div>
+        </div>
+        <div class="legend">
+          <h4 style="font-family:var(--font-display);margin:0 0 6px;color:var(--accent);font-size:13px">légende</h4>
+          <div class="swatch"><i style="background:#1f2a4f"></i> non acquis</div>
+          <div class="swatch"><i style="background:#6ee7c7"></i> à vous</div>
+          <div class="swatch"><i style="background:#ffb86b"></i> autres propriétaires</div>
+          <div class="swatch"><i style="background:#ff6b8a"></i> en vente</div>
+          <div style="border-top:1px dashed var(--line);padding-top:10px;margin-top:6px;color:var(--fg-3);line-height:1.6">
+            molette pour zoomer<br/>
+            clic-gauche + glisser<br/>
+            clic pour sélectionner
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 STATS -->
+  <section class="section" id="stats">
+    <div class="container">
+      <div class="sec-head">
+        <div class="idx">04 / chiffres</div>
+        <div>
+          <h2 class="section-title">Les contraintes techniques.</h2>
+          <p class="lede">Afficher 100 000+ cellules interactives à 60fps, avec sélection multiple, chat synchrone et transactions on-chain — le tout sans framerate qui s'écroule.</p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="v num">100 048</div><div class="k">parcelles · toile 1</div></div>
+        <div class="stat"><div class="v num">60 <span style="color:var(--fg-3)">fps</span></div><div class="k">rendu canvas garanti</div></div>
+        <div class="stat"><div class="v num">~ 8 ms</div><div class="k">latence chat (ws)</div></div>
+        <div class="stat"><div class="v num">∞</div><div class="k">zoom adaptatif</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 TECH -->
+  <section class="section" id="tech">
+    <div class="container">
+      <div class="sec-head">
+        <div class="idx">05 / stack</div>
+        <div><h2 class="section-title">Choix techniques.</h2></div>
+      </div>
+      <div class="concept-grid">
+        <div>
+          <p class="body" style="color:var(--fg-2)">Le défi central : faire cohabiter une grille de cent mille cellules individuellement adressables avec une couche temps-réel et une couche on-chain. La réponse a été de séparer chaque préoccupation dans une primitive dédiée.</p>
+          <ul style="list-style:none;padding:0;margin:0;font-family:var(--font-num);font-size:13px;color:var(--fg-2)">
+            <li style="padding:8px 0;border-bottom:1px solid var(--line)"><span style="color:var(--accent)">↳</span> rendu via Canvas 2D + tile cache</li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--line)"><span style="color:var(--accent)">↳</span> état grille en SharedArrayBuffer</li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--line)"><span style="color:var(--accent)">↳</span> chat WebSocket (rooms par toile)</li>
+            <li style="padding:8px 0;border-bottom:1px solid var(--line)"><span style="color:var(--accent)">↳</span> wallet → signature off-chain, batch on-chain</li>
+            <li style="padding:8px 0"><span style="color:var(--accent)">↳</span> i18n FR / EN, déploiement edge</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-family:var(--font-display);font-weight:500;font-size:16px;letter-spacing:-0.01em;margin:0 0 14px;color:var(--fg-2);text-transform:uppercase">technologies</h3>
+          <div class="tag-row">
+            <span class="tag">React 18</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Canvas 2D</span>
+            <span class="tag">WebSocket</span>
+            <span class="tag">Solidity</span>
+            <span class="tag">wagmi</span>
+            <span class="tag">viem</span>
+            <span class="tag">TailwindCSS</span>
+            <span class="tag">Vite</span>
+            <span class="tag">Cloudflare Workers</span>
+            <span class="tag">Postgres</span>
+            <span class="tag">Drizzle ORM</span>
+          </div>
+          <h3 style="font-family:var(--font-display);font-weight:500;font-size:16px;letter-spacing:-0.01em;margin:30px 0 14px;color:var(--fg-2);text-transform:uppercase">process</h3>
+          <div class="tag-row">
+            <span class="tag">wireframes papier</span>
+            <span class="tag">prototype perf</span>
+            <span class="tag">art system</span>
+            <span class="tag">wallet flow</span>
+            <span class="tag">beta privée</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="container">
+    <div class="ticker">
+      <div class="track">
+        <span>VAN GOGH · STARRY NIGHT · 1889</span>
+        <span>VERMEER · GIRL WITH A PEARL EARRING · 1665</span>
+        <span>HOKUSAI · GREAT WAVE · 1831</span>
+        <span>MUNCH · THE SCREAM · 1893</span>
+        <span>KLIMT · THE KISS · 1908</span>
+        <span>VAN GOGH · STARRY NIGHT · 1889</span>
+        <span>VERMEER · GIRL WITH A PEARL EARRING · 1665</span>
+        <span>HOKUSAI · GREAT WAVE · 1831</span>
+        <span>MUNCH · THE SCREAM · 1893</span>
+        <span>KLIMT · THE KISS · 1908</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 LIENS -->
+  <section class="section" id="liens">
+    <div class="container">
+      <div class="sec-head">
+        <div class="idx">06 / liens</div>
+        <div>
+          <h2 class="section-title">Voir le projet en vrai.</h2>
+          <p class="lede">Le site est en ligne et fonctionnel. La meilleure façon de juger un projet interactif, c'est encore de l'ouvrir.</p>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a class="btn primary" href="https://monochromes.art" target="_blank" rel="noopener">→ Visiter monochromes.art</a>
+        <a class="btn" href="index.html#contact">✉ Discuter d'un projet</a>
+        <a class="btn" href="index.html">← Retour au site</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="col">
+    <h5>monochromes</h5>
+    <p>case study · 2026</p>
+    <p style="color:var(--fg-3)">conçu, designé et codé en solo</p>
+  </div>
+  <div class="col">
+    <h5>contact</h5>
+    <p><a href="index.html#contact">arqova.fr</a></p>
+    <p><a href="https://monochromes.art" target="_blank" rel="noopener">monochromes.art</a></p>
+  </div>
+  <div class="col" style="text-align:right">
+    <h5>colophon</h5>
+    <p>JetBrains Mono</p>
+    <p style="color:var(--fg-3)">aucun framework UI — fait main</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var c = document.getElementById('pxc');
+    if (!c) return;
+    var W = 220, H = 220;
+    c.width = W; c.height = H;
+    var ctx = c.getContext('2d');
+    var img = ctx.createImageData(W, H);
+    for (var y = 0; y < H; y++) {
+      for (var x = 0; x < W; x++) {
+        var wave = Math.sin((x*0.06) + Math.cos(y*0.05)*1.3 + y*0.02) * 0.5 + 0.5;
+        var star = Math.pow(Math.max(0, Math.sin(x*0.21)*Math.cos(y*0.18)), 12);
+        var noise = Math.random()*0.18;
+        var base = wave*0.55 + noise;
+        var r = base*40 + star*240;
+        var g = base*55 + star*220;
+        var b = base*120 + star*180 + 30;
+        var dx = (x - W/2)/(W/2), dy = (y - H/2)/(H/2);
+        var v = 1 - Math.min(1, (dx*dx + dy*dy)*0.6);
+        r*=v; g*=v; b*=v;
+        var i = (y*W + x)*4;
+        img.data[i] = r; img.data[i+1] = g; img.data[i+2] = b; img.data[i+3] = 255;
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+
+    var canvasBox = document.getElementById('pixelCanvas');
+    var ch = document.getElementById('crosshair');
+    var zoomVal = document.getElementById('zoomVal');
+    var colVal = document.getElementById('colVal');
+    var rowVal = document.getElementById('rowVal');
+    canvasBox.addEventListener('mousemove', function(e){
+      var r = canvasBox.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;
+      var py = (e.clientY - r.top) / r.height;
+      colVal.textContent = Math.round(px*338);
+      rowVal.textContent = Math.round(py*296);
+      zoomVal.textContent = (17.4 + py*4).toFixed(1);
+      ch.style.transform = 'translate(' + (e.clientX - r.left - 12) + 'px,' + (e.clientY - r.top - 12) + 'px)';
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Weezdraw — Étude de cas · Arqova</title>
+<meta name="description" content="Case study : Weezdraw, plateforme de tirages Bitcoin non-custodiale, RNG provably fair on-chain et paiements BTCPay." />
+<link rel="icon" href="images/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #07050d;
+    --bg-2: #0d0a17;
+    --bg-3: #130e22;
+    --bg-4: #18122c;
+    --ink: #f3eefb;
+    --ink-2: #b3a8cc;
+    --ink-3: #6b6286;
+    --ink-4: #3d3756;
+    --line: #1d1730;
+    --line-2: #2a2245;
+    --line-3: #3a2f5a;
+    --violet: #8b5cf6;
+    --violet-2: #a78bfa;
+    --violet-3: #c4b5fd;
+    --violet-deep: #6d28d9;
+    --green: #4ade80;
+    --amber: #fbbf24;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  body {
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'Geist Mono', ui-monospace, monospace; }
+
+  /* Background */
+  .ambient {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% -10%, rgba(124,92,255,0.22), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 100% 20%, rgba(139,92,246,0.10), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 0% 60%, rgba(124,92,255,0.07), transparent 70%);
+  }
+  .grid-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    opacity: .35;
+    background-image:
+      linear-gradient(to right, rgba(124,92,255,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(124,92,255,0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, black 30%, transparent 90%);
+  }
+  .grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 2;
+    opacity: 0.05; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.6'/></svg>");
+  }
+
+  .wrap { position: relative; z-index: 3; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+  /* ─── Top bar ─── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(20px) saturate(140%);
+    background: rgba(7,5,13,0.75);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 0;
+  }
+  .signet { display: flex; align-items: center; gap: 12px; }
+  .signet-mark {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--violet) 0%, var(--violet-deep) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-weight: 600; font-size: 14px;
+    box-shadow: 0 4px 16px rgba(139,92,246,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .signet-text {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px; color: var(--ink-2);
+    letter-spacing: 0.02em;
+  }
+  .signet-text strong { color: var(--ink); font-weight: 500; }
+
+  .topbar nav { display: flex; gap: 6px; }
+  .topbar nav a {
+    color: var(--ink-2); text-decoration: none;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: all .15s;
+  }
+  .topbar nav a:hover { color: var(--ink); background: rgba(167,139,250,0.06); }
+
+  .topbar .build {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+  }
+  .topbar .build .pulse {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+  /* ─── Hero ─── */
+  .hero { padding: 96px 0 64px; }
+  .tag-row {
+    display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    background: rgba(167,139,250,0.06);
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; color: var(--ink-2);
+  }
+  .tag .d {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--violet-2);
+  }
+  .tag.green .d { background: var(--green); box-shadow: 0 0 8px var(--green); }
+
+  .hero h1 {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: clamp(48px, 7.2vw, 104px);
+    line-height: 1.0;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+    max-width: 1100px;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(135deg, var(--violet-3) 0%, var(--violet-2) 50%, var(--violet) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero h1 .ink-3 { color: var(--ink-3); font-weight: 400; }
+
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 720px;
+    margin-bottom: 56px;
+  }
+
+  /* Hero meta strip */
+  .meta-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .meta-cell {
+    padding: 22px 24px 22px 0;
+    border-right: 1px solid var(--line);
+  }
+  .meta-cell:not(:first-child) { padding-left: 24px; }
+  .meta-cell:last-child { border-right: none; }
+  .meta-cell dt {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .meta-cell dd {
+    font-family: 'Geist Mono', monospace;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .meta-cell dd .v { color: var(--violet-2); }
+
+  /* ─── Mockup ─── */
+  .stage { padding: 72px 0 120px; }
+  .browser {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0e0a18;
+    border: 1px solid var(--line-2);
+    box-shadow:
+      0 0 0 1px rgba(167,139,250,0.04),
+      0 80px 120px -40px rgba(124,92,255,0.4),
+      0 40px 60px -20px rgba(0,0,0,0.7),
+      0 0 200px -20px rgba(124,92,255,0.25);
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: linear-gradient(180deg, #15102a, #0e0a1c);
+    border-bottom: 1px solid var(--line);
+  }
+  .browser-bar .dots { display: flex; gap: 6px; }
+  .browser-bar .dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: #2a2240;
+  }
+  .browser-bar .url {
+    flex: 1;
+    margin: 0 14px;
+    padding: 5px 12px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; color: var(--ink-2);
+    text-align: center;
+  }
+  .browser-bar .url .lock { color: var(--green); margin-right: 8px; }
+  .browser-bar .badge {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; color: var(--ink-3);
+  }
+  .browser img { display: block; width: 100%; height: auto; }
+
+  .stage-cap {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 20px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+  }
+  .stage-cap .live {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--green);
+  }
+  .stage-cap .live::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 8px var(--green);
+  }
+
+  /* ─── Section ─── */
+  .section { padding: 96px 0; border-top: 1px solid var(--line); }
+
+  .sec-head {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+    align-items: start;
+  }
+  .sec-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-3);
+    padding-top: 8px;
+  }
+  .sec-num span { color: var(--violet-2); }
+  .sec-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: clamp(32px, 4.4vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    max-width: 800px;
+  }
+  .sec-title .accent {
+    background: linear-gradient(135deg, var(--violet-3), var(--violet));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sec-lede {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 720px;
+    margin-top: 20px;
+  }
+
+  /* ─── Architecture diagram ─── */
+  .arch {
+    background: linear-gradient(180deg, rgba(167,139,250,0.04), transparent);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+  .arch-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 32px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .arch-head .v { color: var(--violet-2); }
+
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    position: relative;
+  }
+  .arch-tier { display: flex; flex-direction: column; gap: 12px; }
+  .arch-tier-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .arch-node {
+    background: var(--bg-3);
+    border: 1px solid var(--line-2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    transition: all .15s;
+  }
+  .arch-node:hover {
+    border-color: var(--line-3);
+    background: var(--bg-4);
+  }
+  .arch-ico {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(167,139,250,0.2), rgba(139,92,246,0.05));
+    border: 1px solid var(--line-2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    color: var(--violet-2);
+  }
+  .arch-name {
+    font-family: 'Geist', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .arch-name .role {
+    display: block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .arch-status {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  /* Stack table */
+  .stack-table {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .stack-row {
+    display: grid;
+    grid-template-columns: 60px 200px 1fr 140px 120px;
+    gap: 24px;
+    padding: 18px 24px;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    transition: background .15s;
+  }
+  .stack-row:last-child { border-bottom: none; }
+  .stack-row:hover { background: rgba(167,139,250,0.03); }
+  .stack-row.head {
+    background: rgba(167,139,250,0.04);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .stack-row .idx {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .stack-row .tech {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px; font-weight: 500;
+    color: var(--ink);
+  }
+  .stack-row .desc {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .stack-row .layer {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--violet-2);
+  }
+  .stack-row .ver {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    text-align: right;
+  }
+
+  /* ─── Feature hero (lead) ─── */
+  .feature-hero {
+    margin-top: 32px;
+    padding: 40px 44px;
+    border: 1px solid var(--violet-2);
+    background:
+      linear-gradient(180deg, rgba(167,139,250,0.06), rgba(167,139,250,0.02)),
+      var(--bg);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 48px;
+    align-items: center;
+  }
+  .feature-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px 200px at 85% 50%, rgba(167,139,250,0.10), transparent 70%);
+    pointer-events: none;
+  }
+  .feature-hero > * { position: relative; z-index: 1; }
+  .feature-hero .fh-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--violet-2);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .feature-hero .fh-label .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--violet-2);
+    box-shadow: 0 0 0 0 rgba(167,139,250,0.8);
+    animation: fhpulse 2s infinite;
+  }
+  @keyframes fhpulse {
+    0%   { box-shadow: 0 0 0 0 rgba(167,139,250,0.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(167,139,250,0); }
+    100% { box-shadow: 0 0 0 0 rgba(167,139,250,0); }
+  }
+  .feature-hero h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 34px; line-height: 1.1; letter-spacing: -0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 14px;
+    text-wrap: pretty;
+  }
+  .feature-hero h3 em {
+    font-style: italic;
+    color: var(--violet-2);
+  }
+  .feature-hero p {
+    font-size: 15px; line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 56ch;
+    margin-bottom: 22px;
+  }
+  .feature-hero .fh-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .feature-hero .fh-chip {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; letter-spacing: 0.04em;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    color: var(--ink-2);
+    border-radius: 4px;
+  }
+  .feature-hero .fh-chip strong { color: var(--violet-2); font-weight: 500; }
+
+  /* Right-side flow diagram */
+  .vrf-flow {
+    display: flex; flex-direction: column; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+  }
+  .vrf-step {
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.02);
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 22px 1fr auto;
+    gap: 12px; align-items: center;
+  }
+  .vrf-step .n {
+    color: var(--violet-2);
+    letter-spacing: 0.08em;
+  }
+  .vrf-step .lbl {
+    color: var(--ink);
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  .vrf-step .lbl small {
+    display: block;
+    color: var(--ink-3);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+  .vrf-step .ic {
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  .vrf-step.live { border-color: rgba(167,139,250,0.4); }
+  .vrf-step.live .ic { color: var(--violet-2); }
+  .vrf-arrow {
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 12px;
+    line-height: 1;
+  }
+  @media (max-width: 880px) {
+    .feature-hero { grid-template-columns: 1fr; padding: 28px 24px; gap: 28px; }
+    .feature-hero h3 { font-size: 26px; }
+  }
+
+  /* ─── Feature cards ─── */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .feature {
+    background: linear-gradient(180deg, rgba(167,139,250,0.04), transparent);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--violet-2), transparent);
+    opacity: 0.4;
+  }
+  .feature .label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--violet-2);
+    margin-bottom: 24px;
+  }
+  .feature .label::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--violet-2);
+  }
+  .feature h3 {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .feature p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .feature .specs {
+    display: grid;
+    gap: 6px;
+    padding-top: 18px;
+    border-top: 1px dashed var(--line-2);
+  }
+  .feature .spec {
+    display: flex; justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+  }
+  .feature .spec .k { color: var(--ink-3); }
+  .feature .spec .v { color: var(--ink); }
+
+  /* ─── Code block ─── */
+  .code-block {
+    margin-top: 48px;
+    background: #0a0712;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .code-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 18px;
+    background: rgba(167,139,250,0.03);
+    border-bottom: 1px solid var(--line);
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+  }
+  .code-head .file { color: var(--ink-2); }
+  .code-head .lang { color: var(--violet-2); }
+  .code-block pre {
+    padding: 24px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    overflow-x: auto;
+  }
+  .code-block .kw { color: #c4b5fd; }
+  .code-block .fn { color: #a78bfa; }
+  .code-block .str { color: #86efac; }
+  .code-block .num { color: #fbbf24; }
+  .code-block .com { color: var(--ink-3); font-style: italic; }
+
+  /* ─── Metrics ─── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .metric {
+    background: linear-gradient(180deg, rgba(167,139,250,0.05), transparent);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .metric .k {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 14px;
+  }
+  .metric .v {
+    font-family: 'Geist', sans-serif;
+    font-size: 44px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .metric .v .unit {
+    font-size: 22px;
+    color: var(--violet-2);
+    margin-left: 4px;
+  }
+  .metric .delta {
+    margin-top: 12px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .metric .delta.neutral { color: var(--ink-3); }
+
+  /* ─── Footer / CTA ─── */
+  .footer { padding: 96px 0 64px; border-top: 1px solid var(--line); }
+  .cta-box {
+    background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(124,92,255,0.04));
+    border: 1px solid var(--line-3);
+    border-radius: 20px;
+    padding: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(139,92,246,0.25), transparent 60%);
+    pointer-events: none;
+  }
+  .cta-box-content { position: relative; }
+  .cta-box .next {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--violet-2);
+    margin-bottom: 20px;
+  }
+  .cta-box h2 {
+    font-family: 'Geist', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+    max-width: 720px;
+  }
+  .cta-box p {
+    font-size: 17px;
+    color: var(--ink-2);
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 22px;
+    border-radius: 10px;
+    font-family: 'Geist', sans-serif;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: all .15s;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: linear-gradient(180deg, #a78bfa, #7c5cff);
+    color: white;
+    box-shadow: 0 8px 24px -6px rgba(124,92,255,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 30px -6px rgba(124,92,255,0.6); }
+  .btn-ghost {
+    color: var(--ink);
+    border-color: var(--line-3);
+    background: rgba(0,0,0,0.2);
+  }
+  .btn-ghost:hover { background: rgba(167,139,250,0.06); border-color: var(--violet-2); }
+  .btn .arr { font-family: 'Geist Mono', monospace; }
+
+  .colophon {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .colophon .sig strong { color: var(--ink); font-weight: 500; }
+
+  /* ─── Reveal ─── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 960px) {
+    .container { padding: 0 24px; }
+    .meta-strip { grid-template-columns: 1fr 1fr; }
+    .meta-cell { border-bottom: 1px solid var(--line); }
+    .meta-cell:nth-child(2) { border-right: none; }
+    .sec-head { grid-template-columns: 1fr; gap: 16px; }
+    .arch-grid { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+    .stack-row { grid-template-columns: 40px 1fr 1fr; }
+    .stack-row .desc, .stack-row .ver { display: none; }
+    .topbar nav { display: none; }
+    .cta-box { padding: 32px; }
+  }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="grid-bg"></div>
+<div class="grain"></div>
+
+<div class="wrap">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="signet">
+        <div class="signet-mark">W</div>
+        <div class="signet-text"><strong>weezdraw</strong> · case study</div>
+      </div>
+      <nav>
+        <a href="#overview">aperçu</a>
+        <a href="#stack">stack</a>
+        <a href="#tech">technique</a>
+        <a href="#metrics">chiffres</a>
+      </nav>
+      <div class="build">
+        <span class="pulse" style="background:var(--ink-3);box-shadow:none;animation:none;"></span>
+        archivé · 2025
+        <a href="index.html" style="margin-left:14px;color:var(--ink);">← arqova</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" data-screen-label="01 Hero">
+    <div class="container">
+      <div class="tag-row">
+        <div class="tag"><span class="d"></span>Plateforme web · Next.js 15</div>
+        <div class="tag"><span class="d"></span>Skill competition · Bitcoin</div>
+        <div class="tag" style="background:rgba(255,255,255,0.02);"><span class="d" style="background:var(--ink-3);"></span>Projet archivé · fermé en 2025</div>
+        <div class="tag" style="border-color:var(--violet-2);"><span class="d"></span>Conçu &amp; codé en solo</div>
+      </div>
+
+      <h1>
+        La première plateforme<br />
+        <span class="accent">de skill competitions Bitcoin —</span><br />
+        <span class="ink-3">conçue et codée en solo.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Weezdraw était une plateforme de compétitions skill-game payées en Bitcoin : achat de tickets, quiz, roue de la chance, gagnants en direct via Twitch. J'ai porté le projet seul de bout en bout — design, frontend Next.js 15, intégrations Stripe / NextAuth / Socket.IO, instrumentation marketing complète, copy et identité. Le projet a été arrêté courant 2025 ; cette page documente le travail réalisé.
+      </p>
+
+      <dl class="meta-strip">
+        <div class="meta-cell">
+          <dt>Rôle</dt>
+          <dd><span class="v">Solo</span> · Design + Dév</dd>
+        </div>
+        <div class="meta-cell">
+          <dt>Année</dt>
+          <dd>2024 — 2025</dd>
+        </div>
+        <div class="meta-cell">
+          <dt>Stack</dt>
+          <dd>Next 15 · Stripe · Socket.IO</dd>
+        </div>
+        <div class="meta-cell">
+          <dt>Statut</dt>
+          <dd><span style="color:var(--ink-3);">●</span> Archivé</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Hero mockup -->
+  <section class="stage" data-screen-label="02 Hero Mockup">
+    <div class="container">
+      <div class="browser reveal">
+        <div class="browser-bar">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <div class="url"><span class="lock">●</span>weezdraw.com</div>
+          <div class="badge">capture · 2025</div>
+        </div>
+        <img src="images/weezdraw-screenshot.png" alt="Weezdraw — section des prochaines compétitions avec compteurs" />
+      </div>
+      <div class="stage-cap">
+        <span>fig.01 — / · accueil, compétitions actives</span>
+        <span class="live" style="color:var(--ink-3);">capture d'écran d'archive</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="section" id="overview" data-screen-label="03 Overview">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">§ 01 <span>—</span> Aperçu</div>
+        <div>
+          <h2 class="sec-title">Une plateforme complète, <span class="accent">portée par une seule personne.</span></h2>
+          <p class="sec-lede">
+            Weezdraw était positionnée comme « the first Bitcoin skill competition platform » : achat de tickets, vérification d'âge, quiz, roue de la chance, gagnants et streaming Twitch intégrés. J'ai conçu, designé et développé le frontend complet en Next.js 15 (App Router), connecté à une API externe via un service HTTP custom et un canal WebSocket Socket.IO, avec Stripe pour les paiements et NextAuth pour l'authentification. Aucune équipe, aucun studio — juste moi, du wireframe au push en production.
+          </p>
+        </div>
+      </div>
+
+      <div class="features">
+        <div class="feature">
+          <div class="label">Frontend</div>
+          <h3>Next.js 15 · App Router</h3>
+          <p>App Router avec React 18 et TypeScript strict. Pages buy-tickets, checkout, quiz, profil, FAQ, légal — tout fait main, sans UI lib. Composants lourds (WinnersBanner, FAQ) chargés en <code>dynamic({ ssr: false })</code> pour préserver le LCP.</p>
+          <div class="specs">
+            <div class="spec"><span class="k">framework</span><span class="v">Next 15.0.4</span></div>
+            <div class="spec"><span class="k">styling</span><span class="v">Tailwind 3.4</span></div>
+            <div class="spec"><span class="k">motion</span><span class="v">Framer Motion</span></div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="label">Temps réel</div>
+          <h3>Socket.IO + prix BTC live</h3>
+          <p>Synchronisation des compteurs, du stock de tickets et des prix Bitcoin via Socket.IO. Hooks custom <code>useBitcoinPrice</code> / <code>useDrawBitcoinPrice</code> pour la conversion en direct, montants gérés en <code>bignumber.js</code> pour éviter toute imprécision flottante.</p>
+          <div class="specs">
+            <div class="spec"><span class="k">realtime</span><span class="v">Socket.IO</span></div>
+            <div class="spec"><span class="k">montants</span><span class="v">bignumber.js</span></div>
+            <div class="spec"><span class="k">validation</span><span class="v">zod</span></div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="label">Paiements &amp; Auth</div>
+          <h3>Stripe + NextAuth</h3>
+          <p>Tunnel d'achat Stripe complet (<code>@stripe/stripe-js</code>), authentification NextAuth 4 avec gestion de session, vérification d'âge obligatoire, code de vérification téléphone. Service HTTP custom (<code>services/Http.ts</code>) pour parler à l'API métier externe.</p>
+          <div class="specs">
+            <div class="spec"><span class="k">paiement</span><span class="v">Stripe</span></div>
+            <div class="spec"><span class="k">auth</span><span class="v">NextAuth 4.24</span></div>
+            <div class="spec"><span class="k">i18n</span><span class="v">Weglot</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stack & Architecture -->
+  <section class="section" id="stack" data-screen-label="04 Architecture">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">§ 02 <span>—</span> Architecture</div>
+        <div>
+          <h2 class="sec-title">Un front <span class="accent">e-commerce + marketing,</span> orchestré seul.</h2>
+          <p class="sec-lede">
+            Front Next.js 15 pur, consommant une API externe. Côté navigateur : Stripe pour le paiement, Socket.IO pour le temps réel, NextAuth pour la session. L'instrumentation marketing (GTM, Klaviyo, TikTok Pixel, Twitter, Trustpilot, CookieConsent) est wrappée en composants React dédiés dans <code>layout.tsx</code> pour rester orchestrable depuis le code.
+          </p>
+        </div>
+      </div>
+
+      <div class="arch">
+        <div class="arch-head">
+          <span>topologie système · <span class="v">production</span></span>
+          <span>3 couches · 9 intégrations</span>
+        </div>
+        <div class="arch-grid">
+          <div class="arch-tier">
+            <div class="arch-tier-label">↓ Frontend</div>
+            <div class="arch-node">
+              <div class="arch-ico">N</div>
+              <div class="arch-name">Next.js 15.0.4<span class="role">App Router · React 18 · TS 5</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-ico">T</div>
+              <div class="arch-name">Tailwind + Framer<span class="role">design tokens · animations</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-ico">H</div>
+              <div class="arch-name">Headless UI + Swiper<span class="role">modales · carrousels</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+          </div>
+
+          <div class="arch-tier">
+            <div class="arch-tier-label">↓ Données &amp; Session</div>
+            <div class="arch-node">
+              <div class="arch-ico">⚙</div>
+              <div class="arch-name">services/Http.ts<span class="role">client API custom</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-ico">P</div>
+              <div class="arch-name">Socket.IO client<span class="role">prix BTC + tickets temps réel</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-ico">R</div>
+              <div class="arch-name">NextAuth 4.24<span class="role">session · vérif d'âge</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+          </div>
+
+          <div class="arch-tier">
+            <div class="arch-tier-label">↓ Paiements &amp; Tracking</div>
+            <div class="arch-node">
+              <div class="arch-ico">₿</div>
+              <div class="arch-name">Stripe<span class="role">tunnel d'achat · checkout</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-ico">⛓</div>
+              <div class="arch-name">GTM + Klaviyo + TikTok<span class="role">analytics · email · ads</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+            <div class="arch-node">
+              <div class="arch-ico">⚡</div>
+              <div class="arch-name">Trustpilot + SchemaOrg<span class="role">trust signals · SEO</span></div>
+              <div class="arch-status" style="background:var(--ink-3);box-shadow:none;"></div>
+            </div>
+            <div class="arch-node" style="border-color:rgba(167,139,250,0.35);">
+              <div class="arch-ico" style="color:var(--violet-2);">⛓</div>
+              <div class="arch-name">Chainlink VRF<span class="role">random on-chain · Ethereum mainnet</span></div>
+              <div class="arch-status" style="background:var(--violet-2);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stack table -->
+      <div class="stack-table">
+        <div class="stack-row head">
+          <div class="idx">#</div>
+          <div>Tech</div>
+          <div>Rôle</div>
+          <div>Couche</div>
+          <div>Version</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">01</div>
+          <div class="tech">Next.js</div>
+          <div class="desc">App Router, React Server Components, frontend complet</div>
+          <div class="layer">framework</div>
+          <div class="ver">15.0.4</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">02</div>
+          <div class="tech">React + TypeScript</div>
+          <div class="desc">React 18, TypeScript strict, validation runtime via zod</div>
+          <div class="layer">langage</div>
+          <div class="ver">18 / 5</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">03</div>
+          <div class="tech">Tailwind CSS</div>
+          <div class="desc">Tokens custom, clsx + tailwind-merge, aucune lib UI</div>
+          <div class="layer">styling</div>
+          <div class="ver">3.4</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">04</div>
+          <div class="tech">Framer Motion</div>
+          <div class="desc">Apparitions, modales, transitions de page, microinteractions</div>
+          <div class="layer">motion</div>
+          <div class="ver">11.x</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">05</div>
+          <div class="tech">Headless UI + Swiper</div>
+          <div class="desc">Modales accessibles, carrousels gagnants, drawer profil</div>
+          <div class="layer">ui</div>
+          <div class="ver">latest</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">06</div>
+          <div class="tech">NextAuth</div>
+          <div class="desc">Authentification, sessions, vérification d&rsquo;âge bloquante</div>
+          <div class="layer">auth</div>
+          <div class="ver">4.24</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">07</div>
+          <div class="tech">Stripe</div>
+          <div class="desc">Tunnel d&rsquo;achat tickets, checkout, gestion des erreurs</div>
+          <div class="layer">paiement</div>
+          <div class="ver">@stripe/stripe-js</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">08</div>
+          <div class="tech">Socket.IO</div>
+          <div class="desc">Prix BTC live, stock tickets, compteurs synchronisés</div>
+          <div class="layer">realtime</div>
+          <div class="ver">client</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">09</div>
+          <div class="tech">bignumber.js + zod</div>
+          <div class="desc">Calculs montants crypto sans précision flottante, validation</div>
+          <div class="layer">utils</div>
+          <div class="ver">latest</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">10</div>
+          <div class="tech">Chainlink VRF</div>
+          <div class="desc">Random vérifiable on-chain pour les tirages, Ethereum mainnet</div>
+          <div class="layer">fairness</div>
+          <div class="ver">mainnet</div>
+        </div>
+        <div class="stack-row">
+          <div class="idx">11</div>
+          <div class="tech">GTM, Klaviyo, TikTok, Twitter</div>
+          <div class="desc">Stack tracking complète, wrappers React dans layout.tsx</div>
+          <div class="layer">marketing</div>
+          <div class="ver">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech highlights -->
+  <section class="section" id="tech" data-screen-label="05 Tech Deep">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">§ 03 <span>—</span> Notes d'ingénierie</div>
+        <div>
+          <h2 class="sec-title">Vérifiable on‑chain, <span class="accent">streamé en live.</span></h2>
+          <p class="sec-lede">
+            La pièce maîtresse, c'est le tirage : pour qu'aucun user ne doute, le random vient de Chainlink VRF sur Ethereum mainnet et la cérémonie est diffusée en live Twitch — avec embed direct sur le site. À côté du draw, l'app vit grâce à un prix BTC live propagé par Socket.IO et un hook React unique, calculs en <code>bignumber.js</code> pour ne jamais perdre un satoshi sur un arrondi flottant.
+          </p>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-head">
+          <span class="file">hooks/useBitcoinPrice.ts</span>
+          <span class="lang">typescript</span>
+        </div>
+<pre><span class="com">// Source unique pour le prix BTC — propagé par Socket.IO,</span>
+<span class="com">// fallback HTTP au montage, montants en bignumber.js.</span>
+
+<span class="kw">export function</span> <span class="fn">useBitcoinPrice</span>() {
+  <span class="kw">const</span> [price, setPrice] = <span class="fn">useState</span>&lt;BigNumber | <span class="kw">null</span>&gt;(<span class="kw">null</span>);
+
+  <span class="fn">useEffect</span>(() =&gt; {
+    <span class="com">// 1. Hydrater immédiatement avec le dernier prix connu (REST).</span>
+    Http.<span class="fn">get</span>(<span class="str">'/api/btc/price'</span>).<span class="fn">then</span>((p) =&gt; <span class="fn">setPrice</span>(<span class="kw">new</span> <span class="fn">BigNumber</span>(p)));
+
+    <span class="com">// 2. S'abonner au flux temps réel.</span>
+    <span class="kw">const</span> off = socket.<span class="fn">on</span>(<span class="str">'btc:price'</span>, (p) =&gt; <span class="fn">setPrice</span>(<span class="kw">new</span> <span class="fn">BigNumber</span>(p)));
+    <span class="kw">return</span> off;
+  }, []);
+
+  <span class="kw">return</span> price;
+}
+
+<span class="com">// Dérivé utilisé dans le checkout : combien de sats pour un panier EUR ?</span>
+<span class="kw">export function</span> <span class="fn">useDrawBitcoinPrice</span>(eur: BigNumber) {
+  <span class="kw">const</span> price = <span class="fn">useBitcoinPrice</span>();
+  <span class="kw">if</span> (!price) <span class="kw">return</span> <span class="kw">null</span>;
+  <span class="kw">return</span> eur.<span class="fn">dividedBy</span>(price).<span class="fn">decimalPlaces</span>(<span class="num">8</span>);
+}</pre>
+      </div>
+
+      <div class="feature-hero">
+        <div>
+          <div class="fh-label"><span class="pulse"></span>Fairness · Chainlink VRF · Ethereum mainnet</div>
+          <h3>Chaque tirage, vérifié <em>on‑chain en direct</em> — streamé sur Twitch.</h3>
+          <p>
+            Pour qu'un utilisateur ne puisse pas se demander si le tirage était « arrangé », le random venait de Chainlink VRF sur Ethereum mainnet. Le contrat appelait le Coordinator, attendait le callback vérifié cryptographiquement, puis le résultat était diffusé en live sur Twitch — avec un embed du stream sur le site pendant le draw. Le hash de la transaction était public : n'importe qui pouvait rouvrir Etherscan et reconstituer le tirage.
+          </p>
+          <div class="fh-chips">
+            <span class="fh-chip"><strong>Chainlink VRF</strong> · Ethereum mainnet</span>
+            <span class="fh-chip">Live <strong>Twitch</strong> embed</span>
+            <span class="fh-chip">tx publique · <strong>Etherscan</strong></span>
+            <span class="fh-chip">trustless</span>
+          </div>
+        </div>
+
+        <div class="vrf-flow" aria-hidden="true">
+          <div class="vrf-step">
+            <span class="n">01</span>
+            <span class="lbl">Clôture des ventes<small>tickets gélés on-chain</small></span>
+            <span class="ic">■</span>
+          </div>
+          <div class="vrf-arrow">↓</div>
+          <div class="vrf-step live">
+            <span class="n">02</span>
+            <span class="lbl">Chainlink VRF<small>request → callback vérifié</small></span>
+            <span class="ic">⛓</span>
+          </div>
+          <div class="vrf-arrow">↓</div>
+          <div class="vrf-step live">
+            <span class="n">03</span>
+            <span class="lbl">Live Twitch<small>embed sur weezdraw.com</small></span>
+            <span class="ic">●</span>
+          </div>
+          <div class="vrf-arrow">↓</div>
+          <div class="vrf-step">
+            <span class="n">04</span>
+            <span class="lbl">Tx publique<small>vérifiable sur Etherscan</small></span>
+            <span class="ic">↗</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="features" style="margin-top:32px;">
+        <div class="feature">
+          <div class="label">Tunnel d'achat</div>
+          <h3>Stripe · conversion-aware</h3>
+          <p>Achat de tickets en EUR avec affichage du contre-valeur BTC live, panier persisté entre /buy-tickets et /checkout, modale FirstTicket pour onboarder les nouveaux, modale SoldOut quand l'édition est fermée. Erreurs Stripe mappées vers des messages utilisateur en FR/EN.</p>
+          <div class="specs">
+            <div class="spec"><span class="k">paiement</span><span class="v">Stripe</span></div>
+            <div class="spec"><span class="k">panier</span><span class="v">localStorage</span></div>
+            <div class="spec"><span class="k">i18n</span><span class="v">Weglot</span></div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="label">Compliance</div>
+          <h3>Vérif d'âge bloquante</h3>
+          <p>Modal AgeVerification servie au premier visit, persistance via cookie HttpOnly. Code de vérification téléphone (modal VerificationCode) avec champ FontAwesome + react-phone-input. CookieConsent câblé à GTM pour bloquer les pixels avant accord.</p>
+          <div class="specs">
+            <div class="spec"><span class="k">compliance</span><span class="v">RGPD · 18+</span></div>
+            <div class="spec"><span class="k">consent</span><span class="v">CookieConsent</span></div>
+            <div class="spec"><span class="k">a11y</span><span class="v">Headless UI</span></div>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="label">Tracking</div>
+          <h3>Six providers, un layout</h3>
+          <p>GTM, Klaviyo, TikTok Pixel, Twitter conversion tracker, Trustpilot, SchemaOrg — chaque provider est un wrapper React dédié, monté dans <code>layout.tsx</code> sous condition de consentement. Tous les events e-commerce (view_item, add_to_cart, purchase) sont émis depuis un dispatcher unique.</p>
+          <div class="specs">
+            <div class="spec"><span class="k">orchestration</span><span class="v">GTM</span></div>
+            <div class="spec"><span class="k">email</span><span class="v">Klaviyo</span></div>
+            <div class="spec"><span class="k">ads</span><span class="v">TikTok + X</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metrics -->
+  <section class="section" id="metrics" data-screen-label="06 Scope">
+    <div class="container">
+      <div class="sec-head">
+        <div class="sec-num">§ 04 <span>—</span> Périmètre</div>
+        <div>
+          <h2 class="sec-title">Le scope <span class="accent">porté en solo.</span></h2>
+        </div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="k">Pages publiques</div>
+          <div class="v">12<span class="unit"> routes</span></div>
+          <div class="delta neutral">home, buy, checkout, quiz, profile, FAQ, légal…</div>
+        </div>
+        <div class="metric">
+          <div class="k">Modales métier</div>
+          <div class="v">9<span class="unit"> modales</span></div>
+          <div class="delta neutral">Login, AgeVerif, FirstTicket, SoldOut, LuckyWheel…</div>
+        </div>
+        <div class="metric">
+          <div class="k">Intégrations tierces</div>
+          <div class="v">10<span class="unit">+</span></div>
+          <div class="delta neutral">Stripe, NextAuth, Socket.IO, Weglot, Trustpilot…</div>
+        </div>
+        <div class="metric">
+          <div class="k">Stack tracking</div>
+          <div class="v">6<span class="unit"> providers</span></div>
+          <div class="delta neutral">GTM, Klaviyo, TikTok, Twitter, SchemaOrg, Cookies</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer / CTA -->
+  <section class="footer" data-screen-label="07 Contact">
+    <div class="container">
+      <div class="cta-box">
+        <div class="cta-box-content">
+          <div class="next">— à propos du projet</div>
+          <h2>Le projet est fermé. L'expérience, elle, reste.</h2>
+          <p>Weezdraw n'est plus en ligne — le service a été arrêté et le domaine n'est plus actif. Cette page documente le travail de design et d'ingénierie mené sur le projet, de l'architecture jusqu'à l'interface. Si tu construis quelque chose qui a besoin d'une interface soignée ET d'une vraie colonne vertébrale technique — écris-moi.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="index.html#contact">
+              Discuter d'un projet <span class="arr">→</span>
+            </a>
+            <a class="btn btn-ghost" href="index.html">
+              ← Retour au site
+            </a>
+            <span class="btn btn-ghost" style="cursor:default;opacity:.7;">
+              weezdraw.com · hors ligne
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="colophon">
+        <div class="sig">conçu &amp; développé en solo · <strong>2025</strong> · © Arqova</div>
+        <div>weezdraw · case study v2.4</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.section, .stage, .footer').forEach(el => {
+    el.classList.add('reveal'); io.observe(el);
+  });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

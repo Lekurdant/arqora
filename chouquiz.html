@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>chouQuiz · Étude de cas — Arqova</title>
+<meta name="description" content="Case study : chouQuiz, app mobile iOS/Android avec quiz quotidien généré par un pipeline d'agents Claude orchestrés via n8n et MCP." />
+<link rel="icon" href="images/favicon.png" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" />
+<style>
+:root {
+  --bg-0: oklch(0.14 0.02 265);
+  --bg-1: oklch(0.18 0.025 265);
+  --bg-card: oklch(0.21 0.028 265);
+  --line: oklch(0.32 0.02 265 / 0.5);
+  --line-strong: oklch(0.45 0.02 265 / 0.6);
+  --fg: oklch(0.97 0.005 265);
+  --fg-muted: oklch(0.72 0.015 265);
+  --fg-dim: oklch(0.55 0.02 265);
+  --indigo: #667eea;
+  --indigo-dim: rgba(102,126,234,0.18);
+  --violet: #764ba2;
+  --violet-dim: rgba(118,75,162,0.22);
+  --gold: #FFD700;
+  --gold-dim: rgba(255,215,0,0.18);
+  --mint: var(--indigo);
+  --mint-dim: var(--indigo-dim);
+  --radius: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --font-display: 'Instrument Serif', 'Geist', serif;
+  --maxw: 1240px;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg-0);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, oklch(0.78 0.14 155 / 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 30%, oklch(0.65 0.15 290 / 0.06), transparent 60%),
+    var(--bg-0);
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+.section { padding: 120px 0; position: relative; }
+.section + .section { padding-top: 0; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--fg-dim);
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: oklch(1 0 0 / 0.02);
+}
+.eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 10px var(--mint);
+}
+
+.h1 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 1.02; letter-spacing: -0.02em; margin: 0;
+}
+.h2 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(36px, 4.5vw, 64px);
+  line-height: 1.05; letter-spacing: -0.015em; margin: 0 0 12px;
+}
+.h3 { font-family: var(--font-sans); font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin: 0; }
+.italic { font-style: italic; }
+.lede { font-size: 19px; color: var(--fg-muted); line-height: 1.55; max-width: 680px; }
+.mono { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--fg-dim); }
+.mint { color: var(--mint); }
+.violet { color: var(--violet); }
+
+/* Nav */
+.nav {
+  position: fixed; top: 16px; left: 50%;
+  transform: translateX(-50%); z-index: 100;
+  display: flex; align-items: center; gap: 28px;
+  padding: 8px 8px 8px 18px;
+  background: oklch(0.18 0.025 265 / 0.7);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
+.nav-logo img { width: 60px; height: auto; position: relative; top: -2.5px; }
+.nav-links { display: flex; gap: 22px; font-size: 13px; color: var(--fg-muted); }
+.nav-links a { text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--fg); }
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; background: var(--mint);
+  color: #0a1410; border-radius: 999px;
+  font-size: 13px; font-weight: 600; text-decoration: none;
+  transition: transform 0.2s;
+}
+.nav-cta:hover { transform: scale(1.04); }
+
+/* Hero */
+.hero { padding: 180px 0 100px; position: relative; text-align: center; }
+.hero-meta {
+  display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;
+  margin-top: 56px;
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--fg-dim); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.hero-meta-item { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.hero-meta-item strong {
+  font-family: var(--font-sans); color: var(--fg);
+  font-weight: 500; font-size: 14px; letter-spacing: 0; text-transform: none;
+}
+.hero-stage {
+  margin-top: 80px; display: flex; gap: 28px;
+  justify-content: center; align-items: center; perspective: 1400px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px; border-radius: 999px;
+  font-size: 14px; font-weight: 500; text-decoration: none;
+  border: 1px solid transparent; cursor: pointer;
+  transition: all 0.2s; font-family: var(--font-sans);
+}
+.btn-primary { background: var(--mint); color: #0a1410; }
+.btn-primary:hover { box-shadow: 0 0 30px var(--mint-dim); }
+.btn-ghost { background: oklch(1 0 0 / 0.04); color: var(--fg); border-color: var(--line); }
+.btn-ghost:hover { background: oklch(1 0 0 / 0.08); }
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px; position: relative;
+  transition: all 0.3s;
+}
+.card:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+.card-num { font-family: var(--font-mono); font-size: 11px; color: var(--fg-dim); letter-spacing: 0.1em; }
+
+/* Grid */
+.grid { display: grid; gap: 20px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+
+/* Section header */
+.section-head {
+  display: flex; flex-direction: column; gap: 16px;
+  margin-bottom: 64px; max-width: 760px;
+}
+
+/* Marquee */
+.divider-marquee {
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 18px 0; overflow: hidden;
+  background: oklch(1 0 0 / 0.015);
+  margin: 80px 0;
+}
+.marquee-track {
+  display: flex; gap: 56px; white-space: nowrap;
+  animation: marquee 40s linear infinite;
+  font-family: var(--font-mono); font-size: 13px;
+  color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.12em;
+  width: max-content;
+}
+.marquee-track span { display: inline-flex; align-items: center; gap: 12px; }
+.marquee-track .sep { color: var(--mint); }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Phone */
+.phone {
+  width: 240px; height: 510px;
+  border-radius: 38px; background: #0a0d12;
+  border: 1px solid oklch(0.35 0.02 265);
+  padding: 8px; position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 0 2px oklch(0.2 0.02 265);
+}
+.phone::before {
+  content: ""; position: absolute;
+  top: 14px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 24px;
+  background: #000; border-radius: 999px; z-index: 2;
+}
+.phone-screen {
+  width: 100%; height: 100%;
+  border-radius: 30px; overflow: hidden;
+  background: linear-gradient(180deg, #1f1b3a, #14122a);
+  position: relative;
+}
+
+/* Code block */
+.code {
+  background: oklch(0.1 0.02 265);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 12.5px; line-height: 1.7;
+  overflow: hidden;
+}
+.code-head {
+  padding: 10px 16px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 10px;
+  color: var(--fg-dim); font-size: 11px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.code-head .dots { display: flex; gap: 5px; }
+.code-head .dots i {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: oklch(0.4 0.02 265); display: inline-block;
+}
+.code-body { padding: 18px 20px; color: oklch(0.85 0.01 265); white-space: pre; overflow-x: auto; }
+.code .k { color: #c4a8ff; }
+.code .s { color: #7BE3A8; }
+.code .c { color: #5a6478; font-style: italic; }
+.code .n { color: #ffd27a; }
+.code .p { color: #8aa3c0; }
+.code .f { color: #87d4ff; }
+
+/* Pill */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px; border-radius: 999px;
+  background: oklch(1 0 0 / 0.04);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--fg-muted); letter-spacing: 0.04em;
+}
+.pill.mint { color: var(--indigo); border-color: rgba(102,126,234,0.4); background: var(--indigo-dim); }
+.pill.violet { color: #b08dd8; border-color: rgba(118,75,162,0.5); background: var(--violet-dim); }
+
+/* Footer */
+.footer {
+  padding: 80px 0 60px;
+  border-top: 1px solid var(--line);
+  margin-top: 60px;
+  text-align: center; color: var(--fg-dim); font-size: 13px;
+}
+.footer-big {
+  font-family: var(--font-display);
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.9; letter-spacing: -0.04em;
+  color: oklch(1 0 0 / 0.04);
+  margin: 40px 0 60px;
+  user-select: none; pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .section { padding: 80px 0; }
+  .hero { padding: 140px 0 60px; }
+  .wrap { padding: 0 20px; }
+  .hero-stage { flex-direction: column; }
+}
+
+/* Pipeline */
+.pipeline {
+  padding: 50px 30px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(ellipse at center, oklch(0.65 0.15 290 / 0.05), transparent 70%),
+    oklch(1 0 0 / 0.02);
+  position: relative; overflow: hidden;
+}
+.pipeline-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0; margin-top: 30px; flex-wrap: nowrap;
+}
+.pnode { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+.pnode-icon {
+  width: 60px; height: 60px; border-radius: 14px;
+  background: oklch(1 0 0 / 0.04);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  color: var(--fg-muted);
+  transition: all 0.4s;
+}
+.pnode.active .pnode-icon {
+  background: oklch(0.65 0.15 290 / 0.18);
+  border-color: var(--violet);
+  color: white;
+  box-shadow: 0 0 30px oklch(0.65 0.15 290 / 0.3);
+  transform: scale(1.08);
+}
+.pnode-label { font-size: 12px; font-weight: 500; color: var(--fg-muted); text-align: center; }
+.pnode.active .pnode-label { color: white; }
+.pnode-sub { font-family: var(--font-mono); font-size: 10px; margin-top: 2px; color: var(--fg-dim); text-align: center; }
+.pline { flex: 1; height: 2px; background: oklch(1 0 0 / 0.08); position: relative; margin: 0 4px; border-radius: 2px; overflow: hidden; min-width: 20px; }
+.pline-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, var(--violet), var(--mint)); transition: width 1.4s ease; box-shadow: 0 0 12px var(--violet); }
+
+@media (max-width: 720px) {
+  .pipeline-row { flex-direction: column; gap: 18px; }
+  .pline { width: 2px; height: 30px; min-width: 0; }
+  .pline-fill { width: 100% !important; height: 0%; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="images/chouquiz-logo.png" alt="chouQuiz" />
+  </div>
+  <div class="nav-links">
+    <a href="#concept">Concept</a>
+    <a href="#design">Design</a>
+    <a href="#automation">Automatisation</a>
+    <a href="#stack">Stack</a>
+  </div>
+  <a class="nav-cta" href="index.html">
+    ← Arqova <span style="font-size:10px"></span>
+  </a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div style="display:flex;justify-content:center;margin-bottom:28px">
+      <span class="eyebrow"><span class="dot"></span>Étude de cas · 2026</span>
+    </div>
+
+    <h1 class="h1">
+      Un quiz quotidien,<br />
+      <span class="italic" style="color:var(--mint)">généré par l'IA.</span>
+    </h1>
+
+    <p class="lede" style="margin:32px auto 0">
+      chouQuiz est une app mobile qui propose chaque jour 5 nouvelles questions
+      sur la culture générale — entièrement conçues, illustrées et vérifiées
+      par un pipeline d'agents autonomes.
+    </p>
+
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:36px;flex-wrap:wrap">
+      <a class="btn btn-primary" href="#concept">Découvrir le projet</a>
+      <a class="btn btn-ghost" href="#automation">Voir l'automatisation</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item"><span>Rôle</span><strong>Solo · Design + Dev + Auto</strong></div>
+      <div class="hero-meta-item"><span>Période</span><strong>2025 — 2026</strong></div>
+      <div class="hero-meta-item"><span>Plateformes</span><strong>iOS · Android</strong></div>
+      <div class="hero-meta-item"><span>Statut</span><strong style="color:var(--mint)">● Bientôt en ligne</strong></div>
+    </div>
+
+    <div class="hero-stage">
+      <!-- Phone Timer -->
+      <div style="transform:rotateY(14deg) translateY(20px);filter:drop-shadow(0 40px 60px rgba(0,0,0,0.5))">
+        <div class="phone">
+          <div class="phone-screen" style="padding:50px 16px 16px">
+            <div style="text-align:center;margin-top:30px">
+              <div class="mono" style="color:oklch(0.7 0.05 290);font-size:10px;letter-spacing:0.15em">QUESTION 03/05</div>
+              <div style="font-family:var(--font-display);font-size:64px;color:white;margin-top:12px;letter-spacing:-0.02em">01<span style="opacity:0.6">s</span></div>
+              <div style="height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin:18px 14px">
+                <div style="width:18%;height:100%;background:#ff6b6b;border-radius:2px"></div>
+              </div>
+            </div>
+            <div style="padding:0 8px;margin-top:20px">
+              <div style="color:white;font-size:13px;font-weight:500;margin-bottom:14px;line-height:1.4">Quelle planète est la plus proche du Soleil&nbsp;?</div>
+              <div style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:white;font-size:12px;margin-bottom:6px">Vénus</div>
+              <div style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:white;font-size:12px;margin-bottom:6px">Mars</div>
+              <div style="padding:10px 12px;background:oklch(0.78 0.14 155 / 0.25);border:1px solid #7BE3A8;border-radius:10px;color:#7BE3A8;font-size:12px;margin-bottom:6px">Mercure</div>
+              <div style="padding:10px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:white;font-size:12px;margin-bottom:6px">Jupiter</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Phone Question (center) -->
+      <div style="transform:translateY(-10px);z-index:2;filter:drop-shadow(0 50px 80px oklch(0.78 0.14 155 / 0.25))">
+        <div class="phone" style="height:540px">
+          <div class="phone-screen" style="background:linear-gradient(180deg,#2a2456,#1a1640);padding:50px 14px 16px">
+            <div style="text-align:center;margin-top:8px">
+              <div style="width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,0.08);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="images/chouquiz-logo.png" alt="chouQuiz" style="width:54px;height:54px;object-fit:contain" /></div>
+              <div class="mono" style="color:#A99CFF;font-size:10px;letter-spacing:0.15em">QUIZ DU JOUR</div>
+              <div style="color:white;font-family:var(--font-display);font-size:26px;margin:12px 8px;line-height:1.1;letter-spacing:-0.01em">Bonne réponse&nbsp;!</div>
+            </div>
+            <div style="margin:20px 12px;padding:14px;background:oklch(0.78 0.14 155 / 0.18);border:1px solid oklch(0.78 0.14 155 / 0.4);border-radius:12px;text-align:center">
+              <div style="color:#7BE3A8;font-size:22px;font-weight:700">+150 pts</div>
+              <div class="mono" style="color:rgba(255,255,255,0.6);font-size:9px;margin-top:4px">STREAK · 7 JOURS 🔥</div>
+            </div>
+            <div style="padding:0 12px">
+              <div style="background:#FFD27A;color:#3a2a00;padding:12px;border-radius:12px;font-size:13px;font-weight:600;text-align:center;margin-bottom:8px">Question suivante →</div>
+              <div class="mono" style="text-align:center;color:rgba(255,255,255,0.4);font-size:9px;letter-spacing:0.1em">2/5 · 03:24 RESTANTES</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Phone Score -->
+      <div style="transform:rotateY(-14deg) translateY(20px);filter:drop-shadow(0 40px 60px rgba(0,0,0,0.5))">
+        <div class="phone">
+          <div class="phone-screen" style="padding:50px 14px 16px">
+            <div style="text-align:center;margin-top:16px">
+              <div class="mono" style="color:#A99CFF;font-size:10px;letter-spacing:0.15em">CLASSEMENT</div>
+              <div style="font-family:var(--font-display);font-size:40px;color:white;margin-top:8px">#142</div>
+              <div class="mono" style="color:rgba(255,255,255,0.5);font-size:10px">SUR 12 048 JOUEURS</div>
+            </div>
+            <div style="margin:20px 6px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,0.04);border:1px solid transparent;border-radius:10px;font-size:11px"><div style="width:22px;height:22px;border-radius:50%;background:#FFD27A;color:#0a1410;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px">1</div><div style="flex:1;color:white;font-weight:500">Lila.M</div><div style="color:rgba(255,255,255,0.6);font-weight:600">940</div></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,0.04);border:1px solid transparent;border-radius:10px;font-size:11px"><div style="width:22px;height:22px;border-radius:50%;background:#cfd8e3;color:#0a1410;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px">2</div><div style="flex:1;color:white;font-weight:500">TomB</div><div style="color:rgba(255,255,255,0.6);font-weight:600">920</div></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:rgba(255,255,255,0.04);border:1px solid transparent;border-radius:10px;font-size:11px"><div style="width:22px;height:22px;border-radius:50%;background:#c08855;color:#0a1410;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px">3</div><div style="flex:1;color:white;font-weight:500">AlexK</div><div style="color:rgba(255,255,255,0.6);font-weight:600">890</div></div>
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:oklch(0.78 0.14 155 / 0.18);border:1px solid oklch(0.78 0.14 155 / 0.4);border-radius:10px;font-size:11px"><div style="width:22px;height:22px;border-radius:50%;background:#7BE3A8;color:#0a1410;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px">142</div><div style="flex:1;color:white;font-weight:500">Toi</div><div style="color:#7BE3A8;font-weight:600">620</div></div>
+            </div>
+            <div class="mono" style="text-align:center;color:rgba(255,255,255,0.35);font-size:9px;margin-top:14px;letter-spacing:0.1em">RÉINIT. DANS 18:42:08</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CONCEPT -->
+<section class="section" id="concept">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot"></span>01 · Le concept</span>
+      <h2 class="h2">5 questions par jour, <span class="italic mint">pas une de plus.</span></h2>
+      <p class="lede">
+        Un format court, addictif, fait pour les pauses café. Un classement
+        quotidien remis à zéro chaque nuit. Une expérience pensée pour
+        qu'on revienne demain — sans jamais devenir chronophage.
+      </p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px">
+          <div style="width:44px;height:44px;border-radius:12px;background:oklch(0.78 0.14 155 / 0.15);border:1px solid oklch(0.78 0.14 155 / 0.3);display:flex;align-items:center;justify-content:center;font-size:20px">⏰</div>
+          <span class="card-num">01</span>
+        </div>
+        <h3 class="h3">Connecte-toi à 21h30</h3>
+        <p style="color:var(--fg-muted);font-size:14.5px;margin-top:10px;margin-bottom:0">Chaque soir, le quiz du jour s'ouvre. Toute la communauté joue en même temps.</p>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px">
+          <div style="width:44px;height:44px;border-radius:12px;background:oklch(0.78 0.14 155 / 0.15);border:1px solid oklch(0.78 0.14 155 / 0.3);display:flex;align-items:center;justify-content:center;font-size:20px">⚡</div>
+          <span class="card-num">02</span>
+        </div>
+        <h3 class="h3">Réponds en quelques secondes</h3>
+        <p style="color:var(--fg-muted);font-size:14.5px;margin-top:10px;margin-bottom:0">Plus tu réponds vite, plus tu marques. Une mauvaise réponse coûte cher.</p>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px">
+          <div style="width:44px;height:44px;border-radius:12px;background:oklch(0.78 0.14 155 / 0.15);border:1px solid oklch(0.78 0.14 155 / 0.3);display:flex;align-items:center;justify-content:center;font-size:20px">🏆</div>
+          <span class="card-num">03</span>
+        </div>
+        <h3 class="h3">Grimpe au classement</h3>
+        <p style="color:var(--fg-muted);font-size:14.5px;margin-top:10px;margin-bottom:0">Le top 3 du jour est célébré. Le streak récompense la régularité.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="divider-marquee">
+  <div class="marquee-track">
+    <span>n8n<span class="sep">✦</span></span>
+    <span>Claude MCP<span class="sep">✦</span></span>
+    <span>Firestore<span class="sep">✦</span></span>
+    <span>Expo<span class="sep">✦</span></span>
+    <span>Next.js<span class="sep">✦</span></span>
+    <span>Cloudflare<span class="sep">✦</span></span>
+    <span>Vercel<span class="sep">✦</span></span>
+    <span>RevenueCat<span class="sep">✦</span></span>
+    <span>AdMob<span class="sep">✦</span></span>
+    <span>Solo Project<span class="sep">✦</span></span>
+    <span>n8n<span class="sep">✦</span></span>
+    <span>Claude MCP<span class="sep">✦</span></span>
+    <span>Firestore<span class="sep">✦</span></span>
+    <span>Expo<span class="sep">✦</span></span>
+    <span>Next.js<span class="sep">✦</span></span>
+    <span>Cloudflare<span class="sep">✦</span></span>
+    <span>Vercel<span class="sep">✦</span></span>
+    <span>RevenueCat<span class="sep">✦</span></span>
+    <span>AdMob<span class="sep">✦</span></span>
+    <span>Solo Project<span class="sep">✦</span></span>
+  </div>
+</div>
+
+<!-- DESIGN -->
+<section class="section" id="design">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot"></span>02 · Direction artistique</span>
+      <h2 class="h2">simple, premium, <span class="italic mint">ludique sans être enfantin.</span></h2>
+      <p class="lede">
+        Inspiration : les apps de fitness premium et les jeux mobiles haut de gamme.
+        Glassmorphism contenu, accents néon utilisés avec parcimonie, micro-animations
+        sur chaque interaction. Le vert chouQuiz signe chaque moment de réussite.
+      </p>
+    </div>
+
+    <div class="grid grid-2" style="margin-bottom:28px">
+      <div class="card">
+        <div class="mono" style="margin-bottom:18px">PALETTE OFFICIELLE</div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
+          <div><div style="aspect-ratio:1;background:#667eea;border-radius:10px;border:1px solid var(--line);margin-bottom:8px"></div><div class="mono" style="font-size:10px;color:var(--fg-muted)">#667eea</div><div style="font-size:11px;color:var(--fg);margin-top:2px;font-weight:500">Primary</div><div class="mono" style="font-size:9px;color:var(--fg-dim);margin-top:1px">indigo</div></div>
+          <div><div style="aspect-ratio:1;background:#764ba2;border-radius:10px;border:1px solid var(--line);margin-bottom:8px"></div><div class="mono" style="font-size:10px;color:var(--fg-muted)">#764ba2</div><div style="font-size:11px;color:var(--fg);margin-top:2px;font-weight:500">Secondary</div><div class="mono" style="font-size:9px;color:var(--fg-dim);margin-top:1px">violet</div></div>
+          <div><div style="aspect-ratio:1;background:#FFD700;border-radius:10px;border:1px solid var(--line);margin-bottom:8px"></div><div class="mono" style="font-size:10px;color:var(--fg-muted)">#FFD700</div><div style="font-size:11px;color:var(--fg);margin-top:2px;font-weight:500">Récompenses</div><div class="mono" style="font-size:9px;color:var(--fg-dim);margin-top:1px">gold</div></div>
+          <div><div style="aspect-ratio:1;background:#4CAF50;border-radius:10px;border:1px solid var(--line);margin-bottom:8px"></div><div class="mono" style="font-size:10px;color:var(--fg-muted)">#4CAF50</div><div style="font-size:11px;color:var(--fg);margin-top:2px;font-weight:500">Success</div><div class="mono" style="font-size:9px;color:var(--fg-dim);margin-top:1px">vert</div></div>
+          <div><div style="aspect-ratio:1;background:#F44336;border-radius:10px;border:1px solid var(--line);margin-bottom:8px"></div><div class="mono" style="font-size:10px;color:var(--fg-muted)">#F44336</div><div style="font-size:11px;color:var(--fg);margin-top:2px;font-weight:500">Error</div><div class="mono" style="font-size:9px;color:var(--fg-dim);margin-top:1px">rouge</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="mono" style="margin-bottom:18px">TYPOGRAPHIE NATIVE</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="padding:16px;border:1px solid var(--line);border-radius:12px;background:oklch(1 0 0 / 0.02)">
+            <div class="mono" style="font-size:10px;color:var(--fg-dim);margin-bottom:10px">iOS</div>
+            <div style="font-family:-apple-system,'SF Pro Display',system-ui;font-size:32px;font-weight:600;letter-spacing:-0.02em">Aa</div>
+            <div style="font-size:13px;font-weight:500;margin-top:8px">San Francisco</div>
+            <div class="mono" style="font-size:10px;color:var(--fg-muted);margin-top:4px">system default</div>
+          </div>
+          <div style="padding:16px;border:1px solid var(--line);border-radius:12px;background:oklch(1 0 0 / 0.02)">
+            <div class="mono" style="font-size:10px;color:var(--fg-dim);margin-bottom:10px">Android</div>
+            <div style="font-family:Roboto,system-ui;font-size:32px;font-weight:500;letter-spacing:-0.01em">Aa</div>
+            <div style="font-size:13px;font-weight:500;margin-top:8px">Roboto</div>
+            <div class="mono" style="font-size:10px;color:var(--fg-muted);margin-top:4px">system default</div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--fg-muted);margin-top:16px;margin-bottom:0;line-height:1.5">
+          Choix délibéré du système natif sur chaque plateforme — meilleure lisibilité,
+          support parfait des langues, zéro coût de chargement.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:60px">
+      <div class="mono" style="margin-bottom:24px;color:var(--fg-muted)">↳ ÉCRANS PRINCIPAUX</div>
+      <div class="grid grid-3">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+          <div style="width:100%;aspect-ratio:9/19.5;border-radius:36px;background:#0a0d12;border:1px solid oklch(0.35 0.02 265);box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 0 1px oklch(0.4 0.02 265) inset;position:relative;overflow:hidden;padding:8px">
+            <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#000;border-radius:999px;z-index:2"></div>
+            <img src="images/chouquiz-screen-quiz.jpg" alt="Accueil · Quiz du jour" style="width:100%;height:100%;object-fit:cover;border-radius:28px;display:block" />
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:14px;font-weight:500">Accueil · Quiz du jour</div>
+            <div class="mono" style="font-size:10px;margin-top:4px">Compte à rebours · 5 dernières questions</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+          <div style="width:100%;aspect-ratio:9/19.5;border-radius:36px;background:#0a0d12;border:1px solid oklch(0.35 0.02 265);box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 0 1px oklch(0.4 0.02 265) inset;position:relative;overflow:hidden;padding:8px">
+            <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#000;border-radius:999px;z-index:2"></div>
+            <img src="images/chouquiz-screen-classement.jpg" alt="Classement" style="width:100%;height:100%;object-fit:cover;border-radius:28px;display:block" />
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:14px;font-weight:500">Classement</div>
+            <div class="mono" style="font-size:10px;margin-top:4px">Global · Amis · podium animé</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:14px">
+          <div style="width:100%;aspect-ratio:9/19.5;border-radius:36px;background:#0a0d12;border:1px solid oklch(0.35 0.02 265);box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 0 1px oklch(0.4 0.02 265) inset;position:relative;overflow:hidden;padding:8px">
+            <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#000;border-radius:999px;z-index:2"></div>
+            <img src="images/chouquiz-screen-reacs.jpeg" alt="Réacs" style="width:100%;height:100%;object-fit:cover;border-radius:28px;display:block" />
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:14px;font-weight:500">Réacs</div>
+            <div class="mono" style="font-size:10px;margin-top:4px">Réactions sociales sur les réponses</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION -->
+<section class="section" id="automation" style="background:linear-gradient(180deg,transparent,oklch(0.16 0.03 290 / 0.4),transparent);padding:120px 0">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot" style="background:var(--violet);box-shadow:0 0 10px var(--violet)"></span>03 · Automatisation</span>
+      <h2 class="h2">
+        5 questions par jour,<br/>
+        <span class="italic violet">générées, illustrées et vérifiées</span><br/>
+        par des agents.
+      </h2>
+      <p class="lede">
+        Le défi technique du projet : produire chaque nuit un quiz inédit,
+        de qualité éditoriale, sans intervention humaine. La solution : un
+        pipeline de workflows <strong class="violet">n8n</strong> orchestrant
+        <strong class="violet"> Claude via MCP</strong> — chaque agent a un
+        rôle précis, valide le travail du précédent, et refuse ce qui ne passe pas.
+      </p>
+    </div>
+
+    <!-- Pipeline -->
+    <div class="pipeline">
+      <div class="mono" style="position:absolute;top:18px;left:24px;color:var(--fg-dim)">PIPELINE.QUOTIDIEN.YML</div>
+      <div class="mono" style="position:absolute;top:18px;right:24px;color:var(--mint)">● RUNNING</div>
+
+      <div class="pipeline-row" id="pipelineRow">
+        <div class="pnode" data-i="0"><div class="pnode-icon">⏱</div><div><div class="pnode-label">Trigger</div><div class="pnode-sub">Cron · 04h00 UTC</div></div></div>
+        <div class="pline"><div class="pline-fill"></div></div>
+        <div class="pnode" data-i="1"><div class="pnode-icon">✦</div><div><div class="pnode-label">Brief</div><div class="pnode-sub">Thème + difficulté</div></div></div>
+        <div class="pline"><div class="pline-fill"></div></div>
+        <div class="pnode" data-i="2"><div class="pnode-icon">◈</div><div><div class="pnode-label">Generate</div><div class="pnode-sub">Claude via MCP</div></div></div>
+        <div class="pline"><div class="pline-fill"></div></div>
+        <div class="pnode" data-i="3"><div class="pnode-icon">✓</div><div><div class="pnode-label">Verify</div><div class="pnode-sub">Double-check facts</div></div></div>
+        <div class="pline"><div class="pline-fill"></div></div>
+        <div class="pnode" data-i="4"><div class="pnode-icon">↗</div><div><div class="pnode-label">Publish</div><div class="pnode-sub">Firestore · Push</div></div></div>
+      </div>
+
+      <div style="margin-top:40px;padding:20px;border:1px dashed var(--line-strong);border-radius:var(--radius);background:oklch(0.1 0.02 280);display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center">
+        <div>
+          <div class="mono" style="color:var(--mint);margin-bottom:8px">OUTPUT · QUESTION 03/05</div>
+          <div style="font-family:var(--font-display);font-size:22px;line-height:1.2;margin-bottom:6px;letter-spacing:-0.01em">« Quel architecte a conçu la pyramide du Louvre&nbsp;? »</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <span class="pill">catégorie: art</span>
+            <span class="pill">difficulté: 2/5</span>
+            <span class="pill mint">✓ vérifié</span>
+            <span class="pill mint">✓ unique</span>
+          </div>
+        </div>
+        <div style="width:100px;height:100px;border-radius:12px;background:linear-gradient(135deg,oklch(0.5 0.18 290),oklch(0.4 0.18 320));display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.6);text-align:center;padding:8px;font-family:var(--font-mono)">IMAGE.GEN</div>
+      </div>
+    </div>
+
+    <!-- Workflows -->
+    <div style="margin-top:80px">
+      <div class="mono" style="margin-bottom:28px;color:var(--fg-muted)">↳ LES 5 WORKFLOWS</div>
+      <div class="grid grid-2">
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:oklch(0.1 0.02 280)">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.5" fill="#A99CFF"/><circle cx="18" cy="6" r="2.5" fill="#A99CFF" opacity="0.6"/><circle cx="18" cy="18" r="2.5" fill="#A99CFF" opacity="0.6"/><path d="M8 11L16 7M8 13L16 17" stroke="#A99CFF" stroke-width="1.4" opacity="0.5"/></svg><span class="mono" style="color:var(--fg-muted)">daily-brief.json</span></div>
+            <span class="mono" style="color:var(--violet)">01</span>
+          </div>
+          <div style="padding:24px">
+            <h3 class="h3" style="margin-bottom:8px">Brief éditorial</h3>
+            <p style="color:var(--fg-muted);font-size:14px;line-height:1.55;margin:0 0 18px">Sélectionne 5 thèmes du jour en évitant les catégories tournées les 7 derniers jours. Garantit la diversité.</p>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Cron</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Firestore</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Claude</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Set</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:oklch(0.1 0.02 280)">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.5" fill="#A99CFF"/><circle cx="18" cy="6" r="2.5" fill="#A99CFF" opacity="0.6"/><circle cx="18" cy="18" r="2.5" fill="#A99CFF" opacity="0.6"/><path d="M8 11L16 7M8 13L16 17" stroke="#A99CFF" stroke-width="1.4" opacity="0.5"/></svg><span class="mono" style="color:var(--fg-muted)">question-gen.json</span></div>
+            <span class="mono" style="color:var(--violet)">02</span>
+          </div>
+          <div style="padding:24px">
+            <h3 class="h3" style="margin-bottom:8px">Génération de questions</h3>
+            <p style="color:var(--fg-muted);font-size:14px;line-height:1.55;margin:0 0 18px">Claude propose 8 questions par thème. Chaque question doit citer ses sources et proposer 4 options plausibles.</p>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">HTTP · Claude</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">MCP · Search</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Loop</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Merge</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:oklch(0.1 0.02 280)">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.5" fill="#A99CFF"/><circle cx="18" cy="6" r="2.5" fill="#A99CFF" opacity="0.6"/><circle cx="18" cy="18" r="2.5" fill="#A99CFF" opacity="0.6"/><path d="M8 11L16 7M8 13L16 17" stroke="#A99CFF" stroke-width="1.4" opacity="0.5"/></svg><span class="mono" style="color:var(--fg-muted)">fact-checker.json</span></div>
+            <span class="mono" style="color:var(--violet)">03</span>
+          </div>
+          <div style="padding:24px">
+            <h3 class="h3" style="margin-bottom:8px">Double-check des faits</h3>
+            <p style="color:var(--fg-muted);font-size:14px;line-height:1.55;margin:0 0 18px">Un second agent Claude relit chaque question avec accès web. Refuse celles qu'il ne peut pas confirmer à 100%.</p>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Claude</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Web Search</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">IF</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Reject</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:oklch(0.1 0.02 280)">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.5" fill="#A99CFF"/><circle cx="18" cy="6" r="2.5" fill="#A99CFF" opacity="0.6"/><circle cx="18" cy="18" r="2.5" fill="#A99CFF" opacity="0.6"/><path d="M8 11L16 7M8 13L16 17" stroke="#A99CFF" stroke-width="1.4" opacity="0.5"/></svg><span class="mono" style="color:var(--fg-muted)">dedup.json</span></div>
+            <span class="mono" style="color:var(--violet)">04</span>
+          </div>
+          <div style="padding:24px">
+            <h3 class="h3" style="margin-bottom:8px">Anti-doublons</h3>
+            <p style="color:var(--fg-muted);font-size:14px;line-height:1.55;margin:0 0 18px">Compare l'embedding de chaque candidate avec 12 mois d'historique Firestore. Seuil de similarité strict (0.85).</p>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Embed</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Firestore</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Cosine</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Filter</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden;grid-column:1 / -1">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:oklch(0.1 0.02 280)">
+            <div style="display:flex;align-items:center;gap:10px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2.5" fill="#A99CFF"/><circle cx="18" cy="6" r="2.5" fill="#A99CFF" opacity="0.6"/><circle cx="18" cy="18" r="2.5" fill="#A99CFF" opacity="0.6"/><path d="M8 11L16 7M8 13L16 17" stroke="#A99CFF" stroke-width="1.4" opacity="0.5"/></svg><span class="mono" style="color:var(--fg-muted)">illustrate-publish.json</span></div>
+            <span class="mono" style="color:var(--violet)">05</span>
+          </div>
+          <div style="padding:24px">
+            <h3 class="h3" style="margin-bottom:8px">Illustrations + publication</h3>
+            <p style="color:var(--fg-muted);font-size:14px;line-height:1.55;margin:0 0 18px">Génère une image cohérente par question, optimise en WebP, push sur Cloudflare R2 et publie dans Firestore.</p>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Image Gen</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Sharp</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">R2 Upload</span><span style="color:var(--fg-dim);font-size:10px">›</span>
+              <span style="padding:4px 10px;background:oklch(1 0 0 / 0.05);border:1px solid var(--line);border-radius:6px;font-family:var(--font-mono);font-size:10.5px;color:var(--fg-muted)">Firestore</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MCP -->
+    <div style="margin-top:80px">
+      <div class="grid grid-2" style="align-items:start">
+        <div>
+          <span class="pill violet" style="margin-bottom:18px">MCP · Model Context Protocol</span>
+          <h3 style="font-family:var(--font-display);font-size:40px;font-weight:400;letter-spacing:-0.015em;line-height:1.05;margin:18px 0">Claude n'écrit pas <span class="italic violet">dans le vide.</span></h3>
+          <p style="color:var(--fg-muted);font-size:16px;line-height:1.6">
+            Via MCP, l'agent a accès direct à Firestore, à l'historique des
+            12 derniers mois de questions, à un outil de recherche web et à un
+            générateur d'images. Il interroge ses propres outils avant de
+            proposer une question — ce qui élimine quasi totalement les
+            doublons et les hallucinations factuelles.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:24px">
+            <span class="pill">firestore.query</span>
+            <span class="pill">web.search</span>
+            <span class="pill">image.generate</span>
+            <span class="pill">fact.verify</span>
+            <span class="pill">duplicate.check</span>
+          </div>
+        </div>
+
+        <div class="code">
+          <div class="code-head"><div class="dots"><i></i><i></i><i></i></div><span style="margin-left:8px">question-gen · MCP call</span></div>
+<pre class="code-body"><span class="c">// Workflow n8n → HTTP Request node</span>
+<span class="k">const</span> <span class="n">brief</span> <span class="p">=</span> <span class="f">$('Daily Brief').item.json</span><span class="p">;</span>
+
+<span class="k">await</span> <span class="f">claude.messages.create</span><span class="p">({</span>
+  <span class="n">model</span><span class="p">:</span> <span class="s">"claude-sonnet-4.5"</span><span class="p">,</span>
+  <span class="n">mcp_servers</span><span class="p">: [</span>
+    <span class="p">{ </span><span class="n">name</span><span class="p">:</span> <span class="s">"firestore"</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="s">"…"</span> <span class="p">},</span>
+    <span class="p">{ </span><span class="n">name</span><span class="p">:</span> <span class="s">"web-search"</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="s">"…"</span> <span class="p">},</span>
+    <span class="p">{ </span><span class="n">name</span><span class="p">:</span> <span class="s">"image-gen"</span><span class="p">,</span>  <span class="n">url</span><span class="p">:</span> <span class="s">"…"</span> <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="n">system</span><span class="p">:</span> <span class="s">SYSTEM_PROMPT</span><span class="p">,</span>
+  <span class="n">messages</span><span class="p">: [{</span>
+    <span class="n">role</span><span class="p">:</span> <span class="s">"user"</span><span class="p">,</span>
+    <span class="n">content</span><span class="p">:</span> <span class="f">renderBrief</span><span class="p">(brief)</span>
+  <span class="p">}]</span>
+<span class="p">});</span>
+
+<span class="c">// → Claude appelle d'abord firestore.query</span>
+<span class="c">// → puis web.search pour vérifier les faits</span>
+<span class="c">// → puis image.generate pour illustrer</span>
+<span class="c">// → enfin renvoie le JSON structuré final</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Métriques -->
+    <div style="margin-top:80px" class="grid grid-4">
+      <div style="padding:32px 24px;border:1px solid var(--line);border-radius:var(--radius-lg);background:oklch(1 0 0 / 0.02);text-align:center">
+        <div style="font-family:var(--font-display);font-size:56px;color:var(--violet);line-height:1;letter-spacing:-0.02em">5</div>
+        <div class="mono" style="margin-top:10px;color:var(--fg-muted)">Workflows n8n</div>
+      </div>
+      <div style="padding:32px 24px;border:1px solid var(--line);border-radius:var(--radius-lg);background:oklch(1 0 0 / 0.02);text-align:center">
+        <div style="font-family:var(--font-display);font-size:56px;color:var(--violet);line-height:1;letter-spacing:-0.02em">~3min</div>
+        <div class="mono" style="margin-top:10px;color:var(--fg-muted)">Temps de génération</div>
+      </div>
+      <div style="padding:32px 24px;border:1px solid var(--line);border-radius:var(--radius-lg);background:oklch(1 0 0 / 0.02);text-align:center">
+        <div style="font-family:var(--font-display);font-size:56px;color:var(--violet);line-height:1;letter-spacing:-0.02em">0</div>
+        <div class="mono" style="margin-top:10px;color:var(--fg-muted)">Doublons (12 mois)</div>
+      </div>
+      <div style="padding:32px 24px;border:1px solid var(--line);border-radius:var(--radius-lg);background:oklch(1 0 0 / 0.02);text-align:center">
+        <div style="font-family:var(--font-display);font-size:56px;color:var(--violet);line-height:1;letter-spacing:-0.02em">24/7</div>
+        <div class="mono" style="margin-top:10px;color:var(--fg-muted)">Sans intervention</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="section" id="stack">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><span class="dot"></span>04 · Stack technique</span>
+      <h2 class="h2">Tout assumé <span class="italic mint">en solo.</span></h2>
+      <p class="lede">
+        Du design des écrans à la CI/CD, en passant par les workflows
+        d'automatisation et la modération des contenus générés.
+      </p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="mono" style="margin-bottom:18px;color:var(--mint)">MOBILE</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><div style="font-size:15px;font-weight:500">Expo / React Native</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">iOS + Android natifs en TSX</div></div>
+          <div><div style="font-size:15px;font-weight:500">Next.js (TSX)</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">Site marketing & landing</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="mono" style="margin-bottom:18px;color:var(--mint)">BACKEND & DATA</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><div style="font-size:15px;font-weight:500">Firestore</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">Questions, scores, classement temps réel</div></div>
+          <div><div style="font-size:15px;font-weight:500">Cloudflare R2</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">CDN images générées</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="mono" style="margin-bottom:18px;color:var(--mint)">HOSTING</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><div style="font-size:15px;font-weight:500">Vercel</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">Web · edge functions</div></div>
+          <div><div style="font-size:15px;font-weight:500">Cloudflare</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">DNS, R2, workers</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="mono" style="margin-bottom:18px;color:var(--mint)">MONÉTISATION</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><div style="font-size:15px;font-weight:500">Google AdMob</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">Pub interstitielle entre quiz</div></div>
+          <div><div style="font-size:15px;font-weight:500">RevenueCat</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">Abonnement premium sans pub</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="mono" style="margin-bottom:18px;color:var(--mint)">AUTOMATISATION</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div><div style="font-size:15px;font-weight:500">n8n (self-hosted)</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">5 workflows orchestrés</div></div>
+          <div><div style="font-size:15px;font-weight:500">Claude · MCP</div><div style="font-size:13px;color:var(--fg-muted);margin-top:2px">Agents avec accès outils</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact" class="footer">
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>Disponible pour de nouveaux projets</span>
+    <div class="footer-big">chouQuiz</div>
+    <div style="margin-bottom:32px">
+      <a class="btn btn-primary" href="index.html#contact">Discuter d'un projet →</a>
+      <a class="btn btn-ghost" style="margin-left:12px" href="index.html">← Retour au site</a>
+    </div>
+    <div class="mono" style="color:var(--fg-dim)">© 2026 Arqova · Étude de cas portfolio · Design + Dev + Automatisation</div>
+  </div>
+</footer>
+
+<script>
+  // Pipeline animation
+  (function(){
+    var nodes = document.querySelectorAll('#pipelineRow .pnode');
+    var fills = document.querySelectorAll('#pipelineRow .pline-fill');
+    var i = 0;
+    function tick(){
+      nodes.forEach(function(n, idx){ n.classList.toggle('active', idx === i); });
+      fills.forEach(function(f, idx){
+        if (i > idx) f.style.width = '100%';
+        else if (i === idx) f.style.width = '60%';
+        else f.style.width = '0%';
+      });
+      i = (i + 1) % nodes.length;
+    }
+    tick();
+    setInterval(tick, 1800);
+  })();
+</script>
+
+</body>
+</html>
