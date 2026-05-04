@@ -16,7 +16,8 @@ export default defineConfig({
         chouquiz: './chouquiz.html',
         monochromes: './monochromes.html',
         dassetix: './dassetix.html',
-        weezdraw: './weezdraw.html'
+        weezdraw: './weezdraw.html',
+        macite: './macite.html'
       }
     },
     copyPublicDir: true

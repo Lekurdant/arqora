@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>macité · Étude de cas — Arqova</title>
+<meta name="description" content="Case study : macité, plateforme éditoriale française où l'on s'abonne à des journalistes plutôt qu'à des journaux, avec détection intégrée des fake news." />
+<link rel="icon" href="images/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F4EFE6;
+    --bg-2: #EDE6D8;
+    --bg-3: #E4DBC8;
+    --ink: #1B1A17;
+    --ink-2: #3D3B34;
+    --ink-3: #6B6960;
+    --olive: #7A8A4F;
+    --olive-deep: #5F6E3D;
+    --olive-soft: #A7B377;
+    --terracotta: #B86B4A;
+    --line: #D8CFB9;
+    --paper: #FBF8F1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; letter-spacing: -0.02em; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+  .container-wide { max-width: 1480px; margin: 0 auto; padding: 0 48px; }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: rgba(244, 239, 230, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(216, 207, 185, 0.5);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    max-width: 1480px; margin: 0 auto;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.01em; }
+  .nav-brand .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--olive);
+  }
+  .nav-back {
+    color: var(--ink-2); text-decoration: none; font-size: 13px;
+    margin-left: 16px; padding-left: 16px; border-left: 1px solid var(--line);
+  }
+  .nav-back:hover { color: var(--olive-deep); }
+  .nav-links { display: flex; gap: 32px; font-size: 14px; color: var(--ink-2); }
+  .nav-links a { color: inherit; text-decoration: none; }
+  .nav-links a:hover { color: var(--olive-deep); }
+  .nav-cta {
+    font-size: 13px; padding: 8px 16px; border-radius: 999px;
+    background: var(--ink); color: var(--paper); text-decoration: none;
+    transition: background .2s;
+  }
+  .nav-cta:hover { background: var(--olive-deep); }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 180px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-meta {
+    display: flex; gap: 32px; font-size: 12px; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: 0.16em;
+    margin-bottom: 64px;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 8px; }
+  .hero-meta .bar { width: 24px; height: 1px; background: var(--ink-3); }
+
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(72px, 11vw, 184px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic; font-weight: 300;
+    color: var(--olive-deep);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-top: 80px;
+  }
+  .hero-desc {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; line-height: 1.45;
+    color: var(--ink-2);
+    max-width: 480px;
+  }
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .tag {
+    font-size: 12px; padding: 6px 12px;
+    border: 1px solid var(--line); border-radius: 999px;
+    color: var(--ink-2); background: var(--paper);
+  }
+  .hero-info {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    font-size: 13px;
+  }
+  .hero-info .label {
+    color: var(--ink-3); text-transform: uppercase;
+    letter-spacing: 0.12em; font-size: 11px; margin-bottom: 6px;
+  }
+  .hero-info .value { color: var(--ink); font-weight: 500; }
+
+  .hero-marker {
+    position: absolute; top: 200px; right: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+    text-align: right; line-height: 1.6;
+  }
+  .hero-marker .num {
+    font-family: 'Fraunces', serif;
+    font-size: 56px; color: var(--olive-deep);
+    font-weight: 300; line-height: 1; letter-spacing: -0.02em;
+  }
+
+  /* ============ MARQUEE ============ */
+  .marquee {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 22px 0;
+    overflow: hidden;
+    background: var(--bg-2);
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex; gap: 56px;
+    animation: scroll 45s linear infinite;
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    color: var(--ink);
+    align-items: center;
+  }
+  .marquee-track span { display: inline-flex; align-items: center; gap: 56px; }
+  .marquee-track .star { color: var(--olive); }
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ============ SECTION HEADER ============ */
+  .section-head {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 48px;
+    padding: 120px 0 64px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--ink-3);
+    letter-spacing: 0.16em;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 900px;
+  }
+  .section-head h2 em { font-style: italic; color: var(--olive-deep); }
+
+  /* ============ INTRO / CONTEXT ============ */
+  .context {
+    padding: 80px 0 120px;
+  }
+  .context-grid {
+    display: grid; grid-template-columns: 200px 1fr 1fr;
+    gap: 48px;
+  }
+  .context-grid .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: 0.16em;
+  }
+  .context p {
+    font-size: 18px; line-height: 1.6; color: var(--ink-2);
+  }
+  .context p + p { margin-top: 18px; }
+  .pull {
+    font-family: 'Fraunces', serif;
+    font-size: 32px; line-height: 1.25;
+    color: var(--ink); letter-spacing: -0.015em;
+    border-left: 2px solid var(--olive);
+    padding-left: 24px;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ============ BROWSER MOCKUP ============ */
+  .showcase {
+    padding: 0 0 140px;
+  }
+  .browser {
+    background: white;
+    border-radius: 14px;
+    box-shadow:
+      0 1px 0 rgba(27, 26, 23, 0.04),
+      0 30px 80px -20px rgba(27, 26, 23, 0.25),
+      0 80px 140px -40px rgba(95, 110, 61, 0.15);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    max-width: 1380px;
+    margin: 0 auto;
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 18px;
+    background: #F0EAD8;
+    border-bottom: 1px solid var(--line);
+  }
+  .browser-dots { display: flex; gap: 7px; }
+  .browser-dots span {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #D8CFB9;
+  }
+  .browser-dots span:nth-child(1) { background: #E5A380; }
+  .browser-dots span:nth-child(2) { background: #E0CB7E; }
+  .browser-dots span:nth-child(3) { background: #A7B377; }
+  .browser-url {
+    flex: 1;
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--ink-2);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .browser-url .lock {
+    width: 10px; height: 10px; border: 1.5px solid var(--ink-3);
+    border-radius: 2px; position: relative;
+  }
+  .browser-url .lock::after {
+    content: ''; position: absolute; top: -4px; left: 1.5px;
+    width: 4px; height: 4px;
+    border: 1.5px solid var(--ink-3); border-bottom: 0;
+    border-radius: 2px 2px 0 0;
+  }
+  .browser-shot {
+    width: 100%;
+    display: block;
+    background: white;
+  }
+  .showcase-caption {
+    display: grid; grid-template-columns: 200px 1fr 200px;
+    gap: 32px;
+    margin-top: 28px;
+    align-items: start;
+    padding: 0 12px;
+  }
+  .showcase-caption .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: 0.16em;
+  }
+  .showcase-caption .desc {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; color: var(--ink-2); line-height: 1.5;
+    font-style: italic;
+  }
+  .showcase-caption .pages { text-align: right; font-size: 13px; color: var(--ink-3); }
+
+  /* ============ FEATURES ============ */
+  .features {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 140px 0 160px;
+    position: relative;
+  }
+  .features .section-head { border-color: rgba(251, 248, 241, 0.1); }
+  .features .section-head .num { color: rgba(251, 248, 241, 0.5); }
+  .features .section-head h2 { color: var(--paper); }
+  .features .section-head h2 em { color: var(--olive-soft); }
+
+  .feature {
+    display: grid; grid-template-columns: 200px 1fr 1fr;
+    gap: 48px;
+    padding: 80px 0;
+    border-bottom: 1px solid rgba(251, 248, 241, 0.1);
+    align-items: start;
+  }
+  .feature:last-child { border-bottom: 0; }
+  .feature-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 96px;
+    color: var(--olive-soft);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .feature-num small {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: rgba(251, 248, 241, 0.4);
+    letter-spacing: 0.16em; margin-top: 8px;
+    font-weight: 400;
+  }
+  .feature h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--paper);
+  }
+  .feature h3 em { font-style: italic; color: var(--olive-soft); }
+  .feature p {
+    font-size: 16px; line-height: 1.6;
+    color: rgba(251, 248, 241, 0.7);
+    max-width: 480px;
+  }
+
+  .feature-visual {
+    background: rgba(251, 248, 241, 0.04);
+    border: 1px solid rgba(251, 248, 241, 0.08);
+    border-radius: 12px;
+    padding: 28px;
+    min-height: 280px;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-visual .vis-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(251, 248, 241, 0.4);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex; justify-content: space-between;
+  }
+
+  .vis-france { display: flex; flex-direction: column; gap: 14px; }
+  .vis-france .author-card {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px;
+    background: rgba(251, 248, 241, 0.06);
+    border-radius: 8px;
+    border: 1px solid rgba(251, 248, 241, 0.08);
+  }
+  .vis-france .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--olive-soft), var(--olive));
+    flex-shrink: 0;
+  }
+  .vis-france .author-card:nth-child(2) .avatar { background: linear-gradient(135deg, #C8A878, #B86B4A); }
+  .vis-france .author-card:nth-child(3) .avatar { background: linear-gradient(135deg, #8FA0C8, #5F6E3D); }
+  .vis-france .author-card:nth-child(4) .avatar { background: linear-gradient(135deg, #D4B889, #7A8A4F); }
+  .vis-france .info { flex: 1; min-width: 0; }
+  .vis-france .name { font-size: 13px; font-weight: 500; color: var(--paper); }
+  .vis-france .city { font-size: 11px; color: rgba(251, 248, 241, 0.5); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; }
+  .vis-france .flag {
+    font-size: 11px; font-family: 'JetBrains Mono', monospace;
+    color: var(--olive-soft); padding: 4px 8px;
+    border: 1px solid rgba(167,179,119,0.3); border-radius: 4px;
+  }
+
+  .vis-sub { display: flex; flex-direction: column; gap: 16px; }
+  .vis-sub .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vis-sub .col {
+    padding: 18px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(251, 248, 241, 0.08);
+    background: rgba(251, 248, 241, 0.03);
+  }
+  .vis-sub .col.active {
+    background: rgba(167, 179, 119, 0.12);
+    border-color: rgba(167, 179, 119, 0.4);
+  }
+  .vis-sub .col-label {
+    font-size: 10px; font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(251, 248, 241, 0.4); margin-bottom: 10px;
+  }
+  .vis-sub .col.active .col-label { color: var(--olive-soft); }
+  .vis-sub .price {
+    font-family: 'Fraunces', serif;
+    font-size: 28px; font-weight: 400;
+    color: var(--paper); line-height: 1;
+    margin-bottom: 4px;
+  }
+  .vis-sub .price small { font-size: 12px; color: rgba(251, 248, 241, 0.5); font-family: 'Inter'; }
+  .vis-sub .col-meta { font-size: 11px; color: rgba(251, 248, 241, 0.5); margin-top: 8px; }
+  .vis-sub .author-row {
+    display: flex; align-items: center; gap: 10px;
+    padding-top: 16px; border-top: 1px solid rgba(251, 248, 241, 0.08);
+    margin-top: 4px;
+  }
+  .vis-sub .av {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #C8A878, #B86B4A);
+  }
+  .vis-sub .author-row .name { font-size: 12px; color: var(--paper); flex: 1; }
+  .vis-sub .author-row .pay {
+    font-size: 11px; color: var(--olive-soft);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .vis-fake { display: flex; flex-direction: column; gap: 14px; }
+  .vis-fake .article {
+    padding: 16px;
+    background: rgba(251, 248, 241, 0.04);
+    border: 1px solid rgba(251, 248, 241, 0.08);
+    border-radius: 10px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .vis-fake .article .title {
+    font-size: 13px; color: var(--paper); line-height: 1.4;
+    font-family: 'Fraunces', serif;
+  }
+  .vis-fake .check-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .vis-fake .badge {
+    padding: 3px 8px; border-radius: 4px; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .vis-fake .badge.ok {
+    background: rgba(167, 179, 119, 0.15);
+    color: var(--olive-soft);
+    border: 1px solid rgba(167, 179, 119, 0.3);
+  }
+  .vis-fake .badge.warn {
+    background: rgba(184, 107, 74, 0.15);
+    color: #E5A380;
+    border: 1px solid rgba(229, 163, 128, 0.3);
+  }
+  .vis-fake .meter {
+    height: 4px; background: rgba(251, 248, 241, 0.08);
+    border-radius: 2px; overflow: hidden;
+  }
+  .vis-fake .meter .fill {
+    height: 100%; background: var(--olive-soft);
+    border-radius: 2px;
+  }
+  .vis-fake .article.warn .fill { background: #E5A380; width: 42%; }
+  .vis-fake .article:nth-child(1) .fill { width: 94%; }
+  .vis-fake .checks {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    font-size: 10px;
+  }
+  .vis-fake .check {
+    padding: 3px 7px;
+    background: rgba(251, 248, 241, 0.05);
+    border-radius: 3px;
+    color: rgba(251, 248, 241, 0.6);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .vis-fake .check.pass { color: var(--olive-soft); }
+
+  /* ============ DETAILS GALLERY ============ */
+  .details {
+    padding: 140px 0;
+    background: var(--bg-2);
+  }
+  .details-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 64px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 32px;
+  }
+  .details-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(36px, 4vw, 56px);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    max-width: 720px;
+  }
+  .details-head h2 em { font-style: italic; color: var(--olive-deep); }
+  .details-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-3); letter-spacing: 0.16em;
+  }
+  .gallery {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px;
+  }
+  .gal {
+    border-radius: 10px; overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    aspect-ratio: 4/3;
+    position: relative;
+  }
+  .gal-1 { grid-column: span 7; aspect-ratio: 16/10; }
+  .gal-2 { grid-column: span 5; aspect-ratio: 16/10; }
+  .gal-3 { grid-column: span 4; }
+  .gal-4 { grid-column: span 4; }
+  .gal-5 { grid-column: span 4; }
+
+  .gal-label {
+    position: absolute; top: 16px; left: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--ink-3);
+    text-transform: uppercase; letter-spacing: 0.14em;
+    background: rgba(251, 248, 241, 0.9);
+    padding: 4px 8px; border-radius: 4px;
+    backdrop-filter: blur(6px);
+  }
+
+  .gal-reading {
+    background: var(--paper);
+    padding: 40px 60px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .gal-reading .h {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; line-height: 1.1;
+    color: var(--ink); letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+  .gal-reading .meta {
+    font-size: 10px; color: var(--ink-3);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.12em; margin-top: 4px;
+  }
+  .gal-reading .line {
+    height: 6px; background: var(--bg-3); border-radius: 3px;
+  }
+  .gal-reading .line.short { width: 70%; }
+  .gal-reading .line.shorter { width: 45%; }
+
+  .gal-cats {
+    padding: 32px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    align-content: center; justify-content: center;
+    background: var(--paper);
+  }
+  .gal-cats .cat {
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--ink-2);
+    background: var(--bg);
+  }
+  .gal-cats .cat.on {
+    background: var(--olive); color: var(--paper);
+    border-color: var(--olive);
+  }
+
+  .gal-stat {
+    padding: 28px;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    background: var(--paper);
+  }
+  .gal-stat .big {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 84px;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+  }
+  .gal-stat .big em { font-style: italic; color: var(--olive-deep); }
+  .gal-stat .desc {
+    font-size: 14px; color: var(--ink-2);
+    max-width: 240px;
+  }
+  .gal-stat.olive { background: var(--olive); color: var(--paper); }
+  .gal-stat.olive .big { color: var(--paper); }
+  .gal-stat.olive .big em { color: #E0E5C2; }
+  .gal-stat.olive .desc { color: rgba(251, 248, 241, 0.85); }
+  .gal-stat.olive .gal-label { background: rgba(27, 26, 23, 0.4); color: rgba(251, 248, 241, 0.9); }
+
+  /* ============ ROLE ============ */
+  .role { padding: 140px 0; }
+  .role-grid {
+    display: grid; grid-template-columns: 200px 1fr 1fr; gap: 48px;
+  }
+  .role-grid .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-3);
+    letter-spacing: 0.16em;
+  }
+  .role h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 64px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .role h2 em { font-style: italic; color: var(--olive-deep); }
+  .role-tasks {
+    margin-top: 48px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px;
+  }
+  .role-tasks .item {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .role-tasks .item .h {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; color: var(--ink);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .role-tasks .item p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+  .stack { display: flex; flex-direction: column; gap: 18px; }
+  .stack-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .stack-item .k { color: var(--ink); font-weight: 500; }
+  .stack-item .v { color: var(--ink-3); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.04em; }
+
+  /* ============ CTA ============ */
+  .cta {
+    padding: 140px 0;
+    background: var(--olive-deep);
+    color: var(--paper);
+    text-align: center;
+  }
+  .cta h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 48px;
+  }
+  .cta h2 em { font-style: italic; color: #E0E5C2; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 18px 32px;
+    background: var(--paper); color: var(--ink);
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 500;
+    font-size: 15px;
+    transition: transform .2s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); }
+  .cta-btn .arrow { width: 16px; height: 16px; }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    background: var(--ink);
+    color: rgba(251, 248, 241, 0.7);
+    padding: 80px 0 40px;
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+    margin-bottom: 80px;
+  }
+  .footer-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 56px; font-weight: 300; color: var(--paper);
+    letter-spacing: -0.03em; line-height: 1;
+    margin-bottom: 16px;
+  }
+  .footer h4 {
+    font-size: 11px; color: rgba(251, 248, 241, 0.5);
+    text-transform: uppercase; letter-spacing: 0.14em;
+    margin-bottom: 18px;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .footer ul { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+  .footer ul a { color: rgba(251, 248, 241, 0.7); text-decoration: none; }
+  .footer ul a:hover { color: var(--olive-soft); }
+  .footer-bottom {
+    border-top: 1px solid rgba(251, 248, 241, 0.1);
+    padding-top: 24px;
+    display: flex; justify-content: space-between;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(251, 248, 241, 0.4);
+    letter-spacing: 0.06em;
+  }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .container, .container-wide { padding: 0 24px; }
+    .nav-inner { padding: 14px 24px; }
+    .nav-links { display: none; }
+    .nav-back { display: none; }
+    .hero { padding: 130px 0 80px; }
+    .hero-grid, .context-grid, .feature, .role-grid, .footer-grid, .showcase-caption {
+      grid-template-columns: 1fr !important;
+      gap: 24px;
+    }
+    .gallery { grid-template-columns: 1fr; }
+    .gal { grid-column: span 1 !important; }
+    .role-tasks { grid-template-columns: 1fr; }
+    .hero-marker { display: none; }
+    .feature-num { font-size: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="dot"></span>
+      <span>macité</span>
+      <span style="color: var(--ink-3); font-weight: 400; font-size: 13px; margin-left: 8px;">— Case Study, 2025</span>
+      <a class="nav-back" href="index.html">← Arqova</a>
+    </div>
+    <div class="nav-links">
+      <a href="#contexte">Contexte</a>
+      <a href="#site">Le site</a>
+      <a href="#features">Features</a>
+      <a href="#role">Rôle</a>
+    </div>
+    <a class="nav-cta" href="index.html#contact">Discuter d'un projet ↗</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container-wide">
+    <div class="hero-meta">
+      <span><span class="bar"></span>Case Study</span>
+      <span>Concept éditorial</span>
+      <span>2025 — projet personnel</span>
+    </div>
+
+    <h1 class="serif">
+      Connaitre<br/>
+      <em>mieux</em> sa cité.
+    </h1>
+
+    <div class="hero-grid">
+      <div>
+        <p class="hero-desc">
+          Une plateforme de lecture indépendante où l'on s'abonne à des journalistes, pas à des journaux. Pensée, dessinée et codée pour redonner du sens à l'information française.
+        </p>
+        <div class="hero-tags">
+          <span class="tag">Made in France</span>
+          <span class="tag">Abonnement par auteur</span>
+          <span class="tag">Détection de fake news</span>
+          <span class="tag">Plateforme éditoriale</span>
+        </div>
+      </div>
+      <div class="hero-info">
+        <div>
+          <div class="label">Rôle</div>
+          <div class="value">Designer & Dev</div>
+        </div>
+        <div>
+          <div class="label">Année</div>
+          <div class="value">2025</div>
+        </div>
+        <div>
+          <div class="label">Type</div>
+          <div class="value">Produit complet</div>
+        </div>
+        <div>
+          <div class="label">Statut</div>
+          <div class="value" style="color: var(--ink-3);">○ Concept · en pause</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-marker">
+      <div class="num">04</div>
+      <div>portfolio /<br/>case-study</div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>
+      <span class="serif">Connaître mieux ma cité</span>
+      <span class="star">✦</span>
+      <span class="serif" style="font-style: italic;">Lire ses voisins</span>
+      <span class="star">✦</span>
+      <span class="serif">Une voix par auteur</span>
+      <span class="star">✦</span>
+      <span class="serif" style="font-style: italic;">Made in France</span>
+      <span class="star">✦</span>
+      <span class="serif">Information vérifiée</span>
+      <span class="star">✦</span>
+    </span>
+    <span>
+      <span class="serif">Connaître mieux ma cité</span>
+      <span class="star">✦</span>
+      <span class="serif" style="font-style: italic;">Lire ses voisins</span>
+      <span class="star">✦</span>
+      <span class="serif">Une voix par auteur</span>
+      <span class="star">✦</span>
+      <span class="serif" style="font-style: italic;">Made in France</span>
+      <span class="star">✦</span>
+      <span class="serif">Information vérifiée</span>
+      <span class="star">✦</span>
+    </span>
+  </div>
+</div>
+
+<section id="contexte" class="context">
+  <div class="container">
+    <div class="section-head" style="border: 0; padding-bottom: 0;">
+      <div class="num">01 — LE PROJET</div>
+      <h2 class="serif">
+        Une plateforme de lecture<br/>
+        où on s'abonne à <em>l'auteur</em>,<br/>
+        pas au journal.
+      </h2>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top: 80px;">
+    <div class="context-grid">
+      <div class="label">À propos</div>
+      <div>
+        <p>
+          macité est un concept de plateforme éditoriale française qui repense le modèle d'abonnement à la presse. Plutôt que de payer un titre entier, le lecteur s'abonnerait directement à des journalistes, écrivains, ou voix qu'il choisit.
+        </p>
+        <p>
+          L'idée : que tout le monde puisse publier — du journaliste reconnu au passionné local — à condition de passer par un système de vérification d'information intégré, pensé pour repérer les fake news avant qu'elles ne se diffusent. Le projet est aujourd'hui en pause : c'est un concept présenté ici comme exploration design + produit.
+        </p>
+      </div>
+      <div>
+        <div class="pull">
+          « L'idée, c'est de remettre la signature au centre. Une voix, un point de vue, un abonnement. »
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="site" class="showcase">
+  <div class="container-wide">
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-url">
+          <span class="lock"></span>
+          macite.fr
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em;">↗ concept</div>
+      </div>
+      <img class="browser-shot" src="images/macite-exemple.png" alt="Capture du site macité" />
+    </div>
+
+    <div class="showcase-caption">
+      <div class="label">Fig. 01<br/>Page d'accueil</div>
+      <div class="desc">
+        Une mise en page éditoriale, calme, qui donne la priorité aux signatures. L'identité s'appuie sur un beige chaleureux, un vert olive de campagne, et la chasse italique d'un grotesque français.
+      </div>
+      <div class="pages">macite.fr / index<br/><span style="color: var(--ink-3);">○</span> projet en pause</div>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <div class="container">
+    <div class="section-head">
+      <div class="num">02 — CE QUI COMPTE</div>
+      <h2 class="serif">
+        Trois <em>convictions</em><br/>
+        au cœur du produit.
+      </h2>
+    </div>
+
+    <article class="feature">
+      <div class="feature-num">
+        01
+        <small>FEATURE</small>
+      </div>
+      <div>
+        <h3 class="serif">Made in <em>France</em>, par des plumes françaises.</h3>
+        <p>L'idée : une plateforme pensée pour des journalistes, écrivains et voix locales hexagonales. Un éditorial français, écrit en français, payé en France — par les lecteurs français.</p>
+      </div>
+      <div class="feature-visual">
+        <div class="vis-label">
+          <span>// CARTE_AUTEUR (CONCEPT)</span>
+          <span>UI</span>
+        </div>
+        <div class="vis-france">
+          <div class="author-card">
+            <div class="avatar"></div>
+            <div class="info">
+              <div class="name" style="color: rgba(251,248,241,.45); font-style: italic;">Nom de l'auteur</div>
+              <div class="city">VILLE · CATÉGORIE</div>
+            </div>
+            <div class="flag">FR</div>
+          </div>
+          <div class="author-card">
+            <div class="avatar"></div>
+            <div class="info">
+              <div class="name" style="color: rgba(251,248,241,.45); font-style: italic;">Nom de l'auteur</div>
+              <div class="city">VILLE · CATÉGORIE</div>
+            </div>
+            <div class="flag">FR</div>
+          </div>
+          <div class="author-card">
+            <div class="avatar"></div>
+            <div class="info">
+              <div class="name" style="color: rgba(251,248,241,.45); font-style: italic;">Nom de l'auteur</div>
+              <div class="city">VILLE · CATÉGORIE</div>
+            </div>
+            <div class="flag">FR</div>
+          </div>
+          <div class="author-card">
+            <div class="avatar"></div>
+            <div class="info">
+              <div class="name" style="color: rgba(251,248,241,.45); font-style: italic;">Nom de l'auteur</div>
+              <div class="city">VILLE · CATÉGORIE</div>
+            </div>
+            <div class="flag">FR</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature">
+      <div class="feature-num">
+        02
+        <small>FEATURE</small>
+      </div>
+      <div>
+        <h3 class="serif">L'abonnement <em>par auteur</em>, pas par titre.</h3>
+        <p>On choisit ses voix une par une. Quelques euros par mois et par auteur, directement reversés. Pas de bouquet imposé, pas de paywall opaque : un modèle simple qui rémunère ceux qui écrivent vraiment.</p>
+      </div>
+      <div class="feature-visual">
+        <div class="vis-label">
+          <span>// MODÈLE_PRICING</span>
+          <span>v2.1</span>
+        </div>
+        <div class="vis-sub">
+          <div class="compare">
+            <div class="col">
+              <div class="col-label">Modèle classique</div>
+              <div class="price">19€<small>/mois</small></div>
+              <div class="col-meta">1 journal complet, 600 articles que tu ne liras pas</div>
+            </div>
+            <div class="col active">
+              <div class="col-label">macité</div>
+              <div class="price">3€<small>/auteur</small></div>
+              <div class="col-meta">Tu paies les voix que tu lis, point.</div>
+            </div>
+          </div>
+          <div class="author-row">
+            <div class="av"></div>
+            <div class="name" style="color: rgba(251,248,241,.45); font-style: italic;">Auteur sélectionné</div>
+            <div class="pay">→ 3€/mois</div>
+          </div>
+          <div class="author-row" style="border-top: 0; padding-top: 0;">
+            <div class="av" style="background: linear-gradient(135deg, var(--olive-soft), var(--olive));"></div>
+            <div class="name" style="color: rgba(251,248,241,.45); font-style: italic;">Auteur sélectionné</div>
+            <div class="pay">→ 3€/mois</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature">
+      <div class="feature-num">
+        03
+        <small>FEATURE</small>
+      </div>
+      <div>
+        <h3 class="serif">Une <em>détection</em> intégrée des fake news.</h3>
+        <p>Chaque publication est passée par un système de vérification multi-critères : sources citées, croisement des données, cohérence factuelle, historique de l'auteur. Un score s'affiche, transparent, à côté de chaque article.</p>
+      </div>
+      <div class="feature-visual">
+        <div class="vis-label">
+          <span>// VÉRIFICATION (CONCEPT)</span>
+          <span>UI</span>
+        </div>
+        <div class="vis-fake">
+          <div class="article">
+            <div class="title" style="color: rgba(251,248,241,.55); font-style: italic;">Titre d'article — vérifié</div>
+            <div class="check-row">
+              <span class="badge ok">vérifié</span>
+              <span style="color: var(--olive-soft);">94/100</span>
+            </div>
+            <div class="meter"><div class="fill"></div></div>
+            <div class="checks">
+              <span class="check pass">✓ sources</span>
+              <span class="check pass">✓ data</span>
+              <span class="check pass">✓ cohérence</span>
+            </div>
+          </div>
+          <div class="article warn">
+            <div class="title" style="color: rgba(251,248,241,.55); font-style: italic;">Titre d'article — à vérifier</div>
+            <div class="check-row">
+              <span class="badge warn">à vérifier</span>
+              <span style="color: #E5A380;">42/100</span>
+            </div>
+            <div class="meter"><div class="fill"></div></div>
+            <div class="checks">
+              <span class="check pass">✓ sources</span>
+              <span class="check">⚠ data</span>
+              <span class="check">⚠ cohérence</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="details">
+  <div class="container-wide">
+    <div class="details-head">
+      <h2 class="serif">
+        Une expérience de lecture<br/>
+        <em>volontairement</em> calme.
+      </h2>
+      <div class="num">03 — DÉTAILS PRODUIT</div>
+    </div>
+
+    <div class="gallery">
+      <div class="gal gal-1 gal-reading">
+        <div class="gal-label">Vue article</div>
+        <div class="meta">PAR — · X MIN DE LECTURE</div>
+        <div class="h" style="color: var(--ink-3); font-style: italic;">Titre de l'article — placeholder éditorial.</div>
+        <div class="line"></div>
+        <div class="line short"></div>
+        <div class="line"></div>
+        <div class="line shorter"></div>
+        <div class="line short"></div>
+      </div>
+
+      <div class="gal gal-2 gal-cats">
+        <div class="gal-label">Catégories</div>
+        <div class="cat on">Actualité</div>
+        <div class="cat">Société</div>
+        <div class="cat on">Culture</div>
+        <div class="cat">Politique</div>
+        <div class="cat">Économie</div>
+        <div class="cat on">Environnement</div>
+        <div class="cat">Sport</div>
+        <div class="cat">International</div>
+        <div class="cat">Cinéma</div>
+        <div class="cat">Tribune</div>
+      </div>
+
+      <div class="gal gal-3 gal-stat">
+        <div class="gal-label">Concept</div>
+        <div>
+          <div class="big"><em>1</em></div>
+        </div>
+        <div class="desc">voix par abonnement. Tu choisis qui tu lis, pas le journal qui te l'impose.</div>
+      </div>
+
+      <div class="gal gal-4 gal-stat olive">
+        <div class="gal-label">Vérification</div>
+        <div>
+          <div class="big">04<em>×</em></div>
+        </div>
+        <div class="desc">critères pensés pour le scoring : sources, données, cohérence, historique auteur.</div>
+      </div>
+
+      <div class="gal gal-5 gal-stat">
+        <div class="gal-label">Tarif imaginé</div>
+        <div>
+          <div class="big"><em>~3€</em></div>
+        </div>
+        <div class="desc">par auteur et par mois. Pas de bouquet, pas de surprise — un modèle simple.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="role" class="role">
+  <div class="container">
+    <div class="role-grid">
+      <div class="label">04 — MON RÔLE</div>
+      <div>
+        <h2 class="serif">
+          Designer<br/>
+          <em>&</em> développeur,<br/>
+          de A à Z.
+        </h2>
+        <p style="margin-top: 24px; font-size: 17px; color: var(--ink-2); max-width: 480px; line-height: 1.6;">
+          De la première intention sur Figma jusqu'au déploiement, j'ai porté le projet seul : recherche utilisateur, identité visuelle, architecture, design système, front et back. macité est aussi un terrain pour mes propres convictions sur l'information.
+        </p>
+
+        <div class="role-tasks">
+          <div class="item">
+            <div class="h">Identité & UI</div>
+            <p>Système typographique, palette éditoriale, grille, composants réutilisables.</p>
+          </div>
+          <div class="item">
+            <div class="h">Architecture produit</div>
+            <p>Modèle d'abonnement par auteur, flow de souscription, dashboard auteur.</p>
+          </div>
+          <div class="item">
+            <div class="h">Développement front</div>
+            <p>Une expérience de lecture sur-mesure, performante, focus accessibilité.</p>
+          </div>
+          <div class="item">
+            <div class="h">Détection fake news</div>
+            <p>Conception du système de scoring multi-critères et de son interface.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 24px;">Stack & outils</div>
+        <div class="stack">
+          <div class="stack-item"><span class="k">Design</span><span class="v">FIGMA</span></div>
+          <div class="stack-item"><span class="k">Front-end</span><span class="v">REACT · TS</span></div>
+          <div class="stack-item"><span class="k">Style</span><span class="v">CSS / TAILWIND</span></div>
+          <div class="stack-item"><span class="k">Back-end</span><span class="v">NODE · POSTGRES</span></div>
+          <div class="stack-item"><span class="k">Paiements</span><span class="v">STRIPE CONNECT</span></div>
+          <div class="stack-item"><span class="k">Vérification</span><span class="v">CUSTOM SCORING</span></div>
+          <div class="stack-item"><span class="k">Hébergement</span><span class="v">VERCEL · FR</span></div>
+          <div class="stack-item"><span class="k">Typographies</span><span class="v">FRAUNCES · INTER</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2 class="serif">
+      Lire ses<br/>
+      <em>voisins,</em><br/>
+      pas un journal.
+    </h2>
+    <a href="index.html#contact" class="cta-btn">
+      Discuter d'un projet
+      <svg class="arrow" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand serif">macité<span style="color: var(--olive-soft);">.</span></div>
+        <p style="max-width: 360px; font-size: 14px; line-height: 1.6;">
+          Case study extrait du portfolio Arqova. Concept de plateforme éditoriale française pour s'abonner à des plumes, pas à des journaux. Projet personnel actuellement en pause.
+        </p>
+      </div>
+      <div>
+        <h4>Projet</h4>
+        <ul>
+          <li><a href="#contexte">Le concept</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#role">Rôle</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Portfolio</h4>
+        <ul>
+          <li><a href="index.html#work">Tous les projets</a></li>
+          <li><a href="index.html">← Retour au site</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:lekurdant@gmail.com">lekurdant@gmail.com</a></li>
+          <li><a href="index.html#contact">Discuter d'un projet</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 — ARQOVA — CASE STUDY MACITÉ</span>
+      <span>CONCEPT EN PAUSE · FRANCE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        const t = document.querySelector(id);
+        if (t) {
+          e.preventDefault();
+          const top = t.getBoundingClientRect().top + window.scrollY - 60;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
