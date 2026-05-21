@@ -312,6 +312,7 @@
     .stack-grid { grid-template-columns: repeat(2, 1fr); }
     .outcome-grid { grid-template-columns: 1fr; }
     .nav-links { display: none; }
+    .nav-inner { padding: 20px 8px; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
@@ -409,9 +410,9 @@
         </div>
         <h3>Zen Pool</h3>
         <div class="pool-stats">
-          <div class="stat"><div class="k">TVL</div><div class="v" id="tvlVal">$10M</div></div>
+          <div class="stat"><div class="k">TVL</div><div class="v" id="tvlVal">$0,25M</div></div>
           <div class="stat"><div class="k">APY</div><div class="v">21%</div></div>
-          <div class="stat"><div class="k">Total</div><div class="v">$10M</div></div>
+          <div class="stat"><div class="k">Total</div><div class="v">$0,25M</div></div>
         </div>
         <div class="pool-input-label">Mon portefeuille — <span id="walletBal">128,4</span> DOT</div>
         <div class="pool-input">
@@ -753,7 +754,7 @@
   const poolCard = document.getElementById('poolCard');
 
   let walletBal = 128.4;
-  let tvlBal = 10.2;
+  let tvlBal = 0.25;
 
   maxBtn.addEventListener('click', () => {
     input.value = walletBal.toFixed(1);
@@ -765,7 +766,7 @@
       walletBal -= v;
       tvlBal += v / 1000;
       wallet.textContent = walletBal.toFixed(1).replace('.', ',');
-      tvl.textContent = '$' + tvlBal.toFixed(1).replace('.', ',') + 'M';
+      tvl.textContent = '$' + tvlBal.toFixed(2).replace('.', ',') + 'M';
       success.classList.add('on');
       input.value = 0;
       poolCard.animate(

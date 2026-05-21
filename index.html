@@ -783,6 +783,7 @@ img.navbar_logo.chouc,
   .navbar_component {
     height: 83px !important;
     min-height: 83px !important;
+    margin-top: 16px !important;
   }
   
   .navbar_logo-link {
@@ -802,7 +803,13 @@ img.navbar_logo.chouc,
   .navbar_button-wrapper {
     margin-right: 15px;
   }
-  
+
+  /* Point vert arqova : le replacer comme un point sur mobile */
+  .navbar_logo-image-wrapper span {
+    font-size: 2.4rem !important;
+    transform: translateY(3px) !important;
+  }
+
   /* Centrer le bouton "Estimation gratuite" sur mobile - FORCE */
   .experience_content-left {
     display: flex !important;

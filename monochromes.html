@@ -65,9 +65,9 @@
 
   .topbar {
     position: sticky; top: 0; z-index: 50;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 12px var(--pad);
     border-bottom: 1px solid var(--line);
     background: color-mix(in oklab, var(--bg) 88%, transparent);
@@ -77,12 +77,41 @@
     font-size: 12px;
     color: var(--fg-2);
   }
-  .topbar .left { display: flex; gap: 14px; align-items: center; }
-  .topbar .right { display: flex; gap: 14px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
-  .topbar .center { color: var(--fg-3); letter-spacing: 0.08em; text-transform: uppercase; font-size: 11px; }
+  .topbar .brand { display: flex; gap: 10px; align-items: center; color: var(--fg); font-weight: 600; letter-spacing: 0.04em; }
   .topbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
-  .topbar .pill { border: 1px solid var(--line-2); padding: 4px 10px; border-radius: 999px; color: var(--fg-2); }
-  .topbar a:hover { color: var(--fg); }
+  .nav-links { display: flex; gap: 26px; align-items: center; }
+  .nav-links a { color: var(--fg-2); transition: color 0.15s; }
+  .nav-links a:hover { color: var(--fg); }
+  .nav-links .nav-back { color: var(--accent); }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column; gap: 4px; justify-content: center;
+    width: 36px; height: 36px; padding: 8px;
+    background: transparent; border: 1px solid var(--line-2); border-radius: var(--radius);
+    cursor: pointer;
+  }
+  .nav-toggle span { display: block; height: 1.5px; width: 100%; background: var(--fg); transition: transform 0.25s, opacity 0.2s; }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+  @media (max-width: 720px) {
+    .nav-toggle { display: flex; }
+    .nav-links {
+      position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      padding: 6px var(--pad) 16px;
+      background: color-mix(in oklab, var(--bg) 97%, transparent);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      display: none;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 14px 2px; font-size: 14px; border-bottom: 1px solid var(--line); }
+    .nav-links a:last-child { border-bottom: none; }
+  }
 
   .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--pad); position: relative; z-index: 1; }
   .section { padding: clamp(80px, 12vh, 140px) 0; position: relative; z-index: 1; }
@@ -407,21 +436,20 @@
 <body>
 
 <div class="topbar">
-  <div class="left">
+  <a class="brand" href="index.html">
     <span class="dot"></span>
-    <span>monochromes / case-study</span>
-    <span style="color:var(--fg-3)">·</span>
-    <span style="color:var(--fg-3)">v1.0 — 2026</span>
-  </div>
-  <div class="center">portfolio · projet personnel</div>
-  <div class="right">
-    <span class="pill">FR</span>
+    <span>monochromes</span>
+  </a>
+  <nav class="nav-links" id="navLinks">
     <a href="#concept">concept</a>
     <a href="#mecanique">mécanique</a>
     <a href="#tech">tech</a>
     <a href="#liens">liens</a>
-    <a href="index.html" style="color:var(--accent)">← arqova</a>
-  </div>
+    <a href="index.html" class="nav-back">← arqova</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks">
+    <span></span><span></span><span></span>
+  </button>
 </div>
 
 <main>
@@ -694,6 +722,29 @@
     <p style="color:var(--fg-3)">aucun framework UI — fait main</p>
   </div>
 </footer>
+
+<script>
+  (function(){
+    var toggle = document.getElementById('navToggle');
+    var links = document.getElementById('navLinks');
+    if (toggle && links) {
+      toggle.addEventListener('click', function(){
+        var open = links.classList.toggle('open');
+        toggle.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open);
+        toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      });
+      links.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          links.classList.remove('open');
+          toggle.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Ouvrir le menu');
+        });
+      });
+    }
+  })();
+</script>
 
 <script>
   (function(){
