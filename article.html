@@ -2769,7 +2769,7 @@
       document.getElementById('twitter-image-alt').setAttribute('content', `Image de couverture pour ${article.title}`);
       
       // Article Meta
-      document.getElementById('article-author').setAttribute('content', article.author || 'Arqova');
+      document.getElementById('article-author').setAttribute('content', (!article.author || /^arqo[rv]a$/i.test(article.author)) ? 'Lucas Choucroun' : article.author);
       document.getElementById('article-published').setAttribute('content', publishedDate);
       document.getElementById('article-section').setAttribute('content', article.category || 'développement');
       document.getElementById('article-tags').setAttribute('content', tags);
@@ -2800,9 +2800,10 @@
         "description": description,
         "image": articleImage,
         "author": {
-          "@type": "Organization",
-          "name": article.author || "Arqova",
-          "url": "https://arqova.fr"
+          "@type": "Person",
+          "name": (!article.author || /^arqo[rv]a$/i.test(article.author)) ? "Lucas Choucroun" : article.author,
+          "url": "https://arqova.fr",
+          "sameAs": ["https://www.linkedin.com/in/lucas-choucroun-8541b0217/"]
         },
         "publisher": {
           "@type": "Organization",

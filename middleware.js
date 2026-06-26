@@ -37,6 +37,9 @@ export default async function middleware(req) {
         const description = article.excerpt ? article.excerpt.substring(0, 160) : `Découvrez ${article.title} sur Arqova.`;
         const image = article.coverUrl || 'https://arqova.fr/images/arqova-lg-dark1.png';
         const tags = Array.isArray(article.tags) ? article.tags.join(', ') : (article.tags || '');
+        // L'auteur est souvent renseigné comme la marque ("Arqova") : on attribue alors à la personne réelle.
+        const rawAuthor = (article.author || '').trim();
+        const authorName = (!rawAuthor || /^arqo[rv]a$/i.test(rawAuthor)) ? 'Lucas Choucroun' : rawAuthor;
 
         // 3. Récupérer le fichier article.html original
         const htmlRes = await fetch(`${url.origin}/article.html`);
@@ -81,7 +84,7 @@ export default async function middleware(req) {
             // Auteur = Person (signal E-E-A-T) relié à son LinkedIn ; éditeur = Organization Arqova
             "author": {
                 "@type": "Person",
-                "name": article.author || "Lucas Choucroun",
+                "name": authorName,
                 "url": "https://arqova.fr",
                 "sameAs": ["https://www.linkedin.com/in/lucas-choucroun-8541b0217/"]
             },
@@ -147,7 +150,7 @@ export default async function middleware(req) {
         // Les crawlers IA n'exécutent pas le JS : sans ça, le conteneur reste vide et rien n'est citable.
         // On injecte exactement le même contenu que celui vu par les visiteurs (article.content) => pas de cloaking.
         const esc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        const metaLine = [article.category, publishedDate.substring(0, 10), `Par ${article.author || 'Lucas Choucroun'}`]
+        const metaLine = [article.category, publishedDate.substring(0, 10), `Par ${authorName}`]
             .filter(Boolean).join(' · ');
         const headerInjection = `<div class="article-header" id="article-header"><h1>${esc(article.title)}</h1><p class="bot-article-meta">${esc(metaLine)}</p>`;
         html = html.replace(/<div class="article-header" id="article-header">/, () => headerInjection);
