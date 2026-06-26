@@ -1,14 +1,16 @@
 export const config = {
-    matcher: '/article/:slug*',
+    // Intercepte l'URL propre /article/slug ET l'URL réelle utilisée partout : /article.html?slug=...
+    matcher: ['/article/:slug*', '/article.html'],
 };
 
 export default async function middleware(req) {
     const url = new URL(req.url);
-    const slug = url.pathname.split('/').pop();
+    // Slug depuis ?slug=... (URL article.html?slug=) sinon depuis le chemin (URL propre /article/...)
+    const slug = url.searchParams.get('slug') || url.pathname.split('/').pop();
     const userAgent = req.headers.get('user-agent') || '';
 
-    // Liste des robots à intercepter
-    const isBot = /googlebot|bingbot|yandexbot|duckduckbot|slurp|twitterbot|facebookexternalhit|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest|slackbot|vkShare|W3C_Validator|discordbot/i.test(userAgent);
+    // Liste des robots à intercepter : moteurs + réseaux sociaux + IA (GPT, Claude, Perplexity, etc.)
+    const isBot = /googlebot|bingbot|yandexbot|duckduckbot|slurp|twitterbot|facebookexternalhit|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest|slackbot|vkShare|W3C_Validator|discordbot|gptbot|oai-searchbot|chatgpt-user|claudebot|claude-web|anthropic-ai|perplexitybot|perplexity-user|ccbot|google-extended|bytespider|amazonbot|applebot|cohere-ai|meta-externalagent|duckassistbot/i.test(userAgent);
 
     // Si ce n'est pas un bot ou pas une route d'article, on laisse passer
     if (!isBot || !slug || slug === 'article.html') {
@@ -33,7 +35,7 @@ export default async function middleware(req) {
         const article = await articleRes.json();
         const publishedDate = article.publishedAt || article.createdAt || new Date().toISOString();
         const description = article.excerpt ? article.excerpt.substring(0, 160) : `Découvrez ${article.title} sur Arqova.`;
-        const image = article.coverUrl || 'https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png';
+        const image = article.coverUrl || 'https://raw.githubusercontent.com/Lekurdant/arqora/main/images/arqova-lg-dark1.png';
         const tags = Array.isArray(article.tags) ? article.tags.join(', ') : (article.tags || '');
 
         // 3. Récupérer le fichier article.html original
@@ -47,6 +49,9 @@ export default async function middleware(req) {
         html = html.replace(/<title id="page-title">.*?<\/title>/, `<title>${article.title} - Arqova</title>`);
         html = html.replace(/id="meta-description" content=""/, `id="meta-description" content="${description.replace(/"/g, '&quot;')}"`);
         html = html.replace(/id="meta-keywords" content=""/, `id="meta-keywords" content="${article.category}, ${tags}, Arqova"`);
+
+        // Canonical : l'adresse officielle de la page (auto-référence sur l'URL réellement explorée)
+        html = html.replace(/href="" id="canonical-url"/, `href="${url.href}" id="canonical-url"`);
 
         // Open Graph
         html = html.replace(/id="og-url" content=""/, `id="og-url" content="${url.href}"`);
