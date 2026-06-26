@@ -76,7 +76,7 @@
       "name": "Arqova",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png"
+        "url": "https://arqova.fr/images/arqova-lg-dark1.png"
       }
     },
     "datePublished": "",
@@ -2741,7 +2741,7 @@
     // Fonction pour mettre à jour les balises meta dynamiquement
     function updateMetaTags(article, publishedDate) {
       const currentUrl = window.location.href;
-      const articleImage = article.coverUrl || 'https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png';
+      const articleImage = article.coverUrl || 'https://arqova.fr/images/arqova-lg-dark1.png';
       const tags = Array.isArray(article.tags) ? article.tags.join(', ') : (article.tags || '');
       
       // Meta Description (150-160 caractères optimaux)
@@ -2782,7 +2782,7 @@
     
     // Fonction pour mettre à jour le structured data JSON-LD
     function updateStructuredData(article, publishedDate, currentUrl) {
-      const articleImage = article.coverUrl || 'https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png';
+      const articleImage = article.coverUrl || 'https://arqova.fr/images/arqova-lg-dark1.png';
       const tags = Array.isArray(article.tags) ? article.tags.join(', ') : (article.tags || '');
       const description = article.excerpt && article.excerpt.length > 0 
         ? article.excerpt.substring(0, 155) + (article.excerpt.length > 155 ? '...' : '')
@@ -2809,7 +2809,7 @@
           "name": "Arqova",
           "logo": {
             "@type": "ImageObject",
-            "url": "https://raw.githubusercontent.com/Lekur/arqora/main/images/arqova-lg-dark1.png"
+            "url": "https://arqova.fr/images/arqova-lg-dark1.png"
           }
         },
         "datePublished": publishedDate,

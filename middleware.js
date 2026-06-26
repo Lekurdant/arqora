@@ -35,7 +35,7 @@ export default async function middleware(req) {
         const article = await articleRes.json();
         const publishedDate = article.publishedAt || article.createdAt || new Date().toISOString();
         const description = article.excerpt ? article.excerpt.substring(0, 160) : `Découvrez ${article.title} sur Arqova.`;
-        const image = article.coverUrl || 'https://raw.githubusercontent.com/Lekurdant/arqora/main/images/arqova-lg-dark1.png';
+        const image = article.coverUrl || 'https://arqova.fr/images/arqova-lg-dark1.png';
         const tags = Array.isArray(article.tags) ? article.tags.join(', ') : (article.tags || '');
 
         // 3. Récupérer le fichier article.html original
@@ -66,6 +66,11 @@ export default async function middleware(req) {
         html = html.replace(/id="twitter-description" content=""/, `id="twitter-description" content="${description.replace(/"/g, '&quot;')}"`);
         html = html.replace(/id="twitter-image" content=""/, `id="twitter-image" content="${image}"`);
 
+        // Texte brut du corps (pour articleBody + wordCount) — aide l'extraction/citation par les IA
+        const plainBody = (article.content || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        const wordCount = plainBody ? plainBody.split(' ').length : 0;
+        const modifiedDate = article.updatedAt || article.modifiedAt || publishedDate;
+
         // Structured Data JSON-LD
         const structuredData = {
             "@context": "https://schema.org",
@@ -73,13 +78,29 @@ export default async function middleware(req) {
             "headline": article.title,
             "description": description,
             "image": image,
+            // Auteur = Person (signal E-E-A-T) relié à son LinkedIn ; éditeur = Organization Arqova
             "author": {
+                "@type": "Person",
+                "name": article.author || "Lucas Choucroun",
+                "url": "https://arqova.fr",
+                "sameAs": ["https://www.linkedin.com/in/lucas-choucroun-8541b0217/"]
+            },
+            "publisher": {
                 "@type": "Organization",
-                "name": article.author || "Arqova",
-                "url": "https://arqova.fr"
+                "name": "Arqova",
+                "url": "https://arqova.fr",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://arqova.fr/images/arqova-lg-dark1.png"
+                }
             },
             "datePublished": publishedDate,
-            "dateModified": publishedDate,
+            "dateModified": modifiedDate,
+            "articleSection": article.category || undefined,
+            "keywords": tags || undefined,
+            "wordCount": wordCount || undefined,
+            "inLanguage": "fr-FR",
+            "articleBody": plainBody || undefined,
             "mainEntityOfPage": {
                 "@type": "WebPage",
                 "@id": url.href
@@ -87,7 +108,7 @@ export default async function middleware(req) {
         };
 
         html = html.replace(/<script type="application\/ld\+json" id="structured-data">[\s\S]*?<\/script>/,
-            `<script type="application/ld+json" id="structured-data">${JSON.stringify(structuredData)}</script>`);
+            () => `<script type="application/ld+json" id="structured-data">${JSON.stringify(structuredData)}</script>`);
 
         // Détection et génération du schema FAQPage si FAQ détectée dans le contenu
         const faqMatch = article.content.match(/<dl>([\s\S]*?)<\/dl>/);
@@ -116,10 +137,22 @@ export default async function middleware(req) {
 
                 // Injecter le schema FAQ juste après le schema BlogPosting
                 html = html.replace(
-                    /(<script type="application\/ld\+json" id="structured-data">.*?<\/script>)/,
-                    `$1\n    <script type="application/ld+json" id="faq-schema">${JSON.stringify(faqSchema)}</script>`
+                    /<script type="application\/ld\+json" id="structured-data">.*?<\/script>/,
+                    (match) => `${match}\n    <script type="application/ld+json" id="faq-schema">${JSON.stringify(faqSchema)}</script>`
                 );
             }
+        }
+
+        // 4ter. Injecter le VRAI corps de l'article dans le HTML servi aux robots.
+        // Les crawlers IA n'exécutent pas le JS : sans ça, le conteneur reste vide et rien n'est citable.
+        // On injecte exactement le même contenu que celui vu par les visiteurs (article.content) => pas de cloaking.
+        const esc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const metaLine = [article.category, publishedDate.substring(0, 10), `Par ${article.author || 'Lucas Choucroun'}`]
+            .filter(Boolean).join(' · ');
+        const headerInjection = `<div class="article-header" id="article-header"><h1>${esc(article.title)}</h1><p class="bot-article-meta">${esc(metaLine)}</p>`;
+        html = html.replace(/<div class="article-header" id="article-header">/, () => headerInjection);
+        if (article.content) {
+            html = html.replace(/<div class="article-content" id="article-content">/, () => `<div class="article-content" id="article-content">${article.content}`);
         }
 
         // 5. Retourner le HTML modifié avec les bons headers
